@@ -1,0 +1,116 @@
+{
+  "meta": {
+    "page_name": "homepage",
+    "page_type": "marketing-homepage",
+    "version": "1.0.0",
+    "status": "draft",
+    "based_on_component_catalog_version": "1.0.0",
+    "notes": "Example homepage blueprint built from the approved system."
+  },
+  "references": [
+    {
+      "kind": "brand-board",
+      "path": "ui/brand/brand-board-v1.png"
+    },
+    {
+      "kind": "component-sheet",
+      "path": "ui/components/component-sheet-v1.png"
+    },
+    {
+      "kind": "page-concept",
+      "path": "ui/pages/homepage/concept.png"
+    }
+  ],
+  "viewports": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 1400
+    },
+    {
+      "name": "tablet",
+      "width": 1024,
+      "height": 1366
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "sections": [
+    {
+      "id": "hero",
+      "purpose": "Introduce value proposition and primary CTA.",
+      "order": 1,
+      "layout": {
+        "content_width": "wide",
+        "columns": 12,
+        "alignment": "left",
+        "notes": "Two-column hero on desktop, stacked on mobile."
+      },
+      "uses_components": [
+        {
+          "name": "navigation-bar",
+          "variant": "default"
+        },
+        {
+          "name": "button",
+          "variant": "primary"
+        },
+        {
+          "name": "button",
+          "variant": "secondary"
+        }
+      ],
+      "introduces_new_composite": false,
+      "notes": "Typography should follow the approved display scale."
+    },
+    {
+      "id": "metrics-strip",
+      "purpose": "Provide quick proof with 3-4 key metrics.",
+      "order": 2,
+      "layout": {
+        "content_width": "standard",
+        "columns": 12,
+        "alignment": "center",
+        "notes": "Metrics cards can collapse to a single column on small screens."
+      },
+      "uses_components": [
+        {
+          "name": "card",
+          "variant": "default"
+        },
+        {
+          "name": "badge",
+          "variant": "neutral"
+        }
+      ],
+      "introduces_new_composite": true,
+      "notes": "Composite may be added as a reusable metric-card group."
+    }
+  ],
+  "new_composites": [
+    {
+      "name": "metric-card-group",
+      "purpose": "Wrap repeated KPI cards into a reusable homepage section.",
+      "notes": "Should still compose from card + text + badge primitives."
+    }
+  ],
+  "acceptance_criteria": [
+    "Uses approved typography and semantic colors.",
+    "Reuses existing components before introducing new composites.",
+    "Remains readable and coherent across desktop, tablet, and mobile viewports.",
+    "Primary CTA remains visually dominant without breaking the calm visual language."
+  ],
+  "assets": {
+    "concept_path": "ui/pages/homepage/concept.png",
+    "html_path": "ui/pages/homepage/page.html",
+    "css_path": "ui/pages/homepage/page.css",
+    "js_path": "ui/pages/homepage/page.js",
+    "screenshot_paths": [
+      "ui/pages/homepage/page.png"
+    ],
+    "review_notes_path": "ui/pages/homepage/review.md"
+  }
+}

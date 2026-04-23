@@ -1,0 +1,120 @@
+{
+  "meta": {
+    "system_name": "Northstar Analytics",
+    "version": "1.0.0",
+    "based_on_design_system_version": "1.0.0",
+    "status": "draft",
+    "notes": "Example component catalog after first implementation pass."
+  },
+  "tech": {
+    "html_strategy": "semantic-html",
+    "css_strategy": "css-custom-properties + component classes",
+    "js_strategy": "vanilla-js for progressive enhancement"
+  },
+  "assets": {
+    "tokens_css_path": "ui/brand/tokens.css",
+    "gallery_html_path": "ui/components/gallery.html",
+    "gallery_screenshot_paths": [
+      "ui/components/gallery.png"
+    ],
+    "component_sheet_path": "ui/components/component-sheet-v1.png",
+    "review_notes_path": "ui/components/approved.md"
+  },
+  "components": [
+    {
+      "name": "button",
+      "source_required_component": "button",
+      "files": [
+        "ui/components/components.css",
+        "ui/components/components.js",
+        "ui/components/gallery.html"
+      ],
+      "selectors": [
+        ".btn",
+        ".btn--primary",
+        ".btn--secondary",
+        ".btn--ghost",
+        ".btn--danger",
+        ".btn--link"
+      ],
+      "implemented_variants": [
+        "primary",
+        "secondary",
+        "ghost",
+        "danger",
+        "link"
+      ],
+      "implemented_sizes": [
+        "sm",
+        "md",
+        "lg"
+      ],
+      "implemented_states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "active",
+        "disabled",
+        "loading"
+      ],
+      "accessibility_notes": [
+        "Visible focus ring",
+        "Minimum 40px touch target on md and lg"
+      ],
+      "visual_review": {
+        "reference_image_paths": [
+          "ui/brand/brand-board-v1.png",
+          "ui/components/component-sheet-v1.png"
+        ],
+        "latest_screenshot_path": "ui/components/gallery.png",
+        "similarity_notes": "Button density and radius match the approved board. Ghost hover treatment is intentionally subtle."
+      },
+      "status": "reviewed"
+    },
+    {
+      "name": "text-input",
+      "source_required_component": "text-input",
+      "files": [
+        "ui/components/components.css",
+        "ui/components/components.js",
+        "ui/components/gallery.html"
+      ],
+      "selectors": [
+        ".field",
+        ".field__input",
+        ".field__label",
+        ".field--error",
+        ".field--readonly"
+      ],
+      "implemented_variants": [
+        "default",
+        "filled",
+        "error"
+      ],
+      "implemented_sizes": [
+        "md",
+        "lg"
+      ],
+      "implemented_states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "disabled",
+        "error",
+        "readonly"
+      ],
+      "accessibility_notes": [
+        "Error state retains readable contrast",
+        "Placeholder remains visually distinct from actual value text"
+      ],
+      "visual_review": {
+        "reference_image_paths": [
+          "ui/brand/brand-board-v1.png"
+        ],
+        "latest_screenshot_path": "ui/components/gallery.png",
+        "similarity_notes": "Field border and focus ring align with approved design language."
+      },
+      "status": "reviewed"
+    }
+  ]
+}

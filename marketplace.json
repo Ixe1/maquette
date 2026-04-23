@@ -1,0 +1,9 @@
+{
+  "plugins": [
+    {
+      "name": "ui-web-system",
+      "path": "./plugins/ui-web-system-plugin",
+      "description": "Image-guided brand kit, component library, and page-build workflows for websites"
+    }
+  ]
+}
