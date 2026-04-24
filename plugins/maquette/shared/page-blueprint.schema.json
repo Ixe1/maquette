@@ -218,7 +218,22 @@
         "font_rationale": {
           "type": "string"
         },
+        "concept_region_inventory": {
+          "type": "string"
+        },
+        "asset_manifest": {
+          "type": "string"
+        },
+        "component_sheet_gallery_fidelity": {
+          "type": "string"
+        },
         "repeated_card_alignment": {
+          "type": "string"
+        },
+        "footer_fidelity": {
+          "type": "string"
+        },
+        "mobile_drawer_scrollability": {
           "type": "string"
         },
         "social_icon_strategy": {
@@ -235,6 +250,8 @@
       "required": [
         "concept_path",
         "html_path",
+        "concept_region_inventory_path",
+        "asset_manifest_path",
         "screenshot_paths"
       ],
       "properties": {
@@ -262,6 +279,12 @@
           "items": {
             "type": "string"
           }
+        },
+        "concept_region_inventory_path": {
+          "type": "string"
+        },
+        "asset_manifest_path": {
+          "type": "string"
         },
         "review_notes_path": {
           "type": "string"

@@ -2,8 +2,8 @@
 import path from "node:path";
 import fs from "node:fs";
 
-const targetArg = process.argv[2] ?? "ui/components/gallery.html";
-const outputArg = process.argv[3] ?? "ui/components/gallery.png";
+const targetArg = process.argv[2] ?? ".maquette/components/gallery.html";
+const outputArg = process.argv[3] ?? ".maquette/components/gallery.png";
 
 let chromium;
 try {

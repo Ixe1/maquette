@@ -11,6 +11,8 @@ Use this skill when the user invokes Maquette generally, especially with a broad
 
 Do not skip phases.
 
+All Maquette-owned outputs must live under `.maquette/` in the current project. Do not create or overwrite a root-level `index.html` as part of the Maquette workflow.
+
 For broad page or site requests, run the workflow in this order:
 
 1. Brand kit
@@ -23,28 +25,29 @@ Only proceed to a later phase after the required artifacts for earlier phases ex
 
 Before creating a page concept or page implementation, verify that these brand artifacts exist:
 
-- `ui/brand/brief.md`
-- `ui/brand/design-system.json`
-- `ui/brand/tokens.css`
-- `ui/brand/approved.md`
-- a generated and inspected brand board image such as `ui/brand/brand-board-vN.png`
+- `.maquette/brand/brief.md`
+- `.maquette/brand/design-system.json`
+- `.maquette/brand/tokens.css`
+- `.maquette/brand/approved.md`
+- a generated and inspected brand board image such as `.maquette/brand/brand-board-vN.png`
 
 If any are missing, run the brand-kit phase first using `maquette-brand-kit`.
 
 Before creating a page concept or page implementation, verify that these component artifacts exist:
 
-- `ui/components/component-catalog.json`
-- `ui/components/components.css`
-- `ui/components/components.js`
-- `ui/components/gallery.html`
-- `ui/components/approved.md`
-- one or more generated and inspected component sheet images such as `ui/components/component-sheet-vN.png`
+- `.maquette/components/component-catalog.json`
+- `.maquette/components/components.css`
+- `.maquette/components/components.js`
+- `.maquette/components/gallery.html`
+- `.maquette/components/approved.md`
+- one or more generated and inspected component sheet images such as `.maquette/components/component-sheet-vN.png`
 
 If any are missing, run the component-library phase next using `maquette-components`.
 If the requested page needs dense data patterns, dashboards, tables, maps, calendars, editors, timelines, complex workflows, filter builders, or reusable composites that are not covered by the existing component references, run `maquette-components` again to create focused missing coverage before running the page phase.
 If the requested page has a header or primary navigation, verify responsive navigation component coverage before running the page phase: desktop inline nav, tablet/mobile collapsed state, menu toggle, expanded panel or drawer, active/focus states, and icon rendering.
-If the requested page has product, pricing, service, or offer card grids, verify repeated-card component coverage before running the page phase: equal-height cards, flex or grid card bodies, and bottom-pinned CTA, quantity, price, or action rows.
-If the requested page has footer social links, verify footer/social module coverage before running the page phase: recognizable social icons, accessible names, and no unrelated generic icon substitutions.
+If the requested page has product, pricing, service, offer, or promo card grids, verify repeated-card component coverage before running the page phase: shared media/header/body/footer/action anatomy, stable badge or eyebrow placement, equal-height cards, flex or grid card bodies, and bottom-pinned CTA, quantity, price, or action rows.
+If the requested page has a rich footer, footer social links, app/download modules, legal/locale rows, or device imagery, verify footer/social module coverage before running the page phase: recognizable social icons, accessible names, link column anatomy, app/device module coverage, bottom strip coverage, and no unrelated generic icon substitutions.
+If the requested page needs generated raster images, verify that the page phase will create a concept-region inventory and asset manifest before coding.
 
 Only after both gates pass should you run the page phase using `maquette-pages`.
 
@@ -73,7 +76,8 @@ If the user asks for a page and the project has no Maquette artifacts yet, compl
 Mark the outputs as proposed or provisional when the user has not explicitly approved the intermediate phases.
 Infer focused extra component/composite sheets when the page brief needs them; the user should not have to ask for fewer components, split sheets, or wide-data coverage.
 Infer responsive navigation coverage for page/site requests with global navigation; the user should not have to ask for mobile nav or overflow checks.
-Infer repeated-card and footer/social coverage for commerce, product-grid, pricing, service-list, newsletter, and footer-heavy pages; the user should not have to ask for card action alignment or recognizable social icons.
+Infer repeated-card and footer/social coverage for commerce, product-grid, pricing, service-list, newsletter, app/download, and footer-heavy pages; the user should not have to ask for card anatomy, action alignment, footer fidelity, or recognizable social icons.
+Infer page asset-manifest needs for pages with logos supplied by the user, hero images, product images, promo imagery, lifestyle/story imagery, footer/app/device images, background textures, or requested imagegen assets.
 
 Do not ask the user to manually rerun separate commands unless you are blocked.
 

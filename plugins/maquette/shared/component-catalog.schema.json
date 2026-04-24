@@ -69,7 +69,8 @@
       "required": [
         "tokens_css_path",
         "gallery_html_path",
-        "gallery_screenshot_paths"
+        "gallery_screenshot_paths",
+        "sheet_fidelity_review"
       ],
       "properties": {
         "tokens_css_path": {
@@ -99,6 +100,36 @@
           "type": "array",
           "items": {
             "type": "string"
+          }
+        },
+        "sheet_fidelity_review": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "reference_sheet_paths": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "coverage_summary": {
+              "type": "string"
+            },
+            "simplifications": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "matches",
+                "deviates",
+                "simplified",
+                "needs-fix"
+              ]
+            }
           }
         },
         "review_notes_path": {

@@ -9,6 +9,7 @@ You are responsible for the **website brand-kit phase**.
 
 Use this skill only for website visual-system work. Do not use it for native desktop UI.
 Do not design or modify a logo.
+Write all Maquette-owned outputs under `.maquette/` in the current project. Do not create or overwrite root-level website files such as `index.html`.
 
 ## Non-negotiable image_gen policy
 
@@ -45,21 +46,21 @@ Existing websites, screenshots, and code are references for creating the brand b
 
 Always create or update these files when you finish a pass:
 
-- `ui/brand/brief.md`
-- `ui/brand/design-system.json`
-- `ui/brand/tokens.css`
-- `ui/brand/approved.md`
+- `.maquette/brand/brief.md`
+- `.maquette/brand/design-system.json`
+- `.maquette/brand/tokens.css`
+- `.maquette/brand/approved.md`
 
 When `image_gen` is available, also create or update:
 
-- `ui/brand/brand-board-vN.png`
+- `.maquette/brand/brand-board-vN.png`
 
 The JSON file must validate against `shared/design-system.schema.json`.
 
 ## Workflow
 
 1. Read the request, repo, and visible references.
-2. Write or refresh `ui/brand/brief.md` with:
+2. Write or refresh `.maquette/brand/brief.md` with:
    - product summary
    - audience
    - tone adjectives
@@ -71,10 +72,10 @@ The JSON file must validate against `shared/design-system.schema.json`.
    - If revising an existing board, preserve continuity unless the user asked for a new direction.
    - Inspect the generated board before using it. If it contains any logo-like mark, wordmark, brand-name masthead, large product-name treatment, monogram, mascot mark, seal, badge, app icon, emblem, or trademark-like element, reject that image for brand-kit approval and regenerate or edit it out before continuing.
    - If the board is visually cluttered or unreadable at normal preview size, reject it as an approval artifact and regenerate with narrower scope before continuing.
-4. Create or update `ui/brand/design-system.json` so it matches the approved or proposed board.
-5. Generate `ui/brand/tokens.css` from the design system JSON. Use `scripts/export-tokens.mjs` if present.
+4. Create or update `.maquette/brand/design-system.json` so it matches the approved or proposed board.
+5. Generate `.maquette/brand/tokens.css` from the design system JSON. Use `scripts/export-tokens.mjs` if present.
 6. Summarize what changed and ask for approval or revision.
-7. Record the current decision in `ui/brand/approved.md`.
+7. Record the current decision in `.maquette/brand/approved.md`.
 
 ## Board rules
 

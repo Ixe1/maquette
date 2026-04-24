@@ -205,6 +205,7 @@ async function auditResponsiveNavigation(page, width, screenshotsDir) {
   const before = await collectResponsiveNavigation(page, compactExpected);
   let toggleCheck = null;
   let afterOpen = null;
+  let drawerScrollability = null;
   let openScreenshotPath = null;
 
   if (compactExpected && before.toggleCandidates.length > 0) {
@@ -222,6 +223,75 @@ async function auditResponsiveNavigation(page, width, screenshotsDir) {
       ariaExpandedChanged: toggle.ariaExpanded !== (afterToggle?.ariaExpanded ?? null),
     };
 
+    drawerScrollability = await page.evaluate((controlsId) => {
+      function isVisible(element) {
+        if (!element) {
+          return false;
+        }
+        const rect = element.getBoundingClientRect();
+        const style = window.getComputedStyle(element);
+        return rect.width > 0 && rect.height > 0 && style.visibility !== "hidden" && style.display !== "none";
+      }
+
+      function inViewport(element) {
+        const rect = element.getBoundingClientRect();
+        return rect.bottom > 0 && rect.top < window.innerHeight && rect.right > 0 && rect.left < window.innerWidth;
+      }
+
+      const drawer = controlsId ? document.getElementById(controlsId) : null;
+      if (!drawer) {
+        return {
+          targetExists: false,
+          passDrawerScrollability: true,
+          notes: "No controlled drawer element found; aria-controls validation handles this failure.",
+        };
+      }
+
+      const style = window.getComputedStyle(drawer);
+      const bodyStyle = window.getComputedStyle(document.body);
+      const htmlStyle = window.getComputedStyle(document.documentElement);
+      const rect = drawer.getBoundingClientRect();
+      const hasInternalOverflow = drawer.scrollHeight > drawer.clientHeight + 1;
+      const contentExceedsViewport = drawer.scrollHeight > window.innerHeight + 1 || rect.height > window.innerHeight + 1;
+      const overflowAllowsScroll = ["auto", "scroll"].includes(style.overflowY) || ["auto", "scroll"].includes(style.overflow);
+      const bodyScrollLocked = bodyStyle.overflow === "hidden" || bodyStyle.overflowY === "hidden" || htmlStyle.overflow === "hidden" || htmlStyle.overflowY === "hidden";
+      const overscrollContained = ["contain", "none"].includes(style.overscrollBehaviorY) || ["contain", "none"].includes(style.overscrollBehavior);
+
+      const controls = Array.from(document.querySelectorAll("button, [role='button']"));
+      const closeControl = controls.find((element) => {
+        const label = `${element.getAttribute("aria-label") || ""} ${element.getAttribute("title") || ""} ${element.textContent || ""}`.toLowerCase();
+        return (element.getAttribute("aria-controls") === controlsId || label.includes("close") || label.includes("menu")) && isVisible(element);
+      });
+
+      const visibleDrawerLinks = Array.from(drawer.querySelectorAll("a[href], button, [role='button']"))
+        .filter(isVisible);
+      const unreachableLinks = visibleDrawerLinks.filter((element) => !inViewport(element));
+      const closeControlReachable = closeControl ? inViewport(closeControl) : true;
+      const linksReachable = unreachableLinks.length === 0 || overflowAllowsScroll;
+      const scrollableWhenNeeded = !hasInternalOverflow || overflowAllowsScroll;
+      const bodyLockDoesNotBlockDrawer = !(bodyScrollLocked && contentExceedsViewport) || overflowAllowsScroll;
+
+      return {
+        targetExists: true,
+        drawerVisible: isVisible(drawer),
+        clientHeight: drawer.clientHeight,
+        scrollHeight: drawer.scrollHeight,
+        viewportHeight: window.innerHeight,
+        overflowY: style.overflowY,
+        overscrollBehaviorY: style.overscrollBehaviorY,
+        hasInternalOverflow,
+        contentExceedsViewport,
+        bodyScrollLocked,
+        overscrollContained,
+        closeControlReachable,
+        visibleDrawerLinkCount: visibleDrawerLinks.length,
+        unreachableLinkCount: unreachableLinks.length,
+        scrollableWhenNeeded,
+        bodyLockDoesNotBlockDrawer,
+        passDrawerScrollability: isVisible(drawer) && scrollableWhenNeeded && bodyLockDoesNotBlockDrawer && closeControlReachable && linksReachable,
+      };
+    }, toggle.ariaControls);
+
     if (screenshotsDir) {
       fs.mkdirSync(screenshotsDir, { recursive: true });
       openScreenshotPath = path.join(screenshotsDir, `responsive-nav-open-${width}.png`);
@@ -233,14 +303,16 @@ async function auditResponsiveNavigation(page, width, screenshotsDir) {
   const passToggle = !compactNavNeedsToggle || (toggleCheck?.ariaExpandedChanged === true && toggleCheck?.targetExists !== false);
   const states = [before, afterOpen].filter(Boolean);
   const passStates = states.every((state) => state.passNoClippedControls && state.passTapTargets && state.passDocumentOverflow);
+  const passDrawerScrollability = drawerScrollability?.passDrawerScrollability !== false;
 
   return {
     compactExpected,
     before,
     afterOpen,
     toggleCheck,
+    drawerScrollability,
     openScreenshotPath,
-    passResponsiveNavigation: passToggle && passStates,
+    passResponsiveNavigation: passToggle && passStates && passDrawerScrollability,
   };
 }
 
@@ -417,6 +489,11 @@ for (const result of results) {
     console.log(`  nav toggle: aria-expanded ${check.beforeAriaExpanded} -> ${check.afterAriaExpanded}, controls=${check.ariaControls || "missing"}`);
   } else if (result.responsiveNavigation?.compactExpected && result.responsiveNavigation?.before?.hasPrimaryNav) {
     console.log("  nav toggle: missing compact navigation toggle");
+  }
+  if (result.responsiveNavigation?.drawerScrollability) {
+    const drawer = result.responsiveNavigation.drawerScrollability;
+    const drawerStatus = drawer.passDrawerScrollability ? "pass" : "fail";
+    console.log(`  nav drawer scrollability: ${drawerStatus}, overflowY=${drawer.overflowY || "n/a"}, scrollHeight=${drawer.scrollHeight ?? "n/a"}, clientHeight=${drawer.clientHeight ?? "n/a"}`);
   }
   if (result.responsiveNavigation?.openScreenshotPath) {
     console.log(`  nav open screenshot: ${result.responsiveNavigation.openScreenshotPath}`);

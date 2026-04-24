@@ -36,12 +36,14 @@ After every generated or edited image, inspect the actual result with `view_imag
 Generated boards and sheets should be readable at normal preview size. Maquette should regenerate, edit, or split visual artifacts that are cluttered, logo-like, or not inspectable enough to guide implementation.
 Sites with primary navigation should define responsive navigation before page implementation: desktop inline nav, tablet/mobile menu toggle, expanded panel or drawer, accessible states, and no document-level horizontal scrolling for nav.
 Repeated card grids should define equal-height cards and bottom-pinned action rows before page implementation. Footer social links should use recognizable social icons, and page typography should follow the approved font strategy rather than crude defaults such as `Impact`.
+Page implementation now includes a fidelity gate: inventory visible concept regions, create an asset manifest for required raster assets, then document section-by-section screenshot comparison notes before approval.
 
 ## Output philosophy
 
 The visual artifact is the creative source and approval artifact.
 The structured JSON/CSS files are the machine-readable source of truth.
 The coded gallery/page screenshots are the verification artifacts.
+All Maquette-owned project artifacts are isolated by the workflow under `.maquette/`, including generated images, HTML/CSS/JS, manifests, review notes, Playwright screenshots, and responsive audit output. Maquette should not create a root-level `index.html`; app integration is a separate explicit task.
 
 ## Example output
 
@@ -74,10 +76,10 @@ $maquette-brand-kit Make a branding kit for a boutique accounting firm for creat
 This pass creates a foundational brand board first, then turns it into design-system files such as:
 
 ```text
-ui/brand/brief.md
-ui/brand/design-system.json
-ui/brand/tokens.css
-ui/brand/approved.md
+brand/brief.md
+brand/design-system.json
+brand/tokens.css
+brand/approved.md
 ```
 
 Review the generated brand direction and ask for revisions until it is approved.
@@ -136,16 +138,16 @@ npx playwright install chromium
 The bundled capture scripts import the `playwright` package directly and launch Chromium in headless mode:
 
 ```sh
-node plugins/maquette/skills/maquette-components/scripts/capture-gallery.mjs ui/components/gallery.html ui/components/gallery.png
-node plugins/maquette/skills/maquette-pages/scripts/capture-page.mjs ui/pages/homepage/page.html ui/pages/homepage/page.png
-node plugins/maquette/shared/scripts/audit-responsive-layout.mjs ui/pages/homepage/page.html --json ui/pages/homepage/responsive-audit.json --screenshots-dir ui/pages/homepage/screenshots
+node plugins/maquette/skills/maquette-components/scripts/capture-gallery.mjs components/gallery.html components/gallery.png
+node plugins/maquette/skills/maquette-pages/scripts/capture-page.mjs pages/homepage/page.html pages/homepage/page.png
+node plugins/maquette/shared/scripts/audit-responsive-layout.mjs pages/homepage/page.html --json pages/homepage/responsive-audit.json --screenshots-dir pages/homepage/screenshots
 ```
 
 Screenshot capture and responsive auditing should stay headless, and every browser instance opened for capture must be closed before the workflow finishes. The bundled scripts close Chromium in a `finally` block.
 
 Responsive review should record measured overflow results at 390, 768, 1024, 1280, and 1440px when browser tooling is available. Page-wide horizontal overflow greater than 1px should be fixed unless an explicit exception is documented.
 For pages with navigation, tablet/mobile review should capture closed and open nav states, verify the menu toggle changes `aria-expanded`, and reject nav that clips, overflows, or requires document-level horizontal scrolling.
-For pages with repeated cards, review should compare CTA, quantity, price, and action-row alignment across cards with varied copy lengths. For pages with social links, review should verify recognizable social icons with accessible names. Typography review should record the chosen font family, fallback stack, and rationale.
+For pages with repeated cards, review should compare shared anatomy, badge placement, CTA, quantity, price, and action-row alignment across cards with varied copy lengths. For rich footers, review should verify footer structure rather than accepting generic columns. For pages with social links, review should verify recognizable social icons with accessible names. Mobile drawer review should verify opened drawers can scroll independently when needed. Typography review should record the chosen font family, fallback stack, and rationale.
 
 If Playwright is not available, Maquette can still create the design contracts and code, but screenshot-based visual comparison becomes a manual review step.
 

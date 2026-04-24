@@ -18,6 +18,12 @@ When `image_gen` is available, each phase must use it:
 
 Only after the visual artifact exists should the workflow proceed to code implementation.
 
+## Project output isolation
+
+Maquette-owned artifacts must be written under `.maquette/` in the current project. This includes brand boards, design-system JSON, CSS tokens, component sheets, component CSS/JS, gallery HTML, page concepts, page HTML/CSS/JS, generated raster assets, manifests, review notes, Playwright screenshots, and responsive audit JSON.
+
+Do not create, overwrite, or rely on `index.html` in the project root for Maquette output. If the user later wants to integrate a Maquette page into the real app or root site entrypoint, treat that as a separate explicit integration task.
+
 ## Mandatory image inspection
 
 After every `image_gen` create or edit step:
@@ -36,11 +42,20 @@ Generated boards and sheets are approval artifacts only when they are readable a
 - Brand boards must specify font direction and fallback strategy, but must not show detailed component inventories or button/input/card variant specs.
 - Brand boards must not contain logo-like marks, brand-name mastheads, large product-name treatments, monograms, seals, badges, app icons, emblems, or trademark-like elements.
 - Component sheets must be split into focused sheets when a single sheet would become cluttered or uninspectable.
-- Component sheets are the source of truth for component styling. Repeated-card sheets must show equal-height cards and bottom-pinned action rows when card grids are relevant.
+- Component sheets are the source of truth for component styling. Coded galleries must match the sheet's component families, variants, states, density, polish, and composites rather than collapsing into basic selector demos.
+- Repeated-card sheets must show shared media/header/body/footer/action anatomy, consistent badge or eyebrow placement, equal-height cards, and bottom-pinned action rows when card grids are relevant.
 - Sites or pages with global navigation need inspectable responsive navigation coverage before implementation: desktop inline nav, tablet/mobile collapsed state, menu toggle, expanded panel or drawer, active/focus states, and visible icons.
 - Page concepts with headers or primary navigation must define desktop, tablet, and mobile behavior. A desktop-only navigation concept is incomplete.
-- Page concepts with product, pricing, service, or offer cards must make repeated-card action-row alignment clear enough to implement.
+- Page concepts must make visible regions identifiable for pre-code inventory: header, nav, hero, sidebars, annotations, product grids, promo cards, newsletter, footer, bottom bars, mobile/tablet callouts, app/device modules, social links, and imagery.
+- Page concepts with product, pricing, service, offer, or promo cards must make repeated-card anatomy and action-row alignment clear enough to implement.
+- Page and component concepts that need raster images must make required asset types identifiable, such as hero images, product-card images, promo images, lifestyle/story images, footer/app/device images, and background textures.
 - Reject, regenerate, edit, or split an artifact before using it if labels are too small, unrelated families are crammed together, elements overlap, implementation notes dominate, or the image cannot guide implementation without heavy zooming.
+
+## Fidelity gates
+
+Before page implementation, create a concept-region inventory and generated asset manifest. Visible concept regions default to implementation, not omission. Any region or asset that is simplified, omitted, implemented differently, blocked on assets, or blocked on component coverage must be documented with a concrete reason before coding proceeds.
+
+No silent simplification is allowed across brand, component, or page phases. If implementation cannot match a generated artifact, record the deviation, reason, and recommended follow-up in the relevant `approved.md` or `review.md`.
 
 ## Responsive QA
 
@@ -50,9 +65,15 @@ When browser tooling is available, page and component QA must include responsive
 - Tablet/mobile primary navigation should use an accessible menu toggle plus stacked panel or drawer, not horizontal-scrolling nav as the default.
 - For tablet/mobile, inspect closed and open navigation states and record open-state screenshot paths.
 - If a menu toggle exists, click it and verify `aria-expanded` changes.
-- Repeated product-card and comparable card grids must be checked for equal-height cards and aligned CTA, quantity, price, or action rows across varied copy lengths.
+- Opened mobile/tablet drawers must remain scrollable when content exceeds viewport height, even when body scroll lock is active. Prefer `overflow-y: auto` and `overscroll-behavior: contain`; close controls and links must remain reachable.
+- Repeated product-card and comparable card grids must be checked for shared anatomy, equal-height cards, stable badge/eyebrow placement, and aligned CTA, quantity, price, or action rows across varied copy lengths.
+- Rich footers must be compared against the concept for logo placement, link columns, social icons, app/download modules, device imagery, legal links, locale/shipping rows, cookie/bottom strips, and brand blurbs. Generic footer simplification fails unless documented.
 - Footer social links shown as icons in the concept must render as recognizable social icons with accessible names, not unrelated generic icons or text abbreviations unless the concept explicitly uses text badges.
 - Typography QA must compare coded font family, weight, width, scale, and line-height against the approved visual references. Record font fallback rationale, and avoid `Impact` unless explicitly approved by the brand system.
+
+## Final review requirements
+
+Final component and page review files must summarize the generated asset manifest and missing assets, concept-region inventory, component sheet vs gallery fidelity, card anatomy alignment, footer fidelity, mobile drawer scrollability, responsive overflow measurements, open nav screenshots, visual deviations, and fixes. "Screenshots captured" alone is not a sufficient review.
 
 ## Transparent image requests
 
