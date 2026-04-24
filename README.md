@@ -11,7 +11,7 @@ The marketplace currently includes:
 For active development, add the marketplace from the `dev` branch:
 
 ```sh
-codex plugin marketplace add Ixe1/maquette --ref dev
+codex plugin marketplace add Ixe1/codex-plugins --ref dev
 ```
 
 If the Ixel marketplace is already configured, refresh it instead:
@@ -31,7 +31,7 @@ In Codex CLI, open the plugin directory with:
 If you want a sparse checkout for the marketplace source, include both the marketplace metadata and plugin folders:
 
 ```sh
-codex plugin marketplace add Ixe1/maquette --ref dev --sparse .agents/plugins --sparse plugins
+codex plugin marketplace add Ixe1/codex-plugins --ref dev --sparse .agents/plugins --sparse plugins
 ```
 
 ## Stable Install
@@ -39,7 +39,7 @@ codex plugin marketplace add Ixe1/maquette --ref dev --sparse .agents/plugins --
 For released versions, use the default branch instead:
 
 ```sh
-codex plugin marketplace add Ixe1/maquette --ref master
+codex plugin marketplace add Ixe1/codex-plugins --ref master
 ```
 
 Stable release tags should be plugin-scoped once multiple plugins have independent release lifecycles. Maquette has an existing legacy tag named `v0.3.3`; future Maquette tags should prefer names such as `maquette/v0.4.0`.
