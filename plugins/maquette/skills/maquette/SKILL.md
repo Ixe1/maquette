@@ -38,9 +38,10 @@ Before creating a page concept or page implementation, verify that these compone
 - `ui/components/components.js`
 - `ui/components/gallery.html`
 - `ui/components/approved.md`
-- a generated and inspected component sheet image such as `ui/components/component-sheet-vN.png`
+- one or more generated and inspected component sheet images such as `ui/components/component-sheet-vN.png`
 
 If any are missing, run the component-library phase next using `maquette-components`.
+If the requested page needs dense data patterns, dashboards, tables, maps, calendars, editors, timelines, complex workflows, filter builders, or reusable composites that are not covered by the existing component references, run `maquette-components` again to create focused missing coverage before running the page phase.
 
 Only after both gates pass should you run the page phase using `maquette-pages`.
 
@@ -67,6 +68,7 @@ If the user asks for a page and the project has no Maquette artifacts yet, compl
 3. Create the requested page.
 
 Mark the outputs as proposed or provisional when the user has not explicitly approved the intermediate phases.
+Infer focused extra component/composite sheets when the page brief needs them; the user should not have to ask for fewer components, split sheets, or wide-data coverage.
 
 Do not ask the user to manually rerun separate commands unless you are blocked.
 

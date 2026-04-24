@@ -28,11 +28,12 @@ This plugin includes a root workflow skill plus three focused phase skills:
 If the `image_gen` tool is available in the environment, it is **not optional** for the normal happy-path workflow.
 
 Each phase must use it as follows unless the user explicitly asks to skip image generation or the environment genuinely lacks the tool:
-- brand-kit phase -> create or edit a **brand board image**
-- components phase -> create or edit a **component sheet image** before or alongside implementation
+- brand-kit phase -> create or edit a focused **brand board image** with no logo, wordmark, brand mark, or large product-name treatment
+- components phase -> create or edit a focused core **component sheet image** before or alongside implementation, plus additional focused sheets when dense data or larger composites need them
 - pages phase -> create or edit a **page concept image** before implementation
 
 After every generated or edited image, inspect the actual result with `view_image` before using it as the basis for tokens, component specs, page blueprints, or code. Do not continue from the prompt alone.
+Generated boards and sheets should be readable at normal preview size. Maquette should regenerate, edit, or split visual artifacts that are cluttered, logo-like, or not inspectable enough to guide implementation.
 
 ## Output philosophy
 
@@ -87,7 +88,7 @@ After the brand kit is approved, use `$maquette-components`:
 $maquette-components Make a component library.
 ```
 
-This pass creates a component sheet and implements reusable components, states, and a gallery from the approved brand system.
+This pass creates a focused core component sheet, adds focused data/composite/form/navigation sheets when the product needs them, and implements reusable components, states, and a gallery from the approved brand system.
 
 ### 3. Create pages
 
@@ -120,7 +121,7 @@ Use `@Maquette` or `$maquette` when you want the full staged workflow. Use the i
 
 ## Optional screenshot tooling
 
-Maquette can use Playwright to capture coded component and page screenshots for visual review.
+Maquette can use Playwright to capture coded component and page screenshots for visual review and responsive overflow QA.
 
 If your project does not already have Playwright installed, add it in the project where Maquette is generating UI files:
 
@@ -134,9 +135,12 @@ The bundled capture scripts import the `playwright` package directly and launch 
 ```sh
 node plugins/maquette/skills/maquette-components/scripts/capture-gallery.mjs ui/components/gallery.html ui/components/gallery.png
 node plugins/maquette/skills/maquette-pages/scripts/capture-page.mjs ui/pages/homepage/page.html ui/pages/homepage/page.png
+node plugins/maquette/shared/scripts/audit-responsive-layout.mjs ui/pages/homepage/page.html --json ui/pages/homepage/responsive-audit.json --screenshots-dir ui/pages/homepage/screenshots
 ```
 
-Screenshot capture should stay headless, and every browser instance opened for capture must be closed before the workflow finishes. The bundled scripts close Chromium in a `finally` block.
+Screenshot capture and responsive auditing should stay headless, and every browser instance opened for capture must be closed before the workflow finishes. The bundled scripts close Chromium in a `finally` block.
+
+Responsive review should record measured overflow results at 390, 768, 1024, 1280, and 1440px when browser tooling is available. Page-wide horizontal overflow greater than 1px should be fixed unless an explicit exception is documented.
 
 If Playwright is not available, Maquette can still create the design contracts and code, but screenshot-based visual comparison becomes a manual review step.
 

@@ -10,9 +10,9 @@ This plugin is designed around a strict separation of roles:
 When `image_gen` is available, each phase must use it:
 
 1. Brand kit
-   - generate or edit a brand board
+   - generate or edit a focused brand board
 2. Components
-   - generate or edit a component sheet
+   - generate or edit a focused core component sheet, plus additional focused sheets when the product needs them
 3. Pages
    - generate or edit a page concept
 
@@ -27,6 +27,15 @@ After every `image_gen` create or edit step:
 - when revising a prior artifact, inspect both the prior reference and the new generated result when possible
 
 After inspection, continue the same turn unless the user explicitly asked for image-only output. Briefly identify the generated artifact, provide its saved path or asset reference when available, assess whether it matches the request, and continue to the next requested workflow step.
+
+## Inspectability gates
+
+Generated boards and sheets are approval artifacts only when they are readable at normal preview size.
+
+- Brand boards must focus on visual-system fundamentals, not exhaustive component inventories.
+- Brand boards must not contain logo-like marks, brand-name mastheads, large product-name treatments, monograms, seals, badges, app icons, emblems, or trademark-like elements.
+- Component sheets must be split into focused sheets when a single sheet would become cluttered or uninspectable.
+- Reject, regenerate, edit, or split an artifact before using it if labels are too small, unrelated families are crammed together, elements overlap, implementation notes dominate, or the image cannot guide implementation without heavy zooming.
 
 ## Transparent image requests
 

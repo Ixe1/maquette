@@ -65,11 +65,12 @@ The JSON file must validate against `shared/design-system.schema.json`.
    - tone adjectives
    - constraints
    - accessibility requirements
-3. If `image_gen` is available, create or edit a **structured brand board** using `assets/brand-board-prompt.md`.
+3. If `image_gen` is available, create or edit a **focused structured brand board** using `assets/brand-board-prompt.md`.
    - Use the board as the creative exploration and approval artifact.
    - Inspect the generated board with `view_image` before writing the design-system JSON or CSS tokens.
    - If revising an existing board, preserve continuity unless the user asked for a new direction.
-   - Inspect the generated board before using it. If it contains any logo, wordmark, monogram, mascot mark, app icon, seal, badge, or trademark-like brand mark, reject that image for brand-kit approval and regenerate or edit it out before continuing.
+   - Inspect the generated board before using it. If it contains any logo-like mark, wordmark, brand-name masthead, large product-name treatment, monogram, mascot mark, seal, badge, app icon, emblem, or trademark-like element, reject that image for brand-kit approval and regenerate or edit it out before continuing.
+   - If the board is visually cluttered or unreadable at normal preview size, reject it as an approval artifact and regenerate with narrower scope before continuing.
 4. Create or update `ui/brand/design-system.json` so it matches the approved or proposed board.
 5. Generate `ui/brand/tokens.css` from the design system JSON. Use `scripts/export-tokens.mjs` if present.
 6. Summarize what changed and ask for approval or revision.
@@ -77,26 +78,18 @@ The JSON file must validate against `shared/design-system.schema.json`.
 
 ## Board rules
 
-The board should show, at minimum:
-- palette
-- type scale
-- spacing and radius
-- buttons
-- inputs
-- textarea
-- select
-- checkbox
-- radio
-- switch
-- slider
-- tabs
-- cards
-- alerts
-- table styling
-- relevant states
+The board is a visual-system artifact, not an exhaustive UI inventory. It should focus on:
+- palette and semantic color roles
+- typography mood and scale
+- spacing, radius, border, elevation, and surface language
+- focus, interaction, disabled, selected, and error principles
+- a few small representative UI examples that clarify the system
 
-The board must not include a logo, wordmark, emblem, mascot, brand seal, app icon, or placeholder mark. Brand kits define visual-system language only; logo creation belongs to a separate logo/asset task.
-It must include a compact text spec panel that mirrors the real token files.
+Move exhaustive primitive coverage to the component-library phase.
+
+The board must not include a logo, wordmark, emblem, mascot, brand seal, app icon, placeholder mark, monogram, badge, or trademark-like element. It also must not show the brand or product name as a masthead, header, large title, display text, logo-like text, app mark, badge, seal, or primary text treatment. Brand kits define visual-system language only; logo creation belongs to a separate logo/asset task.
+If product text is needed on the board, use neutral labels such as "Design System", "Server Discovery UI", "Telemetry Surface", "Operations Dashboard", or similar generic descriptors. The actual brand name may appear only, if at all, as small body-size sample copy and never as the largest, most prominent, or primary text on the image.
+It may include a compact text spec panel that mirrors the real token files, but implementation notes must not dominate the board.
 Keep the board readable even when exported at modest resolution.
 Do not cram dense code into tiny unreadable blocks.
 

@@ -18,6 +18,10 @@
       "ui/components/gallery.png"
     ],
     "component_sheet_path": "ui/components/component-sheet-v1.png",
+    "component_sheet_paths": [
+      "ui/components/component-sheet-v1.png",
+      "ui/components/component-sheet-data-v1.png"
+    ],
     "review_notes_path": "ui/components/approved.md"
   },
   "components": [

@@ -13,11 +13,12 @@ Preferred inputs:
 - `ui/brand/design-system.json`
 - `ui/components/component-catalog.json`
 - approved brand-board image
-- approved component-sheet image
+- approved component-sheet image or images
 
 Hard gate:
 - If `ui/brand/design-system.json`, `ui/brand/tokens.css`, or a generated and inspected brand board image is missing, do not create a page concept. Run the brand-kit phase first using `maquette-brand-kit`.
 - If `ui/components/component-catalog.json`, `ui/components/components.css`, `ui/components/gallery.html`, or a generated and inspected component sheet image is missing, do not create a page concept. Run the component-library phase first using `maquette-components`.
+- If the requested page needs components, dense data patterns, or reusable composites that are not covered by the existing component catalog or inspected component-sheet references, run or request the component-library phase first to create the missing focused sheet or sheets. Do not silently invent significant new component language inside the page phase.
 - Do not treat an existing website, screenshot, copied CSS, or style notes as a substitute for the brand kit and component library.
 - In a one-shot `maquette` workflow, earlier phases may be marked provisional, but they still must exist before this phase starts.
 
@@ -29,7 +30,7 @@ Do not skip directly to code-only page design unless the user explicitly asks yo
 The page concept image is the creative design artifact for the page and should guide layout, hierarchy, density, and style.
 
 Use image generation to:
-- create a new page concept from the approved brand board and component sheet, or
+- create a new page concept from the approved brand board and component sheet or sheets, or
 - edit an existing concept image to refine the page while preserving the approved visual language
 
 If editing a local reference image, first make it visible in the conversation with `view_image`, then ask `image_gen` to edit the visible image.
@@ -60,23 +61,37 @@ The blueprint JSON must validate against `shared/page-blueprint.schema.json`.
 ## Workflow
 
 1. Read the approved design system and component catalog.
-2. If `image_gen` is available, create or edit a page concept using the approved references and `assets/page-concept-prompt.md`.
+2. Check component coverage before page concept work.
+   - Reuse existing components first.
+   - Identify any missing primitives, dense data patterns, or larger reusable composites needed by the page.
+   - If missing coverage is significant, run or request `maquette-components` to create the focused component/composite sheet before continuing.
+3. If `image_gen` is available, create or edit a page concept using the approved references and `assets/page-concept-prompt.md`.
    - Inspect the generated page concept with `view_image` before writing the page blueprint or implementation.
-3. Reuse existing components first.
-4. Translate the page concept into code using the component library before adding any new composite patterns.
-5. Only create a new composite when the page clearly needs a pattern that the library does not already cover.
-6. Update the page blueprint to document composition and any new composites.
-7. Capture screenshots when possible and compare them to the concept and approved references.
+4. Reuse existing components first.
+5. Translate the page concept into code using the component library before adding any new composite patterns.
+6. Only create a new composite when the page clearly needs a pattern that the library does not already cover and the visual/reference component coverage exists.
+7. Update the page blueprint to document composition and any new composites.
+8. Capture screenshots when possible and compare them to the concept and approved references.
    - Keep Playwright/Chromium screenshot capture headless.
    - Ensure every browser/session opened for screenshot capture is closed before finishing.
    - If cleanup fails, record the failed cleanup command or operation in the final response.
-8. Run the required page QA pass:
+   - Capture desktop, tablet, and mobile page screenshots when possible; at minimum use representative widths 390, 768, and 1440 when browser tooling is available.
+9. Run the required page QA pass:
    - Compare the top and bottom of the coded page against the concept, especially headers, navigation, newsletter bands, footers, bottom ribbons, and final calls to action.
-   - Check that repeated/global regions preserve the concept's structure, not just its colors: logo placement, link-column count, secondary marks/seals, social links, legal links, and bottom strips should be implemented when shown in the concept.
+   - Check that repeated/global regions preserve the concept's structure, not just its colors: logo placement, link-column count, approved secondary marks/seals, social links, legal links, and bottom strips should be implemented when shown in the concept.
    - Check that social links and compact action controls render as recognizable icons with accessible names. Do not substitute visible text abbreviations such as `YT`, `IG`, or `FB` unless the concept explicitly uses text badges.
-   - Check first and last viewport screenshots; do not only review the hero or above-the-fold content.
+   - Check that icon-only buttons and compact controls visibly render supported icons and are not blank.
+   - Check whole-page screenshots, not only above-the-fold. Inspect top, middle or data-heavy sections, and footer or terminal sections.
+   - Check first, middle, and last viewport screenshots; do not only review the hero or above-the-fold content.
+   - Run measurable responsive overflow QA when browser tooling is available. Prefer `shared/scripts/audit-responsive-layout.mjs` if present.
+   - Test at least viewport widths 390, 768, 1024, 1280, and 1440.
+   - Prefer capturing full-page screenshots for all audited widths when practical.
+   - For each tested viewport, record `window.innerWidth`, `document.documentElement.scrollWidth`, `document.body.scrollWidth`, and clientWidth/scrollWidth for wide components such as tables, grids, timelines, charts, calendars, code blocks, and comparison matrices.
+   - Record top overflow offenders when any are present.
+   - Fail and fix the page if document scroll width exceeds viewport width by more than 1px, unless there is an explicit documented exception.
+   - Internal horizontal scrolling for wide components is allowed only when intentional and documented. It should generally not appear on normal desktop or tablet layouts unless the component is truly a data grid that requires it.
    - If a footer, header, or terminal section is simplified from the concept, either fix it or record the intentional reason in `review.md`.
-9. Record mismatches and follow-up edits in `review.md`.
+10. Record mismatches, follow-up edits, measured responsive overflow results, screenshot paths, accepted scroll exceptions, and icon-rendering notes in `review.md`.
 
 ## Low-resolution reference rule
 
@@ -91,6 +106,7 @@ When the concept image is small or compressed:
 
 - Do not silently introduce a new brand direction.
 - Prefer already-approved primitives and states.
+- Do not silently introduce significant new component language that is absent from the approved or provisional component references.
 - Keep page code composable so later pages can reuse sections and composites.
 - The concept image should drive the creative direction; the code should faithfully implement that direction using approved components first.
 - Page implementation fidelity applies to the whole page, including terminal sections such as newsletter and footer areas. Do not let the footer degrade into a generic link list when the concept shows a branded footer composition.

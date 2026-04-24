@@ -88,6 +88,13 @@
         "component_sheet_path": {
           "type": "string"
         },
+        "component_sheet_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
         "review_notes_path": {
           "type": "string"
         }
