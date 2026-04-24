@@ -8,6 +8,7 @@
   },
   "homepage": "https://github.com/Ixe1/maquette",
   "repository": "https://github.com/Ixe1/maquette",
+  "license": "MIT",
   "keywords": [
     "design",
     "web",
@@ -22,6 +23,7 @@
     "longDescription": "Create website brand kits, reusable component libraries, and implemented pages through an image_gen-first contract-driven workflow.",
     "developerName": "Ixel",
     "category": "Design",
+    "websiteURL": "https://github.com/Ixe1/maquette",
     "capabilities": [
       "Interactive",
       "Write"
