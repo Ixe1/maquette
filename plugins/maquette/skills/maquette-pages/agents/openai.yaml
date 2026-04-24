@@ -1,4 +1,4 @@
 interface:
   display_name: "Maquette Pages"
   short_description: "Create website page concepts with image_gen, then implement them with approved brand and component references."
-  default_prompt: "Use $maquette-pages to verify component coverage, request focused missing component/composite sheets when needed, create or revise a page concept image with image_gen, then implement the website page using approved brand and component references."
+  default_prompt: "Use $maquette-pages to verify component coverage, request focused missing component/composite/navigation/product-card/footer-social sheets when needed, create or revise a page concept image with image_gen, then implement the website page using approved brand and component references. QA typography fidelity, repeated-card action alignment, recognizable social icons, responsive navigation, and overflow."

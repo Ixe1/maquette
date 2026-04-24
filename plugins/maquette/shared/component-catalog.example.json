@@ -22,6 +22,10 @@
       "ui/components/component-sheet-v1.png",
       "ui/components/component-sheet-data-v1.png"
     ],
+    "nav_open_screenshot_paths": [
+      "ui/components/screenshots/responsive-nav-open-390.png",
+      "ui/components/screenshots/responsive-nav-open-768.png"
+    ],
     "review_notes_path": "ui/components/approved.md"
   },
   "components": [
@@ -117,6 +121,103 @@
         ],
         "latest_screenshot_path": "ui/components/gallery.png",
         "similarity_notes": "Field border and focus ring align with approved design language."
+      },
+      "status": "reviewed"
+    },
+    {
+      "name": "responsive-navigation",
+      "source_required_component": "navigation",
+      "files": [
+        "ui/components/components.css",
+        "ui/components/components.js",
+        "ui/components/gallery.html"
+      ],
+      "selectors": [
+        ".site-nav",
+        ".site-nav__toggle",
+        ".site-nav__panel",
+        ".site-nav__link"
+      ],
+      "implemented_variants": [
+        "desktop-inline",
+        "tablet-collapsed",
+        "mobile-collapsed",
+        "mobile-expanded"
+      ],
+      "implemented_sizes": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "implemented_states": [
+        "default",
+        "active",
+        "focus-visible",
+        "expanded",
+        "collapsed"
+      ],
+      "accessibility_notes": [
+        "Menu toggle uses aria-controls, aria-expanded, and an accessible label",
+        "Expanded menu links are keyboard reachable",
+        "Mobile primary navigation does not require document-level horizontal scrolling"
+      ],
+      "visual_review": {
+        "reference_image_paths": [
+          "ui/components/component-sheet-v1.png"
+        ],
+        "latest_screenshot_path": "ui/components/screenshots/responsive-nav-open-390.png",
+        "similarity_notes": "Responsive navigation keeps desktop inline links and uses a collapsed tablet/mobile panel with visible tap targets."
+      },
+      "status": "reviewed"
+    },
+    {
+      "name": "product-card",
+      "source_required_component": "product-card",
+      "files": [
+        "ui/components/components.css",
+        "ui/components/components.js",
+        "ui/components/gallery.html"
+      ],
+      "selectors": [
+        ".product-card",
+        ".product-card__body",
+        ".product-card__actions",
+        ".quantity-control"
+      ],
+      "implemented_variants": [
+        "default",
+        "featured",
+        "sale"
+      ],
+      "implemented_sizes": [
+        "md"
+      ],
+      "implemented_states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "disabled"
+      ],
+      "accessibility_notes": [
+        "Quantity buttons have accessible labels",
+        "Primary product CTA remains keyboard reachable after variable-length copy"
+      ],
+      "layout_behavior": {
+        "equal_height_grid": "Product cards stretch to the same height within each grid row.",
+        "body_layout": "Card body uses flex column or grid rows so descriptive copy can grow without moving the footer contract.",
+        "action_row_alignment": "Price, quantity selector, and Add to Cart row are pinned to the bottom and align across cards with short, medium, and long copy.",
+        "responsive_notes": "On single-column mobile layouts the action row stays after content; multi-column tablet and desktop layouts preserve equal-height rows."
+      },
+      "visual_review": {
+        "reference_image_paths": [
+          "ui/components/component-sheet-v1.png"
+        ],
+        "latest_screenshot_path": "ui/components/gallery.png",
+        "similarity_notes": "Card surfaces and CTA styling follow the component sheet.",
+        "qa_notes": [
+          "Gallery includes at least three product cards with varied copy length.",
+          "Screenshot review confirms quantity and Add to Cart rows share the same vertical position across the row."
+        ]
       },
       "status": "reviewed"
     }

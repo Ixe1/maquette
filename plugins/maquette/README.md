@@ -28,12 +28,14 @@ This plugin includes a root workflow skill plus three focused phase skills:
 If the `image_gen` tool is available in the environment, it is **not optional** for the normal happy-path workflow.
 
 Each phase must use it as follows unless the user explicitly asks to skip image generation or the environment genuinely lacks the tool:
-- brand-kit phase -> create or edit a focused **brand board image** with no logo, wordmark, brand mark, or large product-name treatment
-- components phase -> create or edit a focused core **component sheet image** before or alongside implementation, plus additional focused sheets when dense data or larger composites need them
+- brand-kit phase -> create or edit a focused foundational **brand board image** with no logo, wordmark, brand mark, large product-name treatment, or detailed component inventory; record explicit typography recommendations and fallback strategy
+- components phase -> create or edit a focused core **component sheet image** before or alongside implementation, plus additional focused sheets when dense data, larger composites, navigation, repeated cards, newsletter modules, or footer/social modules need them
 - pages phase -> create or edit a **page concept image** before implementation
 
 After every generated or edited image, inspect the actual result with `view_image` before using it as the basis for tokens, component specs, page blueprints, or code. Do not continue from the prompt alone.
 Generated boards and sheets should be readable at normal preview size. Maquette should regenerate, edit, or split visual artifacts that are cluttered, logo-like, or not inspectable enough to guide implementation.
+Sites with primary navigation should define responsive navigation before page implementation: desktop inline nav, tablet/mobile menu toggle, expanded panel or drawer, accessible states, and no document-level horizontal scrolling for nav.
+Repeated card grids should define equal-height cards and bottom-pinned action rows before page implementation. Footer social links should use recognizable social icons, and page typography should follow the approved font strategy rather than crude defaults such as `Impact`.
 
 ## Output philosophy
 
@@ -69,7 +71,7 @@ Start with `$maquette-brand-kit` and describe the company, product, audience, or
 $maquette-brand-kit Make a branding kit for a boutique accounting firm for creative studios.
 ```
 
-This pass creates a brand board first, then turns it into design-system files such as:
+This pass creates a foundational brand board first, then turns it into design-system files such as:
 
 ```text
 ui/brand/brief.md
@@ -88,7 +90,8 @@ After the brand kit is approved, use `$maquette-components`:
 $maquette-components Make a component library.
 ```
 
-This pass creates a focused core component sheet, adds focused data/composite/form/navigation sheets when the product needs them, and implements reusable components, states, and a gallery from the approved brand system.
+This pass creates a focused core component sheet, adds focused data/composite/form/navigation/repeated-card/newsletter/footer-social sheets when the product needs them, and implements reusable components, states, and a gallery from the approved brand system.
+When a site has global navigation, the component pass should include responsive nav variants for desktop, tablet, and mobile.
 
 ### 3. Create pages
 
@@ -141,6 +144,8 @@ node plugins/maquette/shared/scripts/audit-responsive-layout.mjs ui/pages/homepa
 Screenshot capture and responsive auditing should stay headless, and every browser instance opened for capture must be closed before the workflow finishes. The bundled scripts close Chromium in a `finally` block.
 
 Responsive review should record measured overflow results at 390, 768, 1024, 1280, and 1440px when browser tooling is available. Page-wide horizontal overflow greater than 1px should be fixed unless an explicit exception is documented.
+For pages with navigation, tablet/mobile review should capture closed and open nav states, verify the menu toggle changes `aria-expanded`, and reject nav that clips, overflows, or requires document-level horizontal scrolling.
+For pages with repeated cards, review should compare CTA, quantity, price, and action-row alignment across cards with varied copy lengths. For pages with social links, review should verify recognizable social icons with accessible names. Typography review should record the chosen font family, fallback stack, and rationale.
 
 If Playwright is not available, Maquette can still create the design contracts and code, but screenshot-based visual comparison becomes a manual review step.
 

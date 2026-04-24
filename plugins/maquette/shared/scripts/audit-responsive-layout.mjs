@@ -18,6 +18,7 @@ function usage() {
     "  --widths <csv>            Viewport widths, default 390,768,1024,1280,1440",
     "  --height <px>             Viewport height, default 1400",
     "  --allow-document-overflow Do not exit nonzero for page-wide overflow",
+    "  --allow-nav-failures      Do not exit nonzero for responsive nav failures",
   ].join("\n"));
 }
 
@@ -27,6 +28,7 @@ let screenshotsDir;
 let widths = DEFAULT_WIDTHS;
 let height = DEFAULT_HEIGHT;
 let allowDocumentOverflow = false;
+let allowNavFailures = false;
 
 for (let index = 0; index < args.length; index += 1) {
   const arg = args[index];
@@ -45,6 +47,8 @@ for (let index = 0; index < args.length; index += 1) {
     height = Number.parseInt(args[++index], 10);
   } else if (arg === "--allow-document-overflow") {
     allowDocumentOverflow = true;
+  } else if (arg === "--allow-nav-failures") {
+    allowNavFailures = true;
   } else {
     console.error(`Unknown option: ${arg}`);
     usage();
@@ -69,8 +73,175 @@ const targetUrl = /^https?:\/\//.test(targetArg)
   ? targetArg
   : pathToFileURL(path.resolve(targetArg)).href;
 
-function safeName(input) {
-  return input.replace(/[^a-z0-9._-]+/gi, "-").replace(/^-+|-+$/g, "").toLowerCase();
+async function collectResponsiveNavigation(page, compactExpected) {
+  return await page.evaluate((isCompact) => {
+    function cssPath(element) {
+      if (!element || element.nodeType !== Node.ELEMENT_NODE) {
+        return "";
+      }
+
+      const parts = [];
+      let current = element;
+      while (current && current.nodeType === Node.ELEMENT_NODE && current !== document.documentElement) {
+        let part = current.localName;
+        if (current.id) {
+          part += `#${current.id}`;
+          parts.unshift(part);
+          break;
+        }
+
+        const classNames = Array.from(current.classList || []).slice(0, 3);
+        if (classNames.length > 0) {
+          part += `.${classNames.join(".")}`;
+        }
+
+        const parent = current.parentElement;
+        if (parent) {
+          const sameTagSiblings = Array.from(parent.children).filter((child) => child.localName === current.localName);
+          if (sameTagSiblings.length > 1) {
+            part += `:nth-of-type(${sameTagSiblings.indexOf(current) + 1})`;
+          }
+        }
+
+        parts.unshift(part);
+        current = current.parentElement;
+      }
+
+      return parts.join(" > ");
+    }
+
+    function isVisible(element) {
+      const rect = element.getBoundingClientRect();
+      const style = window.getComputedStyle(element);
+      return rect.width > 0 && rect.height > 0 && style.visibility !== "hidden" && style.display !== "none";
+    }
+
+    const viewportWidth = window.innerWidth;
+    const navRoots = Array.from(document.querySelectorAll([
+      "header nav",
+      "nav",
+      '[role="navigation"]',
+      ".site-nav",
+      ".navbar",
+      ".primary-nav",
+      ".main-nav",
+    ].join(",")));
+
+    const visibleNavControls = Array.from(new Set(navRoots.flatMap((root) => Array.from(root.querySelectorAll("a[href], button, [role='button']")))))
+      .filter(isVisible)
+      .map((element) => {
+        const rect = element.getBoundingClientRect();
+        const clipped = rect.left < -1 || rect.right > viewportWidth + 1;
+        const smallTapTarget = rect.width < 40 || rect.height < 40;
+        return {
+          selector: cssPath(element),
+          tag: element.localName,
+          text: (element.innerText || element.getAttribute("aria-label") || "").trim().slice(0, 80),
+          left: Number(rect.left.toFixed(2)),
+          right: Number(rect.right.toFixed(2)),
+          width: Number(rect.width.toFixed(2)),
+          height: Number(rect.height.toFixed(2)),
+          clipped,
+          smallTapTarget,
+        };
+      });
+
+    const toggleCandidates = Array.from(document.querySelectorAll([
+      "button[aria-controls][aria-expanded]",
+      "[role='button'][aria-controls][aria-expanded]",
+      "[data-nav-toggle]",
+      ".nav-toggle",
+      ".menu-toggle",
+      ".hamburger",
+    ].join(",")))
+      .filter(isVisible)
+      .map((element, index) => {
+        element.setAttribute("data-maquette-audit-nav-toggle", String(index));
+        const rect = element.getBoundingClientRect();
+        const controls = element.getAttribute("aria-controls") || "";
+        const controlledElement = controls ? document.getElementById(controls) : null;
+        return {
+          index,
+          selector: `[data-maquette-audit-nav-toggle="${index}"]`,
+          cssPath: cssPath(element),
+          ariaControls: controls,
+          ariaExpanded: element.getAttribute("aria-expanded"),
+          accessibleLabel: element.getAttribute("aria-label") || element.getAttribute("title") || (element.innerText || "").trim(),
+          targetExists: Boolean(controlledElement),
+          width: Number(rect.width.toFixed(2)),
+          height: Number(rect.height.toFixed(2)),
+          smallTapTarget: rect.width < 40 || rect.height < 40,
+        };
+      });
+
+    const clippedControls = visibleNavControls.filter((item) => item.clipped);
+    const smallTapTargets = visibleNavControls.filter((item) => item.smallTapTarget);
+    const hasPrimaryNav = navRoots.length > 0 && (visibleNavControls.length > 0 || toggleCandidates.length > 0);
+    const documentOverflowPx = Math.max(
+      document.documentElement.scrollWidth - viewportWidth,
+      document.body.scrollWidth - viewportWidth,
+      0,
+    );
+
+    return {
+      compactExpected: isCompact,
+      navRootCount: navRoots.length,
+      visibleNavControlCount: visibleNavControls.length,
+      hasPrimaryNav,
+      toggleCandidateCount: toggleCandidates.length,
+      toggleCandidates,
+      clippedControls,
+      smallTapTargets,
+      documentOverflowPx,
+      passNoClippedControls: clippedControls.length === 0,
+      passTapTargets: !isCompact || smallTapTargets.length === 0,
+      passDocumentOverflow: documentOverflowPx <= 1,
+    };
+  }, compactExpected);
+}
+
+async function auditResponsiveNavigation(page, width, screenshotsDir) {
+  const compactExpected = width <= 1024;
+  const before = await collectResponsiveNavigation(page, compactExpected);
+  let toggleCheck = null;
+  let afterOpen = null;
+  let openScreenshotPath = null;
+
+  if (compactExpected && before.toggleCandidates.length > 0) {
+    const toggle = before.toggleCandidates[0];
+    await page.click(toggle.selector);
+    await page.waitForTimeout(150);
+    afterOpen = await collectResponsiveNavigation(page, compactExpected);
+    const afterToggle = afterOpen.toggleCandidates.find((candidate) => candidate.index === toggle.index) ?? afterOpen.toggleCandidates[0];
+    toggleCheck = {
+      selector: toggle.cssPath,
+      ariaControls: toggle.ariaControls,
+      targetExists: toggle.targetExists,
+      beforeAriaExpanded: toggle.ariaExpanded,
+      afterAriaExpanded: afterToggle?.ariaExpanded ?? null,
+      ariaExpandedChanged: toggle.ariaExpanded !== (afterToggle?.ariaExpanded ?? null),
+    };
+
+    if (screenshotsDir) {
+      fs.mkdirSync(screenshotsDir, { recursive: true });
+      openScreenshotPath = path.join(screenshotsDir, `responsive-nav-open-${width}.png`);
+      await page.screenshot({ path: openScreenshotPath, fullPage: true });
+    }
+  }
+
+  const compactNavNeedsToggle = compactExpected && before.hasPrimaryNav;
+  const passToggle = !compactNavNeedsToggle || (toggleCheck?.ariaExpandedChanged === true && toggleCheck?.targetExists !== false);
+  const states = [before, afterOpen].filter(Boolean);
+  const passStates = states.every((state) => state.passNoClippedControls && state.passTapTargets && state.passDocumentOverflow);
+
+  return {
+    compactExpected,
+    before,
+    afterOpen,
+    toggleCheck,
+    openScreenshotPath,
+    passResponsiveNavigation: passToggle && passStates,
+  };
 }
 
 let browser;
@@ -198,11 +369,15 @@ try {
       await page.screenshot({ path: screenshotPath, fullPage: true });
     }
 
+    const responsiveNavigation = await auditResponsiveNavigation(page, width, screenshotsDir);
+
     results.push({
       viewport: { width, height },
       screenshotPath,
       ...audit,
+      responsiveNavigation,
       passDocumentOverflow: audit.documentOverflowPx <= 1,
+      passResponsiveNavigation: responsiveNavigation.passResponsiveNavigation,
     });
   }
 } finally {
@@ -217,8 +392,10 @@ const output = {
   startedAt,
   finishedAt: new Date().toISOString(),
   allowDocumentOverflow,
+  allowNavFailures,
   results,
-  pass: results.every((result) => result.passDocumentOverflow) || allowDocumentOverflow,
+  pass: (results.every((result) => result.passDocumentOverflow) || allowDocumentOverflow)
+    && (results.every((result) => result.passResponsiveNavigation) || allowNavFailures),
 };
 
 if (jsonPath) {
@@ -228,11 +405,21 @@ if (jsonPath) {
 
 for (const result of results) {
   const wideScrollCount = result.wideComponents.filter((item) => item.hasInternalHorizontalScroll).length;
-  const status = result.passDocumentOverflow ? "PASS" : "FAIL";
-  console.log(`${status} ${result.windowInnerWidth}px: docEl=${result.documentElementScrollWidth}, body=${result.bodyScrollWidth}, overflow=${result.documentOverflowPx}px, wideScroll=${wideScrollCount}`);
+  const status = result.passDocumentOverflow && result.passResponsiveNavigation ? "PASS" : "FAIL";
+  const navStatus = result.passResponsiveNavigation ? "nav=pass" : "nav=fail";
+  console.log(`${status} ${result.windowInnerWidth}px: docEl=${result.documentElementScrollWidth}, body=${result.bodyScrollWidth}, overflow=${result.documentOverflowPx}px, wideScroll=${wideScrollCount}, ${navStatus}`);
   if (result.overflowOffenders.length > 0) {
     const top = result.overflowOffenders[0];
     console.log(`  top offender: ${top.selector || top.tag} (${top.overflow}px)`);
+  }
+  if (result.responsiveNavigation?.toggleCheck) {
+    const check = result.responsiveNavigation.toggleCheck;
+    console.log(`  nav toggle: aria-expanded ${check.beforeAriaExpanded} -> ${check.afterAriaExpanded}, controls=${check.ariaControls || "missing"}`);
+  } else if (result.responsiveNavigation?.compactExpected && result.responsiveNavigation?.before?.hasPrimaryNav) {
+    console.log("  nav toggle: missing compact navigation toggle");
+  }
+  if (result.responsiveNavigation?.openScreenshotPath) {
+    console.log(`  nav open screenshot: ${result.responsiveNavigation.openScreenshotPath}`);
   }
   if (result.screenshotPath) {
     console.log(`  screenshot: ${result.screenshotPath}`);

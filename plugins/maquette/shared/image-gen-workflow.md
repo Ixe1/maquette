@@ -33,9 +33,26 @@ After inspection, continue the same turn unless the user explicitly asked for im
 Generated boards and sheets are approval artifacts only when they are readable at normal preview size.
 
 - Brand boards must focus on visual-system fundamentals, not exhaustive component inventories.
+- Brand boards must specify font direction and fallback strategy, but must not show detailed component inventories or button/input/card variant specs.
 - Brand boards must not contain logo-like marks, brand-name mastheads, large product-name treatments, monograms, seals, badges, app icons, emblems, or trademark-like elements.
 - Component sheets must be split into focused sheets when a single sheet would become cluttered or uninspectable.
+- Component sheets are the source of truth for component styling. Repeated-card sheets must show equal-height cards and bottom-pinned action rows when card grids are relevant.
+- Sites or pages with global navigation need inspectable responsive navigation coverage before implementation: desktop inline nav, tablet/mobile collapsed state, menu toggle, expanded panel or drawer, active/focus states, and visible icons.
+- Page concepts with headers or primary navigation must define desktop, tablet, and mobile behavior. A desktop-only navigation concept is incomplete.
+- Page concepts with product, pricing, service, or offer cards must make repeated-card action-row alignment clear enough to implement.
 - Reject, regenerate, edit, or split an artifact before using it if labels are too small, unrelated families are crammed together, elements overlap, implementation notes dominate, or the image cannot guide implementation without heavy zooming.
+
+## Responsive QA
+
+When browser tooling is available, page and component QA must include responsive navigation and overflow checks at 390, 768, 1024, 1280, and 1440px.
+
+- Primary navigation must not create document-level horizontal overflow.
+- Tablet/mobile primary navigation should use an accessible menu toggle plus stacked panel or drawer, not horizontal-scrolling nav as the default.
+- For tablet/mobile, inspect closed and open navigation states and record open-state screenshot paths.
+- If a menu toggle exists, click it and verify `aria-expanded` changes.
+- Repeated product-card and comparable card grids must be checked for equal-height cards and aligned CTA, quantity, price, or action rows across varied copy lengths.
+- Footer social links shown as icons in the concept must render as recognizable social icons with accessible names, not unrelated generic icons or text abbreviations unless the concept explicitly uses text badges.
+- Typography QA must compare coded font family, weight, width, scale, and line-height against the approved visual references. Record font fallback rationale, and avoid `Impact` unless explicitly approved by the brand system.
 
 ## Transparent image requests
 

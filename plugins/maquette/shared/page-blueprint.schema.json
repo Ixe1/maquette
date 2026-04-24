@@ -211,6 +211,24 @@
         "type": "string"
       }
     },
+    "quality_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "font_rationale": {
+          "type": "string"
+        },
+        "repeated_card_alignment": {
+          "type": "string"
+        },
+        "social_icon_strategy": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
     "assets": {
       "type": "object",
       "additionalProperties": false,
@@ -238,6 +256,12 @@
             "type": "string"
           },
           "minItems": 1
+        },
+        "nav_open_screenshot_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "review_notes_path": {
           "type": "string"

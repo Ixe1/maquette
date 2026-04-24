@@ -42,6 +42,9 @@ Before creating a page concept or page implementation, verify that these compone
 
 If any are missing, run the component-library phase next using `maquette-components`.
 If the requested page needs dense data patterns, dashboards, tables, maps, calendars, editors, timelines, complex workflows, filter builders, or reusable composites that are not covered by the existing component references, run `maquette-components` again to create focused missing coverage before running the page phase.
+If the requested page has a header or primary navigation, verify responsive navigation component coverage before running the page phase: desktop inline nav, tablet/mobile collapsed state, menu toggle, expanded panel or drawer, active/focus states, and icon rendering.
+If the requested page has product, pricing, service, or offer card grids, verify repeated-card component coverage before running the page phase: equal-height cards, flex or grid card bodies, and bottom-pinned CTA, quantity, price, or action rows.
+If the requested page has footer social links, verify footer/social module coverage before running the page phase: recognizable social icons, accessible names, and no unrelated generic icon substitutions.
 
 Only after both gates pass should you run the page phase using `maquette-pages`.
 
@@ -69,6 +72,8 @@ If the user asks for a page and the project has no Maquette artifacts yet, compl
 
 Mark the outputs as proposed or provisional when the user has not explicitly approved the intermediate phases.
 Infer focused extra component/composite sheets when the page brief needs them; the user should not have to ask for fewer components, split sheets, or wide-data coverage.
+Infer responsive navigation coverage for page/site requests with global navigation; the user should not have to ask for mobile nav or overflow checks.
+Infer repeated-card and footer/social coverage for commerce, product-grid, pricing, service-list, newsletter, and footer-heavy pages; the user should not have to ask for card action alignment or recognizable social icons.
 
 Do not ask the user to manually rerun separate commands unless you are blocked.
 

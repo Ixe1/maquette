@@ -7,15 +7,20 @@ Goal:
 
 Show on the board:
 - palette swatches and semantic color roles
-- typography mood and scale with clear heading/body distinctions
-- spacing, radius, border, shadow, surface, and motion cues
+- typography direction with clear heading/body distinctions, recommended font families or categories, fallback stacks, weights, sizes, and line-height
+- spacing rhythm
+- radius scale
+- border, elevation, shadow, surface, and motion cues
 - focus, hover, disabled, error, selected, and active principles
-- only a few small representative UI examples, not a full component inventory
+- only tiny abstract UI fragments if needed to demonstrate color, focus, state, surface, or density principles; these are not component specs
 - a compact token/spec panel if it remains readable
 
 Constraints:
 - the board must be readable even when the image is not full desktop resolution
 - keep spacing rhythm, control language, and typography internally consistent
+- do not include a full component inventory or detailed button, input, card, product-card, navigation, or form variants
+- clearly name recommended font families or font categories; if exact licensed fonts are unavailable, name practical web-safe or open-source substitutes
+- if headings imply condensed or editorial bold type, specify the intended font personality and avoid crude default substitutions such as Impact unless explicitly approved
 - do not invent or display a logo, wordmark, emblem, mascot, seal, badge, app icon, placeholder brand mark, monogram, or trademark-like element
 - do not show the brand or product name as a masthead, header, large title, display text, logo-like text, app mark, badge, seal, or primary text treatment
 - if product text is needed, use neutral labels such as "Design System", "Server Discovery UI", "Telemetry Surface", "Operations Dashboard", or similar generic descriptors

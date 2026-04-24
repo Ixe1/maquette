@@ -78,14 +78,20 @@ The JSON file must validate against `shared/design-system.schema.json`.
 
 ## Board rules
 
-The board is a visual-system artifact, not an exhaustive UI inventory. It should focus on:
+The board is a foundational visual-system artifact, not a component specification or exhaustive UI inventory. It should focus on:
 - palette and semantic color roles
-- typography mood and scale
-- spacing, radius, border, elevation, and surface language
-- focus, interaction, disabled, selected, and error principles
-- a few small representative UI examples that clarify the system
+- typography direction, recommended font families or categories, fallbacks, weights, sizes, and line-height
+- spacing rhythm
+- radius scale
+- border, elevation, and shadow language
+- surface treatments
+- motion, focus, interaction, disabled, selected, and error principles
 
-Move exhaustive primitive coverage to the component-library phase.
+Do not include full component inventories or detailed button, input, card, product-card, navigation, or form variants on the brand board. Tiny abstract UI fragments are allowed only when they demonstrate color, focus, surface, density, or state principles; label or treat them as visual-system fragments, not component specs.
+
+The board must clearly specify recommended font families or font categories. If exact licensed fonts are unavailable, it must name practical web-safe or open-source substitutes.
+
+Move exhaustive primitive and component coverage to the component-library phase.
 
 The board must not include a logo, wordmark, emblem, mascot, brand seal, app icon, placeholder mark, monogram, badge, or trademark-like element. It also must not show the brand or product name as a masthead, header, large title, display text, logo-like text, app mark, badge, seal, or primary text treatment. Brand kits define visual-system language only; logo creation belongs to a separate logo/asset task.
 If product text is needed on the board, use neutral labels such as "Design System", "Server Discovery UI", "Telemetry Surface", "Operations Dashboard", or similar generic descriptors. The actual brand name may appear only, if at all, as small body-size sample copy and never as the largest, most prominent, or primary text on the image.
@@ -106,3 +112,4 @@ If a board has already been approved:
 - Use semantic tokens rather than hard-coded component colors when possible.
 - Prefer explicit, machine-readable outputs over prose-only descriptions.
 - The image board is the creative artifact; the JSON and CSS files are the machine-readable contract.
+- The design-system JSON must record the intended font personality and acceptable CSS fallback stacks. Do not blindly use crude defaults such as `Impact` only because a board shows condensed or bold headings; use `Impact` only when the board explicitly approves it.
