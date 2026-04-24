@@ -17,7 +17,8 @@ The workflow is therefore:
 5. **Render and screenshot the implementation**
 6. **Compare implementation against the approved visual artifact** and iterate
 
-This plugin is split into three focused skills:
+This plugin includes a root workflow skill plus three focused phase skills:
+- `maquette`
 - `maquette-brand-kit`
 - `maquette-components`
 - `maquette-pages`
@@ -47,7 +48,17 @@ The coded gallery/page screenshots are the verification artifacts.
 
 ## How to use
 
-Maquette is usually used in three passes.
+Maquette can be used as a one-shot workflow or as three manual passes.
+
+### One-shot workflow
+
+For a new project or broad page request, invoke Maquette directly:
+
+```text
+@Maquette Make a homepage for "Northstar Metrics", a lightweight analytics product. Include a metrics overview, recent activity, and a clear signup path.
+```
+
+If brand or component artifacts are missing, Maquette should create them first, then create the requested page. Existing websites, screenshots, and code can inform the brand kit, but they do not replace the generated brand board and component sheet.
 
 ### 1. Create a brand kit
 
@@ -99,13 +110,13 @@ This pass creates a page concept image, implements the page with the approved br
 You can invoke Maquette explicitly by naming the plugin or one of its bundled skills:
 
 ```text
-@Maquette create a landing page concept for a new SaaS product.
+@Maquette make a homepage for a new SaaS product.
 $maquette-brand-kit create a brand kit for an AI note-taking app.
 $maquette-components build the component library from the approved brand kit.
 $maquette-pages make a pricing page.
 ```
 
-Codex may also choose an installed Maquette skill automatically for website UI work when the task clearly matches the plugin. Explicit invocation is still recommended when you want the staged Maquette workflow and image-first behavior.
+Use `@Maquette` or `$maquette` when you want the full staged workflow. Use the individual phase skills when you intentionally want to work on only one phase.
 
 ## Optional screenshot tooling
 
@@ -196,4 +207,4 @@ Then add a personal marketplace at `~/.agents/plugins/marketplace.json`:
 
 Restart Codex, open the plugin directory, select the Ixel marketplace, and install Maquette.
 
-After installation, start a new thread and invoke the skills directly with `$maquette-brand-kit`, `$maquette-components`, or `$maquette-pages`.
+After installation, start a new thread and invoke the full workflow with `@Maquette` or `$maquette`. Use `$maquette-brand-kit`, `$maquette-components`, or `$maquette-pages` when you intentionally want a single phase.

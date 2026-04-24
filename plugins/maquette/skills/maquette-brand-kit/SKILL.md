@@ -39,6 +39,8 @@ You may receive:
 - a previously approved brand board
 - requests to refresh or evolve the current system
 
+Existing websites, screenshots, and code are references for creating the brand board. They are not a substitute for a generated and inspected brand board, design-system JSON, or CSS tokens.
+
 ## Required outputs
 
 Always create or update these files when you finish a pass:

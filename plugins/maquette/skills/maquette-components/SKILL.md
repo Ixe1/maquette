@@ -12,7 +12,11 @@ Do not start this phase until a brand system exists at:
 - `ui/brand/design-system.json`
 - `ui/brand/tokens.css`
 
-Prefer to wait for user approval of the brand kit before expanding the library.
+Also require a generated and inspected brand board image, such as `ui/brand/brand-board-vN.png`, unless the user explicitly asks to skip image generation or the environment does not provide `image_gen`.
+
+If these artifacts are missing, do not invent a component library from raw notes, copied CSS, screenshots, or an existing website alone. Run the brand-kit phase first using `maquette-brand-kit`.
+
+Prefer to wait for user approval of the brand kit before expanding the library. In a one-shot `maquette` workflow, proceed with the brand kit as provisional and record that status.
 
 ## Non-negotiable image_gen policy
 

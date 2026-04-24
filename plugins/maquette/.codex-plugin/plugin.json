@@ -1,6 +1,6 @@
 {
   "name": "maquette",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Image-guided web design systems for Codex",
   "author": {
     "name": "Ixel",
@@ -29,7 +29,7 @@
       "Write"
     ],
     "defaultPrompt": [
-      "Use Maquette to create an image-guided website design system."
+      "Use $maquette to run Maquette's staged image-guided website workflow. For broad site or page requests, create any missing brand kit first, then any missing component library, then the requested page. Do not skip directly to page concepts when brand or component artifacts are absent."
     ],
     "brandColor": "#2563EB",
     "composerIcon": "./assets/icon.png",

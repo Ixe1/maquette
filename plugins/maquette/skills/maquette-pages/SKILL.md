@@ -15,6 +15,12 @@ Preferred inputs:
 - approved brand-board image
 - approved component-sheet image
 
+Hard gate:
+- If `ui/brand/design-system.json`, `ui/brand/tokens.css`, or a generated and inspected brand board image is missing, do not create a page concept. Run the brand-kit phase first using `maquette-brand-kit`.
+- If `ui/components/component-catalog.json`, `ui/components/components.css`, `ui/components/gallery.html`, or a generated and inspected component sheet image is missing, do not create a page concept. Run the component-library phase first using `maquette-components`.
+- Do not treat an existing website, screenshot, copied CSS, or style notes as a substitute for the brand kit and component library.
+- In a one-shot `maquette` workflow, earlier phases may be marked provisional, but they still must exist before this phase starts.
+
 ## Non-negotiable image_gen policy
 
 If the `image_gen` tool is available, you **must use it** before implementation.
