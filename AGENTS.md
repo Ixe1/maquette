@@ -14,6 +14,12 @@ Plugin runtime behavior must live in plugin files, not only in repository instru
 
 Use this `AGENTS.md` for repository maintenance guidance only.
 
+## Installed Plugin Cache
+
+Do not edit installed plugin cache copies such as `%USERPROFILE%\.codex\plugins\cache\ixel\maquette\...` during normal repository work. Make changes in this repository under `plugins/maquette/` and let Codex install or refresh the plugin from the pushed ref after restart.
+
+Only touch an installed cache path when the user explicitly asks to patch the local installed copy for immediate testing, and keep that separate from the source changes.
+
 ## Documentation
 
 Keep the root `README.md` and `plugins/maquette/README.md` aligned when changing user-facing plugin behavior, invocation examples, installation notes, or release guidance.
