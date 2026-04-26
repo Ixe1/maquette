@@ -11,7 +11,7 @@ Use this skill when the user invokes Maquette generally, especially with a broad
 
 Do not skip phases.
 
-All Maquette-owned outputs must live under `.maquette/` in the current project. Do not create or overwrite a root-level `index.html` as part of the Maquette workflow.
+All Maquette-owned outputs must live under `.maquette/` in the current project. Do not create or overwrite a root-level `index.html` as part of the Maquette workflow. When the user explicitly asks Maquette to add or integrate a runtime page into an existing site, create or update only the requested runtime page path, preserve the existing shell, and keep `.maquette/pages/<page-name>/` as the specification and review mirror.
 
 For broad page or site requests, run the workflow in this order:
 
@@ -30,6 +30,22 @@ When subagent tooling is available, follow `shared/image-gen-workflow.md` to res
 Brand boards and page concepts are user approval gates. After the main workflow inspects the generated image, ask whether to use it or make a new one before deriving downstream artifacts. Do not include a separate revise choice in the approval buttons. Do not treat one-shot provisional runs as implicit approval unless the user explicitly requested an unattended run.
 
 Unattended mode requires explicit user language such as `unattended`, `do not ask questions`, `no pauses`, `skip approval questions`, or `make all decisions yourself`. Do not infer unattended mode from `one pass`, `full workflow`, `final homepage`, `fresh disposable test`, `run a Maquette test`, or similar phrasing.
+
+## Existing Site Integration Mode
+
+Before page concept or page implementation work, check whether the repository already contains a website or app shell. Look for entrypoints and shared layers such as `index.html`, `*.html` pages, `css/`, `styles/`, `js/`, `scripts/`, `assets/`, `src/app`, `src/pages`, `src/routes`, `pages`, `app`, `public`, framework config files, and package scripts that serve a site.
+
+If existing website files are present, switch page work into existing-site integration mode:
+
+- inspect the closest existing reference page, usually `index.html` for static sites
+- inspect the shared shell: header/nav, logo or brand treatment, newsletter or terminal bands, footer/legal rows, global CSS, token/custom-property layers, shared JS, and reusable components
+- create or update `.maquette/site/site-contract.md` from `shared/site-contract.template.md` before page concept generation or implementation
+- treat header/nav, footer, newsletter or terminal sections, legal rows, global utilities, tokens, shared component styling, and shared JS behavior as locked unless the user explicitly asks to redesign them
+- preserve the reference page shell exactly or document a concrete waiver in the site contract before implementation
+- do not duplicate global shell CSS/JS into page-local Maquette CSS/JS; page-specific CSS/JS should cover only genuinely new page body content and interactions
+- for new runtime pages, reuse the existing CSS and JS entrypoints; Maquette mirror pages under `.maquette/pages/<page-name>/` may reference those real site assets but must not become an independent second implementation of the shell
+
+If multiple existing pages disagree about the shared shell, infer the dominant shell and document ambiguity in `.maquette/site/site-contract.md` before proceeding. If no existing website/app shell is detected, continue with normal greenfield Maquette behavior.
 
 ## Phase gates
 
@@ -63,12 +79,13 @@ If the requested page has a header or primary navigation, verify responsive navi
 If the requested page has product, pricing, service, offer, or promo card grids, verify repeated-card component coverage before running the page phase: shared media/header/body/footer/action anatomy, stable badge or eyebrow placement, equal-height cards, flex or grid card bodies, and bottom-pinned CTA, quantity, price, or action rows.
 If the requested page has a rich footer, footer social links, app/download modules, legal/locale rows, or device imagery, verify footer/social module coverage before running the page phase: recognizable social icons, accessible names, link column anatomy, app/device module coverage, bottom strip coverage, and no unrelated generic icon substitutions.
 Verify that the page phase will create a concept-region inventory, page layout contract, and asset manifest before coding. This applies even when the page has few raster assets, because the layout contract is the guardrail for section compactness, terminal-region fidelity, and media fit/crop behavior.
+If existing-site integration mode is active, verify that `.maquette/site/site-contract.md` exists before page concept generation or implementation, and that the page phase will record the selected reference page plus shell-preservation rules in the page blueprint and review.
 
 Only after both gates pass should you run the page phase using `maquette-pages`.
 
-## Existing website references
+## Existing Website References
 
-An existing website, screenshot, or codebase may inform the brand kit and component library, but it is not a replacement for them.
+An existing website, screenshot, or codebase may inform the brand kit and component library, but it is not a replacement for them. For page implementation inside an existing website, the inspected site shell recorded in `.maquette/site/site-contract.md` is canonical for shared regions and CSS/JS ownership.
 
 Use existing website references to extract:
 

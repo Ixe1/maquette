@@ -5,6 +5,8 @@
     "version": "1.0.0",
     "status": "draft",
     "based_on_component_catalog_version": "1.0.0",
+    "existing_site_mode": true,
+    "reference_page_path": "index.html",
     "notes": "Example homepage blueprint built from the approved system."
   },
   "references": [
@@ -15,6 +17,14 @@
     {
       "kind": "component-sheet",
       "path": "components/component-sheet-v1.png"
+    },
+    {
+      "kind": "site-contract",
+      "path": "site/site-contract.md"
+    },
+    {
+      "kind": "existing-reference-page",
+      "path": "../index.html"
     },
     {
       "kind": "page-layout-contract",
@@ -117,6 +127,8 @@
     "concept_region_inventory": "Every visible concept region is listed in concept-region-inventory.md with implementation status and reasons for any deviation.",
     "page_layout_contract": "Section density, terminal regions, and media fit/crop behavior are recorded before coding and checked against screenshots.",
     "asset_manifest": "Every required raster asset is listed in asset-manifest.json and every referenced local path is verified before final review.",
+    "site_contract": "Existing shared shell regions are locked in site/site-contract.md and reused by the page where existing-site mode is active.",
+    "site_shell_consistency": "Header/nav, newsletter/terminal, footer/legal, shared CSS, and shared JS are compared against the reference page before approval.",
     "component_sheet_gallery_fidelity": "Page uses component implementations that were reviewed against the generated component sheet rather than simplified selector demos.",
     "repeated_card_alignment": "Repeated cards use shared media/header/body/footer/action anatomy, equal-height rows, stable badge placement, and bottom-pinned action regions when they appear in multi-column grids.",
     "footer_fidelity": "Footer regions are compared against the concept for links, social icons, legal rows, app/device modules, and bottom strips when shown.",
@@ -139,6 +151,14 @@
     "concept_region_inventory_path": "pages/homepage/concept-region-inventory.md",
     "page_layout_contract_path": "pages/homepage/page-layout-contract.md",
     "asset_manifest_path": "pages/homepage/asset-manifest.json",
+    "site_contract_path": "site/site-contract.md",
+    "shell_consistency_report_path": "pages/homepage/site-shell-consistency.json",
+    "reference_shell_screenshot_paths": [
+      "pages/homepage/screenshots/site-shell/reference-footer-1440.png"
+    ],
+    "candidate_shell_screenshot_paths": [
+      "pages/homepage/screenshots/site-shell/candidate-footer-1440.png"
+    ],
     "review_notes_path": "pages/homepage/review.md"
   }
 }

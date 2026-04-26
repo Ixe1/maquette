@@ -5,7 +5,7 @@ description: Create website page concepts from approved brand and component refe
 
 You are responsible for the **website page and screen phase**.
 
-Write all Maquette-owned page artifacts under `.maquette/pages/<page-name>/` in the current project, including generated assets, review notes, Playwright screenshots, and responsive audit JSON. Do not create or overwrite root-level website files such as `index.html`; integrating a page into the real app entrypoint is a separate explicit task.
+Write all Maquette-owned page artifacts under `.maquette/pages/<page-name>/` in the current project, including generated assets, review notes, Playwright screenshots, and responsive audit JSON. Do not create or overwrite root-level website files such as `index.html`. When the user explicitly asks to add or integrate a runtime page into an existing site, create or update only the requested runtime page path, reuse the existing shell and shared assets, and keep the `.maquette/pages/<page-name>/` files as the specification/review mirror rather than the canonical source for shared CSS/JS.
 
 ## Preconditions
 
@@ -23,8 +23,33 @@ Hard gate:
 - If the component catalog lacks reusable component API coverage or marks `assets.reusable_component_review.ready_for_pages` as false, do not copy the componentized reference layout into the page. Run or request `maquette-components` to complete reusable component coverage first.
 - If the component catalog records multiple `assets.sheet_implementation_batches`, each implemented batch should have concrete batch artifact paths for the batch replica/reference, component CSS/JS, catalog snapshot, screenshot/manual review evidence, and review. If these are missing, run or request `maquette-components` to complete the component phase before page work.
 - If the requested page needs components, dense data patterns, or reusable composites that are not covered by the existing component catalog or inspected component references, run or request the component-library phase first to create the missing focused sheet or CSS-contract poster. Do not silently invent significant new component language inside the page phase.
+- Before page concept or page implementation work, check for existing website/app entrypoints and shared shell assets. If found, create or update `.maquette/site/site-contract.md` before generating the page concept or writing code.
 - Do not treat an existing website, screenshot, copied CSS, or style notes as a substitute for the brand kit and component library.
 - In a one-shot unattended `maquette` workflow where the user explicitly asked not to pause, earlier phases may be marked provisional, but they still must exist before this phase starts. Otherwise, generated brand-board and page-concept approval gates still require explicit user decisions.
+
+## Existing Site Integration Mode
+
+Activate existing-site integration mode when the repository already contains website or app files, such as `index.html`, additional root HTML pages, `css/`, `styles/`, `js/`, `scripts/`, `assets/`, `public/`, `src/app`, `src/pages`, `src/routes`, `pages`, `app`, or framework route files.
+
+Before page concept generation:
+
+- inspect the closest existing reference page, usually `index.html` for static sites
+- inspect shared CSS/JS entrypoints, tokens, utilities, reusable components, header/nav, footer, newsletter or terminal bands, legal rows, and global interactions
+- create or update `.maquette/site/site-contract.md` using `shared/site-contract.template.md`
+- record the reference page, canonical shared regions, locked regions, CSS/JS ownership, allowed page-specific boundaries, and any ambiguity or waiver
+
+In existing-site mode, the site shell is canonical:
+
+- preserve the existing brand name, logo or wordmark treatment, nav labels, header/nav structure, footer model, newsletter/subscription pattern, terminal sections, typography, spacing, global tokens, shared component styling, and shared JS behavior
+- explore only the new page body/content unless the user explicitly requests a broader redesign
+- reject or regenerate page concepts that introduce a new brand, new logo, unrelated nav model, inconsistent footer/newsletter pattern, or shell styling that conflicts with the reference page
+- do not fork, duplicate, or reimplement global nav/footer/newsletter/button/reset/token CSS into page-specific Maquette output
+- page-specific CSS may style only new page body/content and local layout that is not already owned by the shared site layer
+- page-specific JS may cover only new page interactions; reuse existing navigation, newsletter, and global behavior scripts
+- Maquette mirror pages may import the real site CSS/JS for review, but must not become a second independent source of shared shell implementation
+- if a shared component is missing and truly required, propose adding it to the existing shared CSS/JS layer rather than creating an isolated page-only variant
+
+Greenfield behavior remains unchanged when no existing website/app shell is detected.
 
 ## Non-negotiable image_gen policy
 
@@ -70,6 +95,8 @@ When applicable, also create:
 
 - `.maquette/pages/<page-name>/concept.png`
 - `.maquette/pages/<page-name>/page.png`
+- `.maquette/site/site-contract.md` when existing-site integration mode is active
+- `.maquette/pages/<page-name>/site-shell-consistency.json` when existing-site integration QA runs
 
 The blueprint JSON must validate against `shared/page-blueprint.schema.json`.
 The asset manifest JSON must validate against `shared/page-asset-manifest.schema.json` when that schema is present.
@@ -77,46 +104,59 @@ The asset manifest JSON must validate against `shared/page-asset-manifest.schema
 ## Workflow
 
 1. Read the approved design system and component catalog.
-2. Check component coverage before page concept work.
+2. Run the existing-site preflight before page concept work.
+   - Detect existing website/app entrypoints and shared assets such as `index.html`, other HTML pages, `css/`, `styles/`, `js/`, `scripts/`, `assets/`, `public/`, `src/app`, `src/pages`, `pages`, and `app`.
+   - If existing-site mode is active, choose the closest existing reference page, usually `index.html` for static sites.
+   - Inspect the reference page shell and shared files: header/nav, footer, newsletter/terminal bands, legal rows, shared CSS, shared JS, tokens/custom properties, utilities, reusable components, and global interactions.
+   - Create or update `.maquette/site/site-contract.md` from `shared/site-contract.template.md` before generating the page concept or writing implementation code.
+   - Document shell locks, CSS/JS ownership, the page-specific CSS/JS boundary, and any ambiguity or waiver.
+3. Check component coverage before page concept work.
    - Reuse existing components first.
    - Use component catalog APIs, slots, variants, states, and usage examples from the componentized reference. Do not copy the `replica-gallery.html` page layout into the page.
    - Identify any missing primitives, dense data patterns, or larger reusable composites needed by the page.
    - If the page has a header or primary navigation, verify that the component catalog covers responsive navigation variants before concept or implementation work.
    - If missing coverage is significant, run or request `maquette-components` to create the focused component/composite sheet before continuing.
-3. If `image_gen` is available, create or edit a page concept using the approved references and `assets/page-concept-prompt.md`.
+4. If `image_gen` is available, create or edit a page concept using the approved references and `assets/page-concept-prompt.md`.
    - Inspect the generated page concept with `view_image` before writing the page blueprint or implementation.
    - A concept with header or primary navigation is incomplete if it only shows desktop navigation. It must define desktop, tablet, and mobile nav behavior, including the collapsed and expanded tablet/mobile state.
-4. Ask the user whether to use the inspected page concept.
+   - In existing-site mode, include `.maquette/site/site-contract.md` and the selected reference page as hard constraints. The concept must preserve the existing shell and explore only unique page body/content unless the user requested a redesign.
+   - Reject or regenerate concepts that introduce a new brand name, new logo, new nav model, unrelated footer, inconsistent newsletter/subscription pattern, or shell styling that conflicts with the site contract.
+5. Ask the user whether to use the inspected page concept.
    - Use the approval choices from the non-negotiable image policy.
    - Record the user's decision in `review.md` once the review file exists.
    - Do not create the page blueprint, concept-region inventory, page layout contract, asset manifest, or page code until the user approves the concept, unless the user explicitly requested an unattended run.
-5. Before coding, create `.maquette/pages/<page-name>/concept-region-inventory.md`.
+6. Before coding, create `.maquette/pages/<page-name>/concept-region-inventory.md`.
    - Use `shared/concept-region-inventory.template.md` if present.
    - Inventory every visible concept region, including header, nav, hero, sidebars, annotations, product grids, promo cards, newsletter, footer, bottom bars, mobile/tablet callouts, app/device modules, social links, and imagery.
    - For each visible region, record one status: `implemented`, `implemented differently with reason`, `intentionally omitted with reason`, `requires more assets`, or `requires component expansion`.
    - Visible concept regions default to implementation. Missing, simplified, or merged regions must have a concrete reason before coding proceeds.
    - If any visible region requires component expansion, run or request `maquette-components` before implementing that region.
-6. Before coding, create `.maquette/pages/<page-name>/page-layout-contract.md`.
+   - In existing-site mode, mark locked shell regions as `preserved from site contract` or document a waiver before implementation.
+7. Before coding, create `.maquette/pages/<page-name>/page-layout-contract.md`.
    - Use `shared/page-layout-contract.template.md` if present.
    - Translate the inspected page concept into implementable layout rules for each major region: section order, relative section heights, section density/compactness, background bands, grid behavior, image container aspect ratios, image crop behavior, footer structure, legal/bottom row structure, and mobile stacking.
    - Record top, middle, and terminal-region expectations. Terminal regions include final CTA/impact strips, newsletter blocks, footers, legal rows, bottom bars, app/download modules, and social areas.
    - For every major raster media region, record whether the image must fill its container, which `object-fit` behavior is expected, and whether blank bands or letterboxing are acceptable. Blank parent backgrounds around fitted media are deviations unless the contract explicitly accepts them.
    - Record which component catalog APIs are expected in each region and where page-specific layout CSS is allowed.
    - Any visible concept region that will be taller, looser, more compact, cropped differently, or structurally simplified must be recorded here before implementation with a concrete reason.
-7. Create `.maquette/pages/<page-name>/asset-manifest.json` before coding.
+   - In existing-site mode, reference `.maquette/site/site-contract.md`, record the canonical shell owner for header/nav, newsletter/terminal regions, footer/legal rows, and define the page-body-only implementation boundary.
+8. Create `.maquette/pages/<page-name>/asset-manifest.json` before coding.
    - Use `shared/page-asset-manifest.example.json` and `shared/page-asset-manifest.schema.json` if present.
    - List every required raster image: logo if supplied or explicitly requested, hero images, product-card images, promo images, lifestyle/story images, footer/app/device images, background textures, decorative rasters, and generated concept/page screenshots.
    - If the user asked for generated image assets, generate all required project-local assets or document why each missing asset was not generated.
    - When image-worker subagents are explicitly authorized for the current run, generate or edit required raster assets through the dedicated image worker handoff from `shared/image-gen-workflow.md`, then inspect or verify each returned project-local path before using it in HTML, CSS, JS, or review notes. Generate these assets in the main workflow only when image workers are explicitly declined, unavailable after asking, or explicitly bypassed by unattended/no-question language; record the exact reason.
    - If Maquette policy forbids an asset, such as generating a new logo during the brand-kit phase, record the reason and use a permissible fallback only when it still matches the concept.
    - Every asset referenced by HTML, CSS, JS, or review notes must exist locally before final review.
-8. Reuse existing components first.
-9. Translate the page concept and page layout contract into code using the component library before adding any new composite patterns.
+9. Reuse existing components first.
+10. Translate the page concept and page layout contract into code using the component library before adding any new composite patterns.
    - Use the font families, weights, widths, sizes, and line-heights recorded in the design system and component catalog. If the concept implies condensed or editorial display type, choose a closer available CSS stack or project-approved open-source import instead of defaulting to crude substitutes such as `Impact`.
    - Do not silently simplify visible concept regions, generated component details, or requested image assets. Any simplification must be documented with a concrete reason and recommended follow-up when appropriate.
    - Preserve section density from the layout contract. Do not let terminal sections such as impact strips, newsletter areas, or footers become materially taller, looser, or more generic than the concept unless the contract records why.
    - Implement major media containers so their images fill or crop according to the layout contract. Fix visible blank bands, unintended letterboxing, or exposed parent backgrounds before accepting screenshots.
-10. Only create a new composite when the page clearly needs a pattern that the library does not already cover and the visual/reference component coverage exists.
+   - In existing-site mode, new root/framework runtime pages must reuse existing CSS/JS entrypoints. Do not copy global reset, token, button, nav, newsletter, footer, or shared utility CSS into page-local files.
+   - In existing-site mode, page-local CSS and JS must be limited to genuinely new page body sections and interactions. Shared navigation/newsletter/header/footer behavior must be reused from the existing site files.
+   - In existing-site mode, Maquette mirror files under `.maquette/pages/<page-name>/` may import/reference the real site CSS/JS for review and specification, but they must not become the canonical runtime source for global shell code.
+11. Only create a new composite when the page clearly needs a pattern that the library does not already cover and the visual/reference component coverage exists.
    - When a page has primary navigation, implement accessible responsive navigation: desktop inline nav, tablet/mobile menu toggle, stacked panel or drawer, and no document-level horizontal scrolling.
    - The menu toggle must have `aria-controls`, `aria-expanded`, and an accessible label.
    - The collapsed menu must be keyboard reachable when opened, and hidden menu content must not trap or block focus when closed.
@@ -124,8 +164,9 @@ The asset manifest JSON must validate against `shared/page-asset-manifest.schema
    - Primary mobile navigation must not require horizontal page scrolling. Horizontal scrolling may only be accepted for explicit dense data components, not primary nav.
    - Opened mobile/tablet drawers must remain scrollable when content exceeds viewport height; prefer `overflow-y: auto` and `overscroll-behavior: contain` on the drawer or drawer body while any body scroll lock is active.
    - Close controls and links must remain reachable in the opened drawer at mobile and tablet heights.
-11. Update the page blueprint to document composition, concept-region inventory path, page layout contract path, asset manifest path, and any new composites.
-12. Capture screenshots when possible and compare them to the concept and approved references.
+12. Update the page blueprint to document composition, concept-region inventory path, page layout contract path, asset manifest path, and any new composites.
+   - In existing-site mode, include `existing_site_mode: true`, the selected reference page, `site_contract_path`, and shell consistency report paths.
+13. Capture screenshots when possible and compare them to the concept and approved references.
    - Use Maquette's bundled scripts where possible, especially `shared/scripts/ensure-qa-tooling.mjs`, `shared/scripts/capture-browser.mjs`, or `skills/maquette-pages/scripts/capture-page.mjs`.
    - Check optional project-local QA dependencies before reporting automated screenshot QA as unavailable. Do not assume global npm installs are available.
    - Treat partial QA availability as missing QA tooling. For example, if browser QA can run but `ajv-formats` is missing, schema validation for page blueprints or asset manifests is still blocked.
@@ -136,9 +177,15 @@ The asset manifest JSON must validate against `shared/page-asset-manifest.schema
    - If cleanup fails, record the failed cleanup command or operation in the final response.
    - Capture desktop, tablet, and mobile page screenshots when possible; at minimum use representative widths 390, 768, and 1440 when browser tooling is available.
    - If screenshot capture falls back to a clipped full-document image, record the capture metadata and clipped fallback status in `review.md`.
-13. Run the required page QA pass:
+14. Run the required page QA pass:
    - Verify the page concept region inventory against the rendered page. Missing concept regions fail QA unless the inventory records an intentional omission with a concrete reason.
    - Verify the page layout contract against the rendered page. Fail and fix when the implementation violates recorded section order, section density, image crop behavior, footer structure, or terminal-section compactness without a documented reason.
+   - In existing-site mode, verify `.maquette/site/site-contract.md` against the rendered page and selected reference page before accepting the implementation.
+   - In existing-site mode, run `shared/scripts/check-site-shell-consistency.mjs <reference-page> <new-page> --json .maquette/pages/<page-name>/site-shell-consistency.json --screenshots-dir .maquette/pages/<page-name>/screenshots/site-shell` when browser tooling is available.
+   - In existing-site mode, compare the new page header/nav, footer, newsletter or terminal band, legal row, shared link labels, shared form controls, and stable shell DOM structure against the reference page.
+   - In existing-site mode, capture or inspect terminal/footer screenshots for both the reference page and new page. Record screenshot paths in `review.md`.
+   - In existing-site mode, fail QA if shared shell regions drift without an explicit waiver in `.maquette/site/site-contract.md`.
+   - In existing-site mode, run responsive overflow/nav audits on both the reference page and the new page, and document any drift caused by the new page.
    - Verify the generated asset manifest. Every referenced local raster asset must exist, every generated asset requested by the user must be present or explicitly documented as not generated, and unused generated assets should be noted.
    - Compare the top and bottom of the coded page against the concept, especially headers, navigation, newsletter bands, footers, bottom ribbons, and final calls to action.
    - Compare first, middle, and last full-page screenshot regions against the concept and layout contract. Do not accept a page because the hero matches if the bottom third drifts in spacing, footer anatomy, or media treatment.
@@ -173,7 +220,7 @@ The asset manifest JSON must validate against `shared/page-asset-manifest.schema
    - Prefer bundled Maquette scripts over generated run-local `.mjs` scripts for capture and responsive auditing. If a fallback script is generated, list it in `review.md` with the reason.
    - For each major section, write concept-to-code comparison notes in `review.md`: `matches`, `deviates`, `missing`, `simplified`, or `fixed`.
    - If a footer, header, terminal section, image asset, or any other visible concept region is simplified from the concept, either fix it or record the intentional reason and recommended follow-up in `review.md`.
-14. Record generated asset manifest status and missing assets, page concept approval decision, page concept region inventory, page layout contract status, component sheet/CSS-contract poster vs replica fidelity notes, reusable component usage notes, card anatomy alignment, footer fidelity, terminal-section compactness, media container fit/crop results, mobile drawer scrollability, measured responsive overflow results, screenshot paths, open nav screenshot paths, visual deviations and fixes, accepted scroll exceptions, navigation accessibility notes, icon-rendering notes, and chosen font family/fallback rationale in `review.md`.
+15. Record generated asset manifest status and missing assets, page concept approval decision, page concept region inventory, page layout contract status, site contract status when existing-site mode is active, component sheet/CSS-contract poster vs replica fidelity notes, reusable component usage notes, card anatomy alignment, footer fidelity, terminal-section compactness, media container fit/crop results, mobile drawer scrollability, shared-shell consistency status, measured responsive overflow results, screenshot paths, open nav screenshot paths, visual deviations and fixes, accepted scroll exceptions, navigation accessibility notes, icon-rendering notes, and chosen font family/fallback rationale in `review.md`.
 
 ## Low-resolution reference rule
 
@@ -190,6 +237,8 @@ When the concept image is small or compressed:
 - Prefer already-approved primitives and states.
 - Do not silently introduce significant new component language that is absent from the approved or provisional component references.
 - Keep page code composable so later pages can reuse sections and composites.
+- In existing-site mode, preserve the canonical site shell from `.maquette/site/site-contract.md`; do not redesign or vary header/nav, newsletter/terminal regions, footer/legal rows, global CSS, shared JS, tokens, utilities, or shared component styling without an explicit user request and documented waiver.
+- In existing-site mode, page-specific CSS/JS must not duplicate global shell implementation. Reuse the existing site CSS/JS entrypoints and keep new page files scoped to page body content.
 - Headers and primary navigation must be responsive by design. Do not ship desktop-only inline nav that breaks on tablet or mobile.
 - The concept image should drive the creative direction; the code should faithfully implement that direction using approved components first.
 - Page implementation fidelity applies to the whole page, including terminal sections such as newsletter and footer areas. Do not let the footer degrade into a generic link list when the concept shows a branded footer composition.

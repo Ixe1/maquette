@@ -101,6 +101,7 @@ Generated boards, sheets, and CSS-contract posters are approval artifacts only w
 - Repeated-card sheets must show shared media/header/body/footer/action anatomy, consistent badge or eyebrow placement, equal-height cards, and bottom-pinned action rows when card grids are relevant.
 - Sites or pages with global navigation need inspectable responsive navigation coverage before implementation: desktop inline nav, tablet/mobile collapsed state, menu toggle, expanded panel or drawer, active/focus states, and visible icons.
 - Page concepts with headers or primary navigation must define desktop, tablet, and mobile behavior. A desktop-only navigation concept is incomplete.
+- In existing-site integration mode, page concepts must preserve the site contract and selected reference page shell: brand name, logo or wordmark treatment, navigation labels/model, footer model, newsletter or terminal pattern, typography, spacing, and shared shell density. Reject, regenerate, or edit concepts that introduce a new brand, new logo, unrelated navigation, inconsistent footer/newsletter, or a redesigned shared shell unless the user explicitly asked for that redesign.
 - Page concepts must make visible regions identifiable for pre-code inventory: header, nav, hero, sidebars, annotations, product grids, promo cards, newsletter, footer, bottom bars, mobile/tablet callouts, app/device modules, social links, and imagery.
 - Page concepts with product, pricing, service, offer, or promo cards must make repeated-card anatomy and action-row alignment clear enough to implement.
 - Page and component concepts that need raster images must make required asset types identifiable, such as hero images, product-card images, promo images, lifestyle/story images, footer/app/device images, and background textures.
@@ -108,7 +109,9 @@ Generated boards, sheets, and CSS-contract posters are approval artifacts only w
 
 ## Fidelity gates
 
-Before page implementation, create a concept-region inventory, page layout contract, and generated asset manifest. Visible concept regions default to implementation, not omission. Any region or asset that is simplified, omitted, implemented differently, blocked on assets, or blocked on component coverage must be documented with a concrete reason before coding proceeds.
+Before page implementation, create a concept-region inventory, page layout contract, and generated asset manifest. In existing-site integration mode, also create or update `.maquette/site/site-contract.md` before page concept generation or implementation. Visible concept regions default to implementation, not omission. Any region or asset that is simplified, omitted, implemented differently, blocked on assets, or blocked on component coverage must be documented with a concrete reason before coding proceeds.
+
+For existing websites, the site contract is the canonical shared-shell contract. Header/nav, footer, newsletter or terminal bands, legal rows, global utilities, tokens, shared component styling, and shared JS behavior are locked unless the user explicitly asks to redesign them. Page-local Maquette CSS/JS must not duplicate global shell implementation; it should cover only genuinely new page body content and interactions. Maquette mirror pages may reference the real site CSS/JS for review, but they must not become a second independent implementation source for shared regions.
 
 The page layout contract should translate the inspected page concept into implementable layout rules before code is written: section order, relative section heights, density/compactness, background bands, grid behavior, image aspect ratios, image crop and fit behavior, footer structure, legal/bottom rows, and mobile stacking. Terminal sections such as impact strips, newsletter blocks, rich footers, app/download areas, social areas, and legal rows must be included. Blank image-container bands or letterboxing are deviations unless the contract explicitly accepts them.
 
@@ -146,7 +149,7 @@ When browser tooling is available, page and component QA must include responsive
 
 ## Final review requirements
 
-Final component and page review files must summarize the generated asset manifest and missing assets, concept-region inventory, page layout contract status, component sheet or CSS-contract poster vs replica fidelity, reusable component readiness, card anatomy alignment, terminal-section compactness, media-container fit/crop results, footer fidelity, mobile drawer scrollability, responsive overflow measurements, open nav screenshots, visual deviations, and fixes. "Screenshots captured" alone is not a sufficient review.
+Final component and page review files must summarize the generated asset manifest and missing assets, concept-region inventory, page layout contract status, site contract status and shell consistency results when existing-site mode is active, component sheet or CSS-contract poster vs replica fidelity, reusable component readiness, card anatomy alignment, terminal-section compactness, media-container fit/crop results, footer fidelity, mobile drawer scrollability, responsive overflow measurements, open nav screenshots, visual deviations, and fixes. "Screenshots captured" alone is not a sufficient review.
 
 ## Transparent image requests
 

@@ -67,6 +67,8 @@ Repeated card grids should define equal-height cards and bottom-pinned action ro
 Component implementation includes hard gates per artifact: first make the optional QA tooling decision, then generate one 1:1 CSS-contract poster by default, render an artifact-specific componentized replica/reference using reusable CSS/JS, write batch artifacts, and only then move to the next artifact. Every poster must use a strict selector allowlist.
 Page implementation includes a fidelity gate: inventory visible concept regions, write a page layout contract for section compactness, image fit/crop behavior, terminal regions, and responsive structure, create an asset manifest for required raster assets, then document section-by-section screenshot comparison notes before approval.
 
+When Maquette detects an existing website or app shell, page work enters **existing-site integration mode**. Maquette should inspect the existing entrypoints and shared assets, create `.maquette/site/site-contract.md`, preserve the canonical header/nav, footer, newsletter or terminal bands, legal rows, shared CSS, shared JS, tokens, and global utilities, then limit new page CSS/JS to genuinely new page body content. Page concepts should preserve the existing shell and explore only the unique page content unless the user explicitly asks for a redesign.
+
 ## Output philosophy
 
 The brand board is the 1:1 visual-system contract.
@@ -76,7 +78,7 @@ The reusable component library is the CSS/JS/catalog API proven by that referenc
 The structured JSON/CSS files are the machine-readable source of truth.
 The coded reference/page screenshots are the verification artifacts.
 Token scripts are serializers, not design authorities: `tokens.css` should be exported from the inspected-board-derived `design-system.json`, not extracted from or overridden by a predetermined design file unless the user explicitly approves that file as a constraint.
-All Maquette-owned project artifacts are isolated by the workflow under `.maquette/`, including generated images, HTML/CSS/JS, manifests, review notes, Playwright screenshots, and responsive audit output. Maquette should not create a root-level `index.html`; app integration is a separate explicit task.
+All Maquette-owned project artifacts are isolated by the workflow under `.maquette/`, including generated images, HTML/CSS/JS, manifests, review notes, Playwright screenshots, and responsive audit output. Maquette should not create a root-level `index.html`; runtime app integration is a separate explicit task. When the user does ask to add a runtime page to an existing site, Maquette should preserve the existing shell and treat `.maquette/pages/<page>/` as the spec/review mirror.
 
 ## Example output
 
@@ -148,6 +150,8 @@ $maquette-pages Make a homepage with a proof-led hero, services section, client 
 This pass creates a page concept image, writes a page layout contract for section density, media crops, terminal sections, and responsive behavior, implements the page with the approved brand and component references, captures screenshots when possible, and records review notes.
 Maquette should ask for approval immediately after viewing the page concept, before writing the blueprint, inventory, layout contract, asset manifest, or page code.
 
+If the repo already contains a website, Maquette should first select the closest reference page, usually `index.html` for static sites, then write `.maquette/site/site-contract.md`. New pages should reuse the existing site CSS/JS entrypoints and preserve the existing shell instead of creating page-local variants of shared header, newsletter, footer, button, reset, token, or navigation behavior.
+
 ## Invocation
 
 You can invoke Maquette explicitly by naming the plugin or one of its bundled skills:
@@ -163,7 +167,7 @@ Use `@Maquette` or `$maquette` when you want the full staged workflow. Use the i
 
 ## Optional QA tooling
 
-Maquette can use project-local Node dependencies for automated screenshot capture, responsive overflow QA, component API smoke checks, page-consumption smoke checks, and JSON schema validation. These dependencies are **not** bundled with the plugin, and installing Maquette does not create `node_modules`.
+Maquette can use project-local Node dependencies for automated screenshot capture, responsive overflow QA, existing-site shell consistency checks, component API smoke checks, page-consumption smoke checks, and JSON schema validation. These dependencies are **not** bundled with the plugin, and installing Maquette does not create `node_modules`.
 
 If your project does not already have the optional QA dependencies installed, add them in the project where Maquette is generating UI files:
 

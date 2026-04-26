@@ -8,7 +8,13 @@ Entries before this changelog was introduced were backfilled from git history an
 
 ## Unreleased
 
-No notable changes yet.
+### Added
+
+- Added existing-site integration mode with a site contract template, shared-shell preservation rules, and a shell consistency QA helper.
+
+### Changed
+
+- Updated page concept and implementation guidance to preserve existing website shells, reuse shared CSS/JS entrypoints, and keep page-specific CSS/JS scoped to new page body content when an existing site is detected.
 
 ## 0.3.5 - 2026-04-26
 

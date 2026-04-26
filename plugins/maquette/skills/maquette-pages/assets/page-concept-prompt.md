@@ -24,5 +24,13 @@ Requirements:
 - if the page requires dense data tables, dashboards, server lists, maps, calendars, editors, timelines, filter builders, or other large reusable patterns not present in the component references, pause page invention and request a focused component/composite sheet first
 - no logo generation and no new brand marks, seals, badges, app icons, or emblems
 
+Existing-site integration mode:
+- if a site contract or existing reference page is provided, treat it as canonical for the shared shell
+- preserve the existing brand name, logo or wordmark treatment, nav labels, header/nav structure, footer model, newsletter/subscription pattern, terminal sections, legal rows, typography, spacing, and shared shell density
+- explore only the unique page body/content unless the user explicitly requests a broader redesign
+- do not introduce a new brand name, new logo, new nav model, unrelated footer, inconsistent subscription pattern, or shell styling that conflicts with the reference page
+- keep header/nav, newsletter/terminal bands, footer/legal rows, and global shell elements visually consistent with the existing website
+- make any proposed new page body sections fit the existing shell rather than changing the shell to fit the new page
+
 This page concept is the creative design artifact for the page.
 The later coded page should match its overall hierarchy, composition, and styling while reusing approved components first.

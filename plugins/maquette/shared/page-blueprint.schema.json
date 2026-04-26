@@ -44,6 +44,12 @@
         "based_on_component_catalog_version": {
           "type": "string"
         },
+        "existing_site_mode": {
+          "type": "boolean"
+        },
+        "reference_page_path": {
+          "type": "string"
+        },
         "notes": {
           "type": "string"
         }
@@ -64,6 +70,8 @@
             "enum": [
               "brand-board",
               "component-sheet",
+              "site-contract",
+              "existing-reference-page",
               "page-layout-contract",
               "page-concept",
               "other"
@@ -228,6 +236,12 @@
         "asset_manifest": {
           "type": "string"
         },
+        "site_contract": {
+          "type": "string"
+        },
+        "site_shell_consistency": {
+          "type": "string"
+        },
         "component_sheet_gallery_fidelity": {
           "type": "string"
         },
@@ -294,10 +308,55 @@
         "asset_manifest_path": {
           "type": "string"
         },
+        "site_contract_path": {
+          "type": "string"
+        },
+        "shell_consistency_report_path": {
+          "type": "string"
+        },
+        "reference_shell_screenshot_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "candidate_shell_screenshot_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "review_notes_path": {
           "type": "string"
         }
       }
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "meta": {
+            "properties": {
+              "existing_site_mode": {
+                "const": true
+              }
+            },
+            "required": [
+              "existing_site_mode"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "assets": {
+            "required": [
+              "site_contract_path"
+            ]
+          }
+        }
+      }
+    }
+  ]
 }

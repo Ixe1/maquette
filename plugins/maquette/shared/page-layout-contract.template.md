@@ -8,6 +8,8 @@ Status: draft before implementation.
 - Brand board:
 - Component catalog:
 - Component contract or sheet references:
+- Site contract, when existing-site mode is active:
+- Existing reference page, when applicable:
 
 ## Global Layout
 
@@ -25,6 +27,7 @@ For each visible concept region, record compact implementation guidance before w
 
 ### Header / Navigation
 
+- Existing-site mode source / lock:
 - Desktop:
 - Tablet:
 - Mobile closed:
@@ -55,8 +58,21 @@ For each visible concept region, record compact implementation guidance before w
 - Newsletter:
 - Footer:
 - Legal / bottom row:
+- Existing-site mode source / lock:
 - Target compactness:
 - Mobile behavior:
+
+## Existing Site Integration
+
+- Existing-site mode: yes / no
+- Site contract path:
+- Reference page path:
+- Shared CSS entrypoints reused:
+- Shared JS entrypoints reused:
+- Page-specific CSS boundary:
+- Page-specific JS boundary:
+- Locked shell regions preserved:
+- Documented shell deviations / waivers:
 
 ## Image Container Rules
 
@@ -76,4 +92,5 @@ For each visible concept region, record compact implementation guidance before w
 - The bottom third of the page has been compared against the concept, not just the hero.
 - Repeated cards have shared anatomy and aligned action rows.
 - Rich footer details are either implemented or explicitly recorded as intentional deviations.
+- Existing-site shell regions are either preserved from the site contract or covered by documented waivers.
 - Section density and compactness match the concept closely enough for the page type.
