@@ -256,6 +256,9 @@
         "component_coverage_plan": {
           "type": "string"
         },
+        "visual_component_sheet_focus": {
+          "type": "string"
+        },
         "css_contract_poster_focus": {
           "type": "string"
         },
@@ -336,6 +339,12 @@
             "type": "string"
           },
           "minItems": 1
+        },
+        "segmented_screenshot_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "nav_open_screenshot_paths": {
           "type": "array",

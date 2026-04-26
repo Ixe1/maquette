@@ -143,7 +143,8 @@
     "component_sheet_gallery_fidelity": "Page uses component implementations that were reviewed against the generated component sheet rather than simplified selector demos.",
     "component_reuse": "Existing component APIs, variants, slots, and states are reused before any new composite is introduced.",
     "component_coverage_plan": "components/component-coverage-plan.md records reuse, extension, create, and page-specific decisions for this page.",
-    "css_contract_poster_focus": "Any new poster is focused, readable, selector-limited, and justified by the coverage plan.",
+    "visual_component_sheet_focus": "Any new component sheet is focused, visually inspectable, and justified by the coverage plan.",
+    "css_contract_poster_focus": "Any optional poster is focused, readable, selector-limited, and justified by the coverage plan.",
     "generated_visual_fit": "Generated rasters are checked for purpose, product-function support, false-feature risk, distraction risk, code-native alternatives, and alt/decorative handling.",
     "motion_effects": "Motion is purposeful, trigger-based, performance-safe, and documented rather than inferred from the image alone.",
     "reduced_motion": "Non-essential animation has prefers-reduced-motion fallbacks.",
@@ -167,6 +168,14 @@
     "js_path": "pages/homepage/page.js",
     "screenshot_paths": [
       "pages/homepage/page.png"
+    ],
+    "segmented_screenshot_paths": [
+      "pages/homepage/screenshots/page-1440-top.png",
+      "pages/homepage/screenshots/page-1440-middle.png",
+      "pages/homepage/screenshots/page-1440-bottom.png",
+      "pages/homepage/screenshots/page-390-top.png",
+      "pages/homepage/screenshots/page-390-middle.png",
+      "pages/homepage/screenshots/page-390-bottom.png"
     ],
     "nav_open_screenshot_paths": [
       "pages/homepage/screenshots/responsive-nav-open-390.png",

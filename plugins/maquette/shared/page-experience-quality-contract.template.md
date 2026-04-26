@@ -126,7 +126,8 @@ Record pass/fail and the evidence or blocker for each item.
 | --- | --- | --- |
 | Component reuse before new component creation | pass / fail |  |
 | Component coverage plan completed | pass / fail |  |
-| CSS-contract poster focus/readability | pass / fail |  |
+| Visual component sheet focus/readability/inspectability | pass / fail |  |
+| Optional CSS-contract poster focus/readability, when used | pass / fail / n/a |  |
 | Generated visual fit | pass / fail |  |
 | Motion/effects appropriateness | pass / fail |  |
 | Reduced-motion behavior | pass / fail |  |
@@ -135,5 +136,7 @@ Record pass/fail and the evidence or blocker for each item.
 | Performance risk/budget | pass / fail |  |
 | Content hierarchy | pass / fail |  |
 | Mobile usability | pass / fail |  |
+| Full-page overview screenshots captured | pass / fail |  |
+| Segmented viewport screenshots captured | pass / fail |  |
 | Existing-site shell consistency, when applicable | pass / fail / n/a |  |
 | Context fit against actual product | pass / fail |  |

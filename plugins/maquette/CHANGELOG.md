@@ -11,14 +11,15 @@ Entries before this changelog was introduced were backfilled from git history an
 ### Added
 
 - Added existing-site integration mode with a site contract template, shared-shell preservation rules, and a shell consistency QA helper.
-- Added component coverage planning with `.maquette/components/component-coverage-plan.md` before component poster generation.
+- Added component coverage planning with `.maquette/components/component-coverage-plan.md` before component image generation.
 - Added page experience quality contracts with `.maquette/pages/<page-name>/experience-quality-contract.md` for generated visual fit, motion/effects, states, accessibility, performance, information architecture, brand craft, mobile UX, and QA acceptance.
 - Added generated visual fit metadata support to page asset manifests and optional artifact references for coverage plans and experience contracts in schemas.
+- Added segmented page screenshot capture support and page QA guidance requiring full-page overview screenshots plus top/middle/bottom viewport segments for detailed review.
 
 ### Changed
 
 - Updated page concept and implementation guidance to preserve existing website shells, reuse shared CSS/JS entrypoints, and keep page-specific CSS/JS scoped to new page body content when an existing site is detected.
-- Updated component workflow guidance so existing components are reused or extended before new reusable components are created, and CSS-contract posters stay focused, readable, selector-limited, and justified by the coverage plan.
+- Updated component workflow guidance so existing components are reused or extended before new reusable components are created, focused visual component sheets are the default component image artifact again, and optional CSS-contract posters are used only for explicit requests or text clarification.
 - Updated page concept, implementation, and final review guidance to treat image generation as creative inspiration that must be translated into purposeful motion, reduced-motion support, interaction states, accessibility, performance-aware UX, content hierarchy, brand craft, and context-fit page decisions.
 
 ## 0.3.5 - 2026-04-26

@@ -13,7 +13,9 @@ function usage() {
     "Options:",
     "  --width <px>                 Viewport width, default 1440",
     "  --height <px>                Viewport height, default 2200",
-    "  --mode <full-page|viewport>  Capture mode, default full-page",
+    "  --mode <full-page|viewport|segments>",
+    "                              Capture mode, default full-page",
+    "  --segments <csv>            Segment names for segments mode, default top,middle,bottom",
     "  --json <path>                Write capture metadata JSON",
     "  --fallback-max-height <px>   Max clipped fallback height, default 16000",
   ].join("\n"));
@@ -26,6 +28,7 @@ let height = 2200;
 let mode = "full-page";
 let jsonPath;
 let fallbackMaxHeight = 16000;
+let segments = ["top", "middle", "bottom"];
 
 for (let index = 0; index < args.length; index += 1) {
   const arg = args[index];
@@ -42,6 +45,11 @@ for (let index = 0; index < args.length; index += 1) {
     height = Number.parseInt(args[++index], 10);
   } else if (arg === "--mode") {
     mode = args[++index];
+  } else if (arg === "--segments") {
+    segments = args[++index]
+      .split(",")
+      .map((segment) => segment.trim())
+      .filter(Boolean);
   } else if (arg === "--json") {
     jsonPath = args[++index];
   } else if (arg === "--fallback-max-height") {
@@ -53,7 +61,7 @@ for (let index = 0; index < args.length; index += 1) {
   }
 }
 
-if (!targetArg || !outputArg || !Number.isFinite(width) || !Number.isFinite(height) || !["full-page", "viewport"].includes(mode)) {
+if (!targetArg || !outputArg || !Number.isFinite(width) || !Number.isFinite(height) || !["full-page", "viewport", "segments"].includes(mode) || segments.length === 0) {
   usage();
   process.exit(1);
 }
@@ -82,11 +90,32 @@ const metadata = {
   outputPath: outputArg,
   viewport: { width, height },
   requestedMode: mode,
+  requestedSegments: mode === "segments" ? segments : undefined,
   captureMode: null,
   clippedFallback: false,
+  segmentScreenshots: [],
   cleanup: "not-started",
   error: null,
 };
+
+function segmentOutputPath(outputPath, segmentName) {
+  const parsed = path.parse(outputPath);
+  const extension = parsed.ext || ".png";
+  return path.join(parsed.dir, `${parsed.name}-${segmentName}${extension}`);
+}
+
+function segmentScrollY(segmentName, documentHeight, viewportHeight) {
+  const maxY = Math.max(0, documentHeight - viewportHeight);
+  if (segmentName === "top") return 0;
+  if (segmentName === "middle" || segmentName === "mid") return Math.round(maxY / 2);
+  if (segmentName === "bottom" || segmentName === "footer" || segmentName === "terminal") return maxY;
+  const percentageMatch = segmentName.match(/^(\d{1,3})%$/);
+  if (percentageMatch) {
+    const percentage = Math.max(0, Math.min(100, Number.parseInt(percentageMatch[1], 10)));
+    return Math.round(maxY * (percentage / 100));
+  }
+  return Math.round(maxY / 2);
+}
 
 try {
   browser = await chromium.launch({ headless: true });
@@ -99,6 +128,27 @@ try {
   if (mode === "viewport") {
     await page.screenshot({ path: outputArg, fullPage: false });
     metadata.captureMode = "viewport";
+  } else if (mode === "segments") {
+    const dimensions = await page.evaluate(() => ({
+      width: Math.max(document.documentElement.scrollWidth, document.body.scrollWidth, window.innerWidth),
+      height: Math.max(document.documentElement.scrollHeight, document.body.scrollHeight, window.innerHeight),
+      viewportHeight: window.innerHeight,
+    }));
+    for (const segmentName of segments) {
+      const screenshotPath = segmentOutputPath(outputArg, segmentName);
+      const scrollY = segmentScrollY(segmentName, dimensions.height, height);
+      await page.evaluate((targetY) => window.scrollTo(0, targetY), scrollY);
+      await page.waitForTimeout(100);
+      await page.screenshot({ path: screenshotPath, fullPage: false });
+      metadata.segmentScreenshots.push({
+        name: segmentName,
+        path: screenshotPath,
+        scrollY,
+        viewport: { width, height },
+      });
+    }
+    metadata.captureMode = "segments";
+    metadata.documentSize = dimensions;
   } else {
     try {
       await page.screenshot({ path: outputArg, fullPage: true });
@@ -136,7 +186,11 @@ try {
   }
 }
 
-console.log(`Captured ${outputArg} (${metadata.captureMode})`);
+if (metadata.captureMode === "segments") {
+  console.log(`Captured ${metadata.segmentScreenshots.length} segments from ${targetArg}`);
+} else {
+  console.log(`Captured ${outputArg} (${metadata.captureMode})`);
+}
 if (metadata.clippedFallback) {
   console.log("Capture used clipped fallback; record this in review notes.");
 }

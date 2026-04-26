@@ -1,6 +1,6 @@
 # Component Coverage Plan
 
-Status: draft before any component CSS-contract poster is generated.
+Status: draft before any visual component sheet or CSS-contract poster is generated.
 
 ## Source Review
 
@@ -65,25 +65,27 @@ List page-only arrangements that should not become global components unless late
 - Components composed:
 - Why this stays page-specific:
 
-## CSS-Contract Poster Batches
+## Component Image Batches
 
-Define focused batches before image generation. Each batch should cover one major family by default, or at most two tightly related small families. Prefer roughly 8 to 16 meaningful selectors per poster.
+Define focused batches before image generation. Visual component sheets are the default. Each batch should cover one major family by default, or at most two tightly related small families. Record intended component API/selector targets so implementation remains reusable without putting CSS text on the image. Use CSS-contract posters only as optional supplements when text clarification is needed.
 
 ### Batch: `<batch-slug>`
 
 - Purpose:
-- Why this poster is needed before implementation:
+- Artifact type: visual component sheet / optional CSS-contract poster / both
+- Why this sheet or optional poster is needed before implementation:
 - Reuse/extend/create decisions covered:
-- Selector allowlist:
+- Intended component API / selector targets:
   - `.c-example`
 - Variants, states, slots, density, motion, responsive, and accessibility notes:
-- Expected contract path:
-- Poster status: planned / generated / rejected / split / implemented
+- Expected sheet path:
+- Optional contract path, if CSS supplement is used:
+- Artifact status: planned / generated / rejected / split / implemented
 - Rejection or split reason, if any:
 
 ## Later Page Updates
 
-When a later page reveals missing coverage, update this plan before generating any new component poster.
+When a later page reveals missing coverage, update this plan before generating any new component sheet or optional poster.
 
 - Date / page:
 - Newly discovered need:
@@ -93,8 +95,9 @@ When a later page reveals missing coverage, update this plan before generating a
 ## Readiness Checklist
 
 - Existing components were checked before new posters were planned.
-- Every new poster has a focused selector allowlist and a reason.
-- No poster exists only because a new page is being built.
+- Every new sheet has a focused family, intended API targets, and a reason.
+- No sheet or poster exists only because a new page is being built.
 - Page-specific composites are separated from reusable component gaps.
 - New reusable gaps have expected consumers and required states.
-- CSS-contract posters remain readable, scoped, and implementation-ready.
+- Visual component sheets remain focused, inspectable, and implementation-ready.
+- Optional CSS-contract posters remain readable, scoped, and used only when they add clarity.
