@@ -6,14 +6,19 @@ Requirements:
 - only introduce a new composite if it is truly necessary for the page goal and a component/composite reference already exists or is created first
 - do not silently invent significant new component language that is absent from the approved or provisional component references
 - prioritize hierarchy, layout, density, and state clarity
+- imply appropriate motion/effects moments only when they support orientation, feedback, live status, loading, filtering, drawer/modal behavior, or subtle brand craft
+- show or annotate interaction states when relevant, including loading, skeleton, empty, error, offline, stale data, disabled, selected/current, success, permission/unavailable, mobile drawer open/closed, and filter applied/cleared
 - make section compactness and vertical rhythm clear from top to bottom, including terminal regions rather than only the hero
 - include enough detail for headers, navigation, newsletter bands, footers, bottom ribbons, social links, legal links, and already-approved secondary brand details when those regions are part of the page
 - make every visible page region identifiable for later implementation inventory: header, nav, hero, sidebars, annotations, product grids, promo cards, newsletter, footer, bottom bars, mobile/tablet callouts, app/device modules, social links, and imagery
 - make required raster image assets identifiable, including logo only if supplied or explicitly requested, hero images, product-card images, promo images, lifestyle/story images, app/device images, footer images, background textures, and decorative rasters
+- generated visuals must support the real product function and page hierarchy; avoid generic AI decoration, wrong-feature imagery, trust-reducing decoration, or heavy raster effects that would be better as CSS/SVG/code-native visuals
+- if a visual could be mistaken for a real product feature, make that risk clear enough for the implementation model to reject, revise, replace, or hide it before coding
 - make major media crop intent identifiable; image regions that should fill their containers should not visually imply blank letterbox bands unless that is intentional
 - use typography consistent with the approved font personality, weight, width, scale, and line-height; if the concept needs condensed editorial headings, make the font direction clear enough for implementation to choose a close CSS stack or open-source substitute
 - if the page has header or primary navigation, define desktop, tablet, and mobile navigation behavior; a desktop-only nav concept is incomplete
 - show or specify desktop inline nav plus tablet/mobile collapsed nav with menu toggle and expanded stacked panel or drawer
+- show or specify mobile/tablet behavior for important content, filters, dense data, cards, drawers, overlays, empty/loading/error/offline states, and terminal sections when relevant
 - do not use horizontal-scrolling primary nav as the default tablet/mobile solution
 - render social links and compact action controls as recognizable icon controls when the concept calls for icons, not visible text abbreviations or unrelated generic symbols
 - if the page includes product, pricing, service, offer, or promo card grids, show shared media/header/body/footer/action slots, consistent badge or eyebrow placement, equal-height cards, and bottom-aligned CTA, quantity, price, or action rows across varied copy lengths
@@ -33,4 +38,4 @@ Existing-site integration mode:
 - make any proposed new page body sections fit the existing shell rather than changing the shell to fit the new page
 
 This page concept is the creative design artifact for the page.
-The later coded page should match its overall hierarchy, composition, and styling while reusing approved components first.
+The later coded page should match its overall hierarchy, composition, and styling while reusing approved components first. It must document exact motion/effects, generated visual fit, accessibility, performance, states, and mobile UX in `.maquette/pages/<page-name>/experience-quality-contract.md`; do not rely on the image alone as final UX truth.

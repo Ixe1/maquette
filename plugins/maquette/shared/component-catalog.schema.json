@@ -90,6 +90,9 @@
         "tokens_css_path": {
           "type": "string"
         },
+        "coverage_plan_path": {
+          "type": "string"
+        },
         "sheet_inventory_path": {
           "type": "string"
         },

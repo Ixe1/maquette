@@ -27,13 +27,17 @@ Follow `shared/image-gen-workflow.md` for required visual inspection, same-turn 
 Do not go straight from tokens to coded components with no image pass.
 The component CSS-contract posters are the default implementation artifacts for this experimental workflow. Visual component sheets remain available when the user explicitly asks for them or when a CSS-contract poster is too generic to guide implementation.
 
+Before any component CSS-contract poster or visual component sheet is generated, create or update `.maquette/components/component-coverage-plan.md`, using `shared/component-coverage-plan.template.md` when present. The plan must inspect the user brief, requested pages, existing website/app shell when present, existing `.maquette/components/component-catalog.json`, existing `.maquette/components/contracts/*.contract.css`, existing component CSS/JS, and replica/gallery examples. Document every reuse, extension, new component, and page-specific composite decision there before image generation.
+
+Do not create new component posters just because a new page is being built. New pages should consume the existing component catalog first. Extend an existing component only when the missing need is a variant, state, slot, density, or behavior of that component. Create a new reusable component only when the need is structurally different and cannot be represented cleanly by existing APIs. Page-specific composites should stay page-specific unless likely reuse is documented.
+
 Use image generation to:
-- create a focused 1:1 black-background CSS-contract poster for the current component family from the approved brand board, design-system tokens, product brief, and a strict selector allowlist
-- create additional focused 1:1 CSS-contract posters one at a time when the product needs more component, data-pattern, or composite coverage
+- create a focused 1:1 black-background CSS-contract poster for the current component family from the approved brand board, design-system tokens, product brief, coverage-plan decision, and a strict selector allowlist
+- create additional focused 1:1 CSS-contract posters one at a time only when the coverage plan identifies missing reusable component, data-pattern, or composite coverage
 - create or edit a focused 1:1 visual component sheet only when the user explicitly asks for visual sheets, or when the CSS-contract poster is too generic, crowded, or unreadable after one targeted regeneration
 
 Default CSS-contract workflow:
-- generate one focused 1:1 black-background CSS-contract poster from the approved brand board, design-system tokens, product brief, current component family, and a strict selector allowlist
+- generate one focused 1:1 black-background CSS-contract poster from the approved brand board, design-system tokens, product brief, current coverage-plan batch, and a strict selector allowlist
 - use `assets/component-css-contract-prompt.md` by default
 - do not render a visual component sheet for that batch unless the user asks for one or the CSS-contract poster is too generic to guide implementation
 - inspect the generated poster with `view_image` before writing code
@@ -43,7 +47,7 @@ Default CSS-contract workflow:
 
 When a page or site has global navigation, responsive navigation primitives are required component coverage, not a page-only afterthought.
 
-The CSS-contract poster is the default source of truth for selectors, states, sizing, spacing, token intent, and component anatomy. If it conflicts with the brand board, preserve the brand foundation where possible, but the current component artifact wins for component anatomy, variants, state styling, density, spacing, radius, shadows, and polish; record the inconsistency and resolution in `.maquette/components/approved.md`.
+The CSS-contract poster is the default source of truth for selectors, states, sizing, spacing, token intent, and component anatomy. It may include small visual swatches, anatomy diagrams, or tiny component thumbnails when they clarify the focused family, but readable CSS-like contract text remains primary. If it conflicts with the brand board, preserve the brand foundation where possible, but the current component artifact wins for component anatomy, variants, state styling, density, spacing, radius, shadows, and polish; record the inconsistency and resolution in `.maquette/components/approved.md`.
 
 The CSS-contract poster is not a rich visual design target. Use the generated poster to create the first implementation, then rely on rendered browser screenshots and the component fidelity rubric to correct visual quality. If the poster is generic, crowded, or includes non-component/page CSS, regenerate with a tighter selector allowlist or split the family before implementation. Generate a visual component sheet only when the user explicitly asks for visual component sheets or when the CSS-contract route is blocked.
 
@@ -67,6 +71,7 @@ Only skip image generation if:
 
 Always create or update:
 
+- `.maquette/components/component-coverage-plan.md`
 - `.maquette/components/component-catalog.json`
 - `.maquette/components/sheet-inventory.md`
 - `.maquette/components/sheet-implementation-log.md` when more than one sheet is needed
@@ -106,25 +111,29 @@ The catalog JSON must validate against `shared/component-catalog.schema.json`.
    - If the user agrees, run `npm i -D playwright ajv ajv-formats` and `npx playwright install chromium`, then continue with automated QA.
    - If the user declines or the install is not possible, continue with manual review and record the missing tooling in `.maquette/components/approved.md`.
    - Do not postpone this decision until after component implementation.
-3. Determine the ordered sheet batches needed for the product before generating images.
-   - Use this order: core primitives, navigation/layout, data/display, cards/composites, then any focused follow-up sheets.
-   - Core primitives is always first.
-   - Add navigation/layout when global navigation exists or is likely.
-   - Add data/display for dense data, dashboards, server lists, tables, maps, calendars, editors, timelines, complex workflows, or filter builders.
-   - Add cards/composites for reusable composites, repeated cards, product cards, pricing/service cards, newsletter modules, rich footers, or footer/social modules.
-   - In the default workflow, every CSS-contract poster must be 1:1, text-only, and focused by component family or pattern.
-   - For every poster, define a strict selector allowlist before image generation. Keep one complex family per poster. Combine at most two tightly related simple families when the poster will remain readable, such as buttons plus icon buttons or checkbox plus radio. Do not combine forms, actions, navigation, data tables, and cards into one poster.
+3. Create or update `.maquette/components/component-coverage-plan.md` before generating images.
+   - Use `shared/component-coverage-plan.template.md` when present.
+   - Inspect the user brief, requested pages, existing website/app shell when present, existing `.maquette/components/component-catalog.json`, existing `.maquette/components/contracts/*.contract.css`, existing component CSS/JS, and replica/gallery files.
+   - Infer required component families for this project instead of using a fixed universal sheet list.
+   - List required component families for the current request and likely future/reusable families that should be considered but not overbuilt.
+   - Map current needs to existing component APIs, variants, slots, states, density, and behavior.
+   - Document which needs are covered by existing components, which need only an extension, which are true reusable component gaps, and which are page-specific composites that should not become global components yet.
+   - Examples: a server card should use existing `c-card` anatomy with a `c-card--server` variant or page composition when possible; an advanced filter drawer should extend drawer/dialog primitives; a status pill should extend badge unless semantics and states justify a separate component; a pricing card should become a focused composite only when the base card cannot cleanly express price/action anatomy.
+   - Define focused CSS-contract poster batches from those decisions. Each batch must explain why the poster is needed before image generation.
+   - For every poster, define a strict selector allowlist before image generation. Prefer roughly 8 to 16 meaningful selectors. Keep one major component family per poster by default. Combine at most two tightly related small families only when the poster will remain readable. Do not include broad `body`, reset, page-layout, gallery, or unrelated selectors.
+   - Do not generate a poster when the plan says reuse or page-specific composition is enough.
+   - If a later page reveals missing reusable coverage, update the plan first, then generate only the newly justified focused poster.
    - If the user explicitly asks for visual component sheets, every visual sheet must be 1:1 and focused by component family or pattern.
 4. Process each sheet or poster batch sequentially. Do not generate all planned component artifacts before implementation.
-   - Generate or revise exactly one focused artifact for the current batch using the approved brand board.
-   - Default workflow: generate a focused 1:1 text-only CSS-contract poster using `assets/component-css-contract-prompt.md` and the batch selector allowlist.
-   - Visual fallback or explicit visual-sheet workflow: generate a focused 1:1 visual component sheet using `assets/component-sheet-prompt.md`.
-   - It is a workflow violation to generate the navigation/layout, data/display, cards/composites, or follow-up artifact before the current sheet or poster has completed batch evidence.
+   - Generate or revise exactly one focused artifact for the current coverage-plan batch using the approved brand board.
+   - Default workflow: generate a focused 1:1 CSS-contract poster using `assets/component-css-contract-prompt.md`, the coverage-plan rationale, and the batch selector allowlist. The poster may include small swatches, anatomy diagrams, or tiny thumbnails if useful, but readable CSS-like text remains primary.
+   - Visual fallback or explicit visual-sheet workflow: generate a focused 1:1 visual component sheet using `assets/component-sheet-prompt.md` only when the user explicitly requests visual component sheets, the CSS-contract poster is too abstract to guide implementation, a component's visual anatomy cannot be described clearly enough in text, or a focused visual supplement is needed for fidelity.
+   - It is a workflow violation to generate any later planned artifact before the current sheet or poster has completed batch evidence.
    - Inspect the generated sheet or poster with `view_image` before implementing any code from it.
-   - Update `.maquette/components/sheet-inventory.md` for that artifact with visible component families, variants, states, larger patterns, unclear or cramped areas, missing coverage, required raster asset types, and the decision to implement, regenerate, or create another focused artifact.
+   - Update `.maquette/components/sheet-inventory.md` for that artifact with visible component families, variants, states, larger patterns, unclear or cramped areas, missing coverage, required raster asset types, and the decision to implement, regenerate, split, or create another focused artifact.
    - When the artifact is a CSS-contract poster, transcribe the inspected poster into `.maquette/components/contracts/<batch-slug>.contract.css` before writing implementation CSS. This file is the human-readable bridge from image text to code: preserve selector intent, states, slots, and sizing guidance, remove OCR mistakes, omit any rejected non-component selectors, and annotate any unreadable or intentionally normalized rule.
    - Reject, regenerate, or split a visual sheet if labels are too small, unrelated families are crammed into tiny cells, components overlap, full tables or dashboards crowd out primitives, implementation notes dominate, decorative details obscure component anatomy, or the image cannot guide implementation without heavy zooming.
-   - Reject, regenerate, or split a CSS-contract poster if text is too small, non-component selectors appear, `body`/`html`/gallery/panel/reset/page-layout rules dominate, selectors outside the allowlist appear, unrelated families are crowded together, or the poster is too generic to guide implementation beyond common defaults.
+   - Reject, regenerate, or split a CSS-contract poster if text is too small, low contrast, crowded, non-component selectors appear, `body`/`html`/gallery/panel/reset/page-layout rules dominate, selectors outside the allowlist appear, more than the planned focused families appear, unrelated families are crowded together, or the poster is too generic to guide implementation beyond common defaults.
    - If the current artifact passes inspection, build that batch's artifacts and complete screenshot/manual review before generating the next sheet or poster.
 5. Build the coded componentized replica/reference as a batch-by-batch fidelity target.
    - Maintain `.maquette/components/replica-gallery.html` as the combined component reference.
@@ -151,7 +160,7 @@ The catalog JSON must validate against `shared/component-catalog.schema.json`.
    - A score of 5 is a strong match, 4 is acceptable, 3 requires a fix or explicit documented block, and below 3 requires regeneration or rework before approval.
    - Make at least one focused correction pass when any rubric category fails before recording final status.
    - Do not generate the next component sheet or CSS-contract poster until this review is complete and the current replica visibly matches the current artifact well enough to pass the rubric or has documented, intentional simplifications.
-8. Merge the approved current-batch componentized replica/reference into reusable website primitives and patterns before moving to the next sheet or poster:
+8. Merge the approved current-batch componentized replica/reference into reusable website primitives and patterns before moving to the next sheet or poster. Build only the families justified by the coverage plan; the following are common examples, not a universal checklist:
    - buttons
    - links
    - icon buttons
@@ -178,8 +187,8 @@ The catalog JSON must validate against `shared/component-catalog.schema.json`.
    - Mark the batch as `completed_before_next_sheet: true` in the final catalog only if these batch artifacts and screenshot/manual review evidence existed before the next component sheet or poster was generated.
    - Only then continue to the next planned sheet or poster batch.
 9. Keep component primitives and larger patterns conceptually separate:
-   - component sheet: reusable primitives and core states
-   - additional focused sheets: dense data patterns and reusable larger composites
+   - component artifacts: reusable families, variants, states, slots, and behavior justified by the coverage plan
+   - additional focused artifacts: dense data patterns and reusable larger composites only when the coverage plan identifies a real gap
    - page concept: page-level composition
 10. Use semantic HTML and CSS custom properties.
 11. Keep JS minimal and only add it where interactivity requires it.
@@ -194,9 +203,15 @@ The catalog JSON must validate against `shared/component-catalog.schema.json`.
    - If cleanup fails, record the failed cleanup command or operation in the final response.
    - Capture desktop, tablet, and mobile reference screenshots when possible; at minimum use representative widths 390, 768, and 1440 when browser tooling is available.
 14. Run the required component QA pass:
+   - Verify `.maquette/components/component-coverage-plan.md` exists and records reuse/extend/create/page-specific decisions for the current request before any new poster was generated.
+   - Fail and fix if a new component was created where existing component APIs, variants, slots, states, density, or behavior could have covered the need cleanly.
+   - Fail and fix if a poster was generated without a focused selector allowlist, a stated need in the coverage plan, or readable contract text at normal preview size.
    - Fail and fix if the implementation omits poster selectors, states, slots, dimensions, or token intent, or if the screenshot is visually too generic for the approved brand. If the batch uses an explicit visual component sheet, also fail and fix when the reference is significantly simpler, sparser, less polished, or less sophisticated than that sheet.
    - Fail and fix the componentized reference if it lacks reusable component APIs, slots, states, accessibility hooks, or realistic usage examples.
-   - Check component sheet or CSS-contract poster coverage: every visible component family, important variant, major state, repeated-card anatomy pattern, responsive navigation state, product-card pattern, newsletter module, and footer/social module shown in the artifact should appear in the componentized reference or be documented as intentionally deferred with a reason.
+   - Check component sheet or CSS-contract poster coverage: every planned selector, visible component family, important variant, major state, slot, density rule, motion note, reduced-motion expectation, repeated-card anatomy pattern, responsive navigation state, product-card pattern, newsletter module, and footer/social module shown in the artifact should appear in the componentized reference or be documented as intentionally deferred with a reason.
+   - Check interaction states where relevant: loading, skeleton, empty, error, offline, stale, disabled, selected/current, hover, focus-visible, active/pressed, success, permission/unavailable, mobile drawer open/closed, and filter applied/cleared.
+   - Check component accessibility baseline: semantic HTML, form labels, helper/error text, table semantics for tabular data, visible focus, tap target size, contrast, non-color-only status indicators, `aria-expanded`/`aria-controls` for drawers/nav, and no hidden focus traps.
+   - Check performance-safe motion: non-essential animation has `prefers-reduced-motion`, ambient loops are disabled or simplified under reduced motion, JS animation is minimal, and animations prefer `transform` and `opacity` without causing overflow or interaction delay.
    - Check icon and icon-button contrast in every visible state, especially active, selected, disabled, inverse, and dark-background states.
    - Check that icon-only buttons and compact controls visibly render supported icons and are not blank.
    - Check responsive navigation primitives when present: desktop inline nav, tablet/mobile collapsed nav, menu toggle icon, expanded menu or drawer, active link, focus state, and tap-target sizing.
@@ -222,6 +237,7 @@ The catalog JSON must validate against `shared/component-catalog.schema.json`.
    - If any optional QA dependency is missing and browser/schema QA would materially improve confidence, ask the user through the Codex user-input/question tool whether to install `playwright`, `ajv`, and `ajv-formats` in the current project. This includes partial installs where only `ajv-formats` or `ajv` is missing. Use explicit yes/no choices. If the user agrees, run `npm i -D playwright ajv ajv-formats` and `npx playwright install chromium`, then continue automated QA. If the user declines, continue with manual review and record the missing tooling.
    - Do not generate project-local `.mjs` scripts for capture, responsive audit, contrast/API checks, JSON validation, or page-consumption smoke unless the bundled helper cannot cover the scenario. If a fallback script is generated, list it in `.maquette/components/approved.md` with the reason.
 15. Update `.maquette/components/component-catalog.json` with implemented coverage.
+   - Record `.maquette/components/component-coverage-plan.md` in `assets.coverage_plan_path`.
    - Record all generated component sheet and CSS-contract poster paths in a stable place, using `assets.component_sheet_paths` when multiple artifacts exist while preserving `assets.component_sheet_path` for compatibility.
    - Record `.maquette/components/replica-gallery.html` in `assets.replica_gallery_html_path` and `assets.component_reference_html_path`.
    - Record the implementation log with `assets.sheet_implementation_log_path`.
@@ -230,9 +246,10 @@ The catalog JSON must validate against `shared/component-catalog.schema.json`.
    - Record reusable component readiness in `assets.reusable_component_review`, including whether component APIs, slots, states, JS behavior, accessibility hooks, and usage examples are ready for page implementation.
    - Each component's `visual_review.reference_image_paths` should include the sheet or sheets that guided that component.
    - Each component should record reusable API details such as slots, required attributes, JS behavior, and usage examples when relevant.
+   - Component entries should align with the coverage plan decision: reused components should document the API consumed, extended components should document the added variant/state/slot/density/behavior, and newly created components should document why the existing API could not cover the need.
    - Responsive navigation components should record variants such as `desktop-inline`, `tablet-collapsed`, `mobile-collapsed`, `mobile-expanded`, `active`, and `focus-visible` in `implemented_variants` or `implemented_states`.
    - Product-card or repeated-card components should record equal-height behavior, body layout strategy, bottom-pinned action rows, and screenshot evidence for action-row alignment.
-16. Summarize gaps, mismatches, approval status, component sheet or CSS-contract poster vs replica fidelity using the rubric, per-batch artifact status, reusable component readiness, brand-board/component-artifact inconsistencies and which artifact won, measured responsive overflow results, screenshot paths or manual review artifacts, repeated-card anatomy and action-row alignment results, open nav screenshot paths when present, accepted scroll exceptions, responsive navigation notes, and icon-rendering notes in `.maquette/components/approved.md`.
+16. Summarize gaps, mismatches, approval status, component coverage plan status, reuse/extend/create/page-specific decisions, component sheet or CSS-contract poster focus/readability, component sheet or CSS-contract poster vs replica fidelity using the rubric, per-batch artifact status, reusable component readiness, brand-board/component-artifact inconsistencies and which artifact won, measured responsive overflow results, screenshot paths or manual review artifacts, interaction state coverage, reduced-motion behavior, repeated-card anatomy and action-row alignment results, open nav screenshot paths when present, accepted scroll exceptions, responsive navigation notes, accessibility notes, performance risks, and icon-rendering notes in `.maquette/components/approved.md`.
 
 ## Visual consistency rules
 
@@ -241,6 +258,8 @@ The catalog JSON must validate against `shared/component-catalog.schema.json`.
 - Treat 1:1 CSS-contract posters as the default implementation contracts, not full visual design targets.
 - Treat explicit 1:1 visual component sheets as componentized reference targets, not loose inspiration.
 - Keep the reference page layout and reusable component API conceptually separate; page implementations should consume the catalog, CSS, JS, and usage examples, not copy the reference layout.
+- Reuse existing components before extending them, and extend existing components before creating structurally new reusable components.
+- Keep the component coverage plan as the source of truth for poster scope, selector allowlists, and reuse/extend/create decisions.
 - Reuse shared tokens everywhere instead of hard-coded one-off values.
 - Focus treatments and disabled states must remain consistent across controls.
 - The coded componentized reference should be pulled toward the approved brand plus poster contract. If a visual component sheet is explicitly used, it should be visually pulled toward that approved sheet.
@@ -252,6 +271,7 @@ The catalog JSON must validate against `shared/component-catalog.schema.json`.
 - Wide data-dense components should not be squeezed into narrow reference cards on desktop.
 - A single mega-sheet is not a goal. Split component guidance into focused sheets whenever the sheet would become cluttered or uninspectable.
 - A single mega-poster is not a goal. Split CSS-contract guidance into focused selector allowlists whenever the poster would become cluttered, generic, or hard to read.
+- CSS-contract posters should usually cover one major component family, or at most two tightly related small families, with roughly 8 to 16 meaningful selectors and no broad page/reset/gallery selectors.
 - Primary navigation must have a responsive component pattern. Prefer desktop inline nav plus tablet/mobile menu toggle with a stacked panel or drawer. Do not rely on document-level horizontal scrolling for primary nav.
 - In multi-sheet or multi-poster runs, finish the current sheet/poster's componentized batch replica, transcribed contract when applicable, batch CSS/JS, batch catalog snapshot, batch screenshot/manual review, fidelity review, reusable API documentation, and implementation log entry before generating the next component sheet or poster. Retrospective log entries after all artifacts are generated do not satisfy this requirement.
 - Prefer Maquette's bundled shared scripts over generated run-local `.mjs` scripts for screenshots, responsive layout auditing, contrast/API smoke checks, page-consumption smoke checks, and JSON validation.
@@ -265,6 +285,7 @@ If a reference board, component sheet, or CSS-contract poster exists:
 - prefer small targeted fixes over wide stylistic rewrites
 
 Before finishing:
+- Verify `.maquette/components/component-coverage-plan.md` documents the current request, existing coverage review, reuse/extend/create/page-specific decisions, and each poster's selector allowlist and rationale.
 - Verify that the implementation matches the transcribed poster contract's selector contract, states, slots, and token intent, then use screenshots to correct visual quality. If a visual component sheet is explicitly used, also verify the componentized reference matches the sheet's component families, variants, states, density, and polish. A basic selector page is not sufficient.
 - Verify the same componentized reference exposes reusable component APIs, slots, states, JS behavior, accessibility hooks, and usage examples for page implementation.
 - Record the component fidelity rubric result for coverage, visual match, anatomy match, responsive match, and implementation quality.
@@ -278,4 +299,4 @@ Before finishing:
 - Verify whole-reference screenshots at mobile, tablet, and desktop widths when browser tooling is available.
 - Verify the reusable component API through a page-consumption smoke check when browser tooling is available.
 - Verify each multi-sheet or multi-poster batch has concrete category-prefixed files under `.maquette/components/`, with CSS-contract transcriptions under `.maquette/components/contracts/`, CSS under `.maquette/components/css/`, and JS under `.maquette/components/js/`, before accepting the final merged library.
-- `.maquette/components/approved.md` must summarize component sheet or CSS-contract poster vs replica fidelity, per-sheet implementation log status, per-batch artifact paths, reusable component readiness, measured responsive overflow results, screenshot paths or manual review artifacts, clipped screenshot fallbacks, generated fallback scripts and reasons when any exist, repeated-card anatomy and action-row alignment results, open nav screenshot paths when present, accepted scroll exceptions, responsive navigation notes, brand/component inconsistency notes, and icon-rendering notes. "Screenshots captured" alone is not a sufficient review.
+- `.maquette/components/approved.md` must summarize component coverage plan status, reuse/extend/create/page-specific decisions, component sheet or CSS-contract poster focus/readability, component sheet or CSS-contract poster vs replica fidelity, per-sheet implementation log status, per-batch artifact paths, reusable component readiness, measured responsive overflow results, screenshot paths or manual review artifacts, clipped screenshot fallbacks, generated fallback scripts and reasons when any exist, interaction state coverage, reduced-motion behavior, repeated-card anatomy and action-row alignment results, open nav screenshot paths when present, accepted scroll exceptions, responsive navigation notes, accessibility notes, performance risks, brand/component inconsistency notes, and icon-rendering notes. "Screenshots captured" alone is not a sufficient review.

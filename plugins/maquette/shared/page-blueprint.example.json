@@ -19,6 +19,10 @@
       "path": "components/component-sheet-v1.png"
     },
     {
+      "kind": "component-coverage-plan",
+      "path": "components/component-coverage-plan.md"
+    },
+    {
       "kind": "site-contract",
       "path": "site/site-contract.md"
     },
@@ -29,6 +33,10 @@
     {
       "kind": "page-layout-contract",
       "path": "pages/homepage/page-layout-contract.md"
+    },
+    {
+      "kind": "experience-quality-contract",
+      "path": "pages/homepage/experience-quality-contract.md"
     },
     {
       "kind": "page-concept",
@@ -114,7 +122,9 @@
   "acceptance_criteria": [
     "Uses approved typography and semantic colors.",
     "Reuses existing components before introducing new composites.",
+    "Component coverage plan documents reuse, extension, new reusable gaps, page-specific composites, and any focused poster rationale.",
     "Follows the page layout contract for section compactness, terminal regions, and media fit/crop behavior.",
+    "Follows the experience quality contract for generated visual fit, purposeful motion, reduced-motion support, states, accessibility, performance, content hierarchy, brand craft, and mobile UX.",
     "Remains readable and coherent across desktop, tablet, and mobile viewports.",
     "Primary navigation has accessible closed and open tablet/mobile states with no document-level horizontal overflow.",
     "Repeated product, pricing, service, or offer cards keep CTA and action rows aligned across varied copy lengths.",
@@ -126,10 +136,24 @@
     "font_rationale": "Heading and body stacks follow the design-system font strategy; no crude display defaults are substituted for condensed headings.",
     "concept_region_inventory": "Every visible concept region is listed in concept-region-inventory.md with implementation status and reasons for any deviation.",
     "page_layout_contract": "Section density, terminal regions, and media fit/crop behavior are recorded before coding and checked against screenshots.",
+    "experience_quality_contract": "Generated visual fit, purposeful motion, reduced motion, states, accessibility, performance, content hierarchy, brand craft, and mobile UX are recorded before coding and checked in review.md.",
     "asset_manifest": "Every required raster asset is listed in asset-manifest.json and every referenced local path is verified before final review.",
     "site_contract": "Existing shared shell regions are locked in site/site-contract.md and reused by the page where existing-site mode is active.",
     "site_shell_consistency": "Header/nav, newsletter/terminal, footer/legal, shared CSS, and shared JS are compared against the reference page before approval.",
     "component_sheet_gallery_fidelity": "Page uses component implementations that were reviewed against the generated component sheet rather than simplified selector demos.",
+    "component_reuse": "Existing component APIs, variants, slots, and states are reused before any new composite is introduced.",
+    "component_coverage_plan": "components/component-coverage-plan.md records reuse, extension, create, and page-specific decisions for this page.",
+    "css_contract_poster_focus": "Any new poster is focused, readable, selector-limited, and justified by the coverage plan.",
+    "generated_visual_fit": "Generated rasters are checked for purpose, product-function support, false-feature risk, distraction risk, code-native alternatives, and alt/decorative handling.",
+    "motion_effects": "Motion is purposeful, trigger-based, performance-safe, and documented rather than inferred from the image alone.",
+    "reduced_motion": "Non-essential animation has prefers-reduced-motion fallbacks.",
+    "interaction_state_coverage": "Loading, skeleton, empty, error, offline, stale, selected, hover, focus-visible, active, disabled, success, unavailable, drawer, and filter states are covered where relevant.",
+    "accessibility_baseline": "Headings, landmarks, keyboard navigation, focus, tap targets, contrast, status indicators, ARIA, forms, tables, drawer reachability, and focus traps are checked.",
+    "performance_review": "LCP, INP, CLS, image weight, animation cost, layout shift, font loading, and mobile rendering risks are reviewed; tooling limits are documented when metrics are not measured.",
+    "content_information_architecture": "The page supports scan-first usage with a clear H1, concise intro, primary action, summaries before detail, and clear filter/search/sort behavior where needed.",
+    "brand_craft": "Typography, spacing, icons, surfaces, and interactions are specific to the product rather than generic dashboard polish.",
+    "mobile_responsive_ux": "Mobile content order, nav states, drawer scrollability, tap targets, text fit, data behavior, image crop, and document overflow are checked.",
+    "context_fit": "Visuals, states, motion, and content match the actual product category and do not imply false functionality.",
     "repeated_card_alignment": "Repeated cards use shared media/header/body/footer/action anatomy, equal-height rows, stable badge placement, and bottom-pinned action regions when they appear in multi-column grids.",
     "footer_fidelity": "Footer regions are compared against the concept for links, social icons, legal rows, app/device modules, and bottom strips when shown.",
     "mobile_drawer_scrollability": "Opened mobile and tablet drawers remain scrollable when content exceeds viewport height and controls remain reachable.",
@@ -150,6 +174,7 @@
     ],
     "concept_region_inventory_path": "pages/homepage/concept-region-inventory.md",
     "page_layout_contract_path": "pages/homepage/page-layout-contract.md",
+    "experience_quality_contract_path": "pages/homepage/experience-quality-contract.md",
     "asset_manifest_path": "pages/homepage/asset-manifest.json",
     "site_contract_path": "site/site-contract.md",
     "shell_consistency_report_path": "pages/homepage/site-shell-consistency.json",

@@ -1,8 +1,8 @@
-Edit the visible approved brand board into a focused website component-sheet image.
+Edit the visible approved brand board into a focused website component-sheet image only for an explicit visual-sheet request, a blocked CSS-contract run, or a focused visual supplement.
 
 Use a 1:1 square composition for every component sheet. Exact generated pixel dimensions are not controllable; prioritize a clearly square board with no cropping, letterboxing, or extra content outside the board.
 
-Generate only the current requested sheet category. Do not include teaser panels for later sheet categories. In multi-sheet workflows, the implementation model will inspect, implement a componentized replica/reference, review, and document reusable components from this sheet before requesting the next focused sheet.
+Generate only the current requested family or visual supplement from the component coverage plan. Do not include teaser panels for later sheet categories. In multi-sheet workflows, the implementation model will inspect, implement a componentized replica/reference, review, and document reusable components from this sheet before requesting the next focused sheet.
 
 Preserve:
 - approved palette
@@ -12,20 +12,20 @@ Preserve:
 - interaction style
 
 Show:
-- a focused core-primitives sheet first: buttons, icon buttons, links, text inputs, textarea, selects, checkboxes, radios, switches, tabs, badges, and alerts
-- a navigation/layout sheet when needed: desktop nav, tablet/mobile nav, drawers/panels, breadcrumbs, sidebars, page shell, and toolbars
-- a data/display sheet when needed: tables, lists, metrics, feeds, empty/loading/error states, filters, and pagination
-- a cards/composites sheet when needed: product, service, pricing, task, workflow, newsletter, footer, and social modules
+- the specific reusable family, extension, or visual supplement requested by the coverage plan
+- possible focused examples when requested: actions, forms/filters, navigation, drawers/panels, data display, live states, cards/composites, feedback, overlays, newsletter, footer, and social modules
 - component anatomy where useful
 - variant examples and size examples where relevant
-- visible states, density, spacing, radius, shadows, and polish that are clear enough to implement in HTML/CSS
+- visible states, density, spacing, radius, shadows, motion/effect moments, and polish that are clear enough to implement in HTML/CSS
+- loading, skeleton, empty, error, offline, stale, disabled, selected/current, hover, focus-visible, active/pressed, success, permission/unavailable, drawer open/closed, and filter applied/cleared states when relevant
+- reduced-motion expectations where motion is shown or implied
 - separate asset requirements when component families need raster assets, such as product-card imagery, promo-card imagery, newsletter illustrations, app/device imagery, footer modules, background textures, or lifestyle/story imagery
 - compact implementation notes only where they help implementation
 - no logo
 
 Adaptive sheet rules:
 - do not create one exhaustive mega-sheet
-- infer whether additional sheets are needed from the product brief and references, but keep this image focused on the current sheet category
+- infer whether additional sheets are needed from the component coverage plan, product brief, and references, but keep this image focused on the current requested family
 - every additional focused sheet must also use a 1:1 square composition
 - if the product involves dense data, dashboards, server lists, tables, maps, calendars, editors, timelines, complex workflows, filter builders, or large reusable composites, create additional focused sheets for those families instead of crowding the core-primitives sheet
 - if the product has global navigation, include a focused navigation family: desktop inline nav, compact/tablet nav, mobile menu toggle, expanded mobile menu or drawer, active link, focus-visible state, and icon rendering

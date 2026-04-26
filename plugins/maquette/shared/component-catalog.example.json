@@ -13,6 +13,7 @@
   },
   "assets": {
     "tokens_css_path": "brand/tokens.css",
+    "coverage_plan_path": "components/component-coverage-plan.md",
     "sheet_inventory_path": "components/sheet-inventory.md",
     "sheet_implementation_log_path": "components/sheet-implementation-log.md",
     "sheet_implementation_batches": [

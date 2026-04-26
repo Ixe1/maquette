@@ -70,9 +70,11 @@
             "enum": [
               "brand-board",
               "component-sheet",
+              "component-coverage-plan",
               "site-contract",
               "existing-reference-page",
               "page-layout-contract",
+              "experience-quality-contract",
               "page-concept",
               "other"
             ]
@@ -233,6 +235,9 @@
         "page_layout_contract": {
           "type": "string"
         },
+        "experience_quality_contract": {
+          "type": "string"
+        },
         "asset_manifest": {
           "type": "string"
         },
@@ -243,6 +248,45 @@
           "type": "string"
         },
         "component_sheet_gallery_fidelity": {
+          "type": "string"
+        },
+        "component_reuse": {
+          "type": "string"
+        },
+        "component_coverage_plan": {
+          "type": "string"
+        },
+        "css_contract_poster_focus": {
+          "type": "string"
+        },
+        "generated_visual_fit": {
+          "type": "string"
+        },
+        "motion_effects": {
+          "type": "string"
+        },
+        "reduced_motion": {
+          "type": "string"
+        },
+        "interaction_state_coverage": {
+          "type": "string"
+        },
+        "accessibility_baseline": {
+          "type": "string"
+        },
+        "performance_review": {
+          "type": "string"
+        },
+        "content_information_architecture": {
+          "type": "string"
+        },
+        "brand_craft": {
+          "type": "string"
+        },
+        "mobile_responsive_ux": {
+          "type": "string"
+        },
+        "context_fit": {
           "type": "string"
         },
         "repeated_card_alignment": {
@@ -303,6 +347,9 @@
           "type": "string"
         },
         "page_layout_contract_path": {
+          "type": "string"
+        },
+        "experience_quality_contract_path": {
           "type": "string"
         },
         "asset_manifest_path": {

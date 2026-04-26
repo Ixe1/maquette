@@ -9,11 +9,13 @@ Visual format:
 - crisp white or near-white monospace CSS text
 - compact readable columns or stacked sections
 - large enough text to read at normal preview size
-- no UI mockups, decorative component cards, gradients, marketing copy, or prose note panels
+- optional tiny visual swatches, anatomy diagrams, or component thumbnails only when they clarify the focused contract
+- no large UI mockups, decorative component cards, gradients, marketing copy, or prose note panels
 
 Source inputs:
 - approved brand board and design-system tokens
 - current product/component brief
+- component coverage plan decision for this batch
 - the requested focused component family
 - an explicit selector allowlist supplied for this batch
 
@@ -22,6 +24,7 @@ Only include component CSS for the current requested family. Do not include teas
 Required selector discipline:
 - include only selectors from the provided allowlist
 - do not invent extra selectors
+- prefer roughly 8 to 16 meaningful selectors; if more are needed, split the poster
 - do not include `body`, `html`, `main`, `section`, reset rules, typography globals, page layout, gallery, panel, note, documentation, media-query layout, or usage-demo CSS
 - keep comments brief and adjacent to relevant selectors, such as `/* focus */`, `/* error */`, `/* disabled */`, `/* icon slot */`, or `/* a11y */`
 - do not include Markdown fences or long prose blocks
@@ -32,8 +35,13 @@ Component contract content:
 - important variants
 - important sizes
 - major states: default, hover, focus-visible/focus-within, active, selected, error, disabled, readonly, loading, open/expanded as applicable
+- loading, skeleton, empty, error, offline, stale, success, permission/unavailable, filter applied/cleared, and drawer open/closed states when relevant to the focused family
 - dimensions, spacing, radius, border, shadow, type, icon sizing, and transitions
+- motion notes with purpose, duration, easing, safe properties, and reduced-motion expectation when relevant
+- responsive behavior for the focused family
+- performance-safe property guidance, especially for transitions and live states
 - accessibility-state hooks where they affect CSS, such as `aria-invalid`, `aria-expanded`, or selected/current states
+- accessibility notes for visible focus, contrast, labels/help/error text, non-color-only status indicators, table semantics, and reachable drawer/menu content where relevant
 
 Token policy:
 - prefer brand token variable names when possible
@@ -43,7 +51,7 @@ Token policy:
 Batch-size rules:
 - use one component family per poster for complex families
 - combine at most two tightly related simple families when the selector allowlist remains readable
-- suitable focused families include actions, forms, selection controls, tabs/segmented controls, badges/alerts, navigation primitives, and compact card primitives
+- suitable focused families should come from the coverage plan; possible examples include actions, forms, selection controls, tabs/segmented controls, badges/alerts, navigation primitives, data states, overlays, and compact card primitives
 - do not combine forms, actions, navigation, data tables, and cards into one poster
 - split the batch if text becomes small, rules overlap, or selector sections become hard to read
 
@@ -55,9 +63,12 @@ Quality requirements:
 - repeated-card or product-card contracts must specify shared anatomy, equal-height behavior, and bottom-pinned actions
 - navigation contracts must specify desktop, tablet/mobile, closed/open, active, focus, and accessible expanded states
 - wide data contracts must not rely on page-level horizontal scrolling as the default behavior
+- non-essential motion must include `prefers-reduced-motion` behavior
+- transitions should prefer `transform` and `opacity`; avoid layout-heavy animation properties unless the coverage plan justifies them
 
 Reject and regenerate or split the poster before implementation if:
 - text is too small to read at normal preview size
+- text is crowded, low-contrast, or unreadable without heavy zooming
 - selectors outside the allowlist dominate the image
 - page, gallery, reset, or documentation CSS appears
 - non-component implementation notes dominate

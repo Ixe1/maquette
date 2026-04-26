@@ -86,6 +86,7 @@ function collectComponentArtifactPaths(componentCatalog) {
   const assets = componentCatalog.assets ?? {};
   const paths = [
     assets.tokens_css_path,
+    assets.coverage_plan_path,
     assets.sheet_inventory_path,
     assets.sheet_implementation_log_path,
     assets.replica_gallery_html_path,

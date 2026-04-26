@@ -85,6 +85,9 @@
           "alt_text": {
             "type": "string"
           },
+          "generated_visual_fit": {
+            "$ref": "#/$defs/generatedVisualFit"
+          },
           "notes": {
             "type": "string"
           }
@@ -107,6 +110,57 @@
           "items": {
             "type": "string"
           }
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "generatedVisualFit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "intended_purpose",
+        "consumed_by_region",
+        "supports_product_function",
+        "could_be_mistaken_for_real_feature",
+        "distracts_from_primary_task",
+        "css_svg_or_code_native_more_appropriate",
+        "decision",
+        "alt_text_or_decorative_hidden"
+      ],
+      "properties": {
+        "intended_purpose": {
+          "type": "string"
+        },
+        "consumed_by_region": {
+          "type": "string"
+        },
+        "supports_product_function": {
+          "type": "boolean"
+        },
+        "could_be_mistaken_for_real_feature": {
+          "type": "boolean"
+        },
+        "distracts_from_primary_task": {
+          "type": "boolean"
+        },
+        "css_svg_or_code_native_more_appropriate": {
+          "type": "boolean"
+        },
+        "decision": {
+          "type": "string",
+          "enum": [
+            "use",
+            "revise",
+            "replace",
+            "remove"
+          ]
+        },
+        "alt_text_or_decorative_hidden": {
+          "type": "string"
         },
         "notes": {
           "type": "string"

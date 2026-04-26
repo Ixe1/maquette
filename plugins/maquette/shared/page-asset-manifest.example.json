@@ -9,6 +9,16 @@
       "required_by": "page concept review",
       "path": "pages/homepage/concept.png",
       "source": "image_gen",
+      "generated_visual_fit": {
+        "intended_purpose": "Creative page concept used for planning, not shipped UI.",
+        "consumed_by_region": "planning artifact",
+        "supports_product_function": true,
+        "could_be_mistaken_for_real_feature": false,
+        "distracts_from_primary_task": false,
+        "css_svg_or_code_native_more_appropriate": false,
+        "decision": "use",
+        "alt_text_or_decorative_hidden": "not-applicable for planning artifact"
+      },
       "notes": "Inspected before implementation."
     },
     {
@@ -18,7 +28,17 @@
       "required_by": "hero",
       "path": "pages/homepage/assets/hero-product.png",
       "source": "image_gen",
-      "alt_text": "Product arranged in the approved hero composition."
+      "alt_text": "Product arranged in the approved hero composition.",
+      "generated_visual_fit": {
+        "intended_purpose": "Support hero product understanding.",
+        "consumed_by_region": "hero",
+        "supports_product_function": true,
+        "could_be_mistaken_for_real_feature": false,
+        "distracts_from_primary_task": false,
+        "css_svg_or_code_native_more_appropriate": false,
+        "decision": "use",
+        "alt_text_or_decorative_hidden": "Product arranged in the approved hero composition."
+      }
     },
     {
       "id": "product-card-01",
@@ -27,7 +47,17 @@
       "required_by": "product-grid",
       "path": "pages/homepage/assets/product-card-01.png",
       "source": "image_gen",
-      "alt_text": "Primary product package."
+      "alt_text": "Primary product package.",
+      "generated_visual_fit": {
+        "intended_purpose": "Show product-card image content.",
+        "consumed_by_region": "product-grid",
+        "supports_product_function": true,
+        "could_be_mistaken_for_real_feature": false,
+        "distracts_from_primary_task": false,
+        "css_svg_or_code_native_more_appropriate": false,
+        "decision": "use",
+        "alt_text_or_decorative_hidden": "Primary product package."
+      }
     },
     {
       "id": "footer-device",
