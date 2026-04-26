@@ -38,7 +38,7 @@ Maquette helps Codex turn an approved visual direction into reusable website art
 Install the marketplace, restart Codex, then invoke the full workflow with `@Maquette` or `$maquette`:
 
 ```sh
-codex plugin marketplace add Ixe1/maquette --ref master
+codex plugin marketplace add Ixe1/codex-plugins --ref master
 ```
 
 ```text
