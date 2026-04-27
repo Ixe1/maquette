@@ -5,6 +5,7 @@ Goal:
 - This board is a creative artifact and approval target for the website visual system.
 - Use a 1:1 square composition by default.
 - No logo generation, no wordmarks, no brand marks, no large brand-name treatment, no monograms, no mascots, no badges, no seals, no app icons, no emblems, and no trademark-like elements.
+- If a neutral Maquette brand-kit template image is visible, use it only as a layout scaffold. Fill or transform its zones with a project-specific brand direction; do not preserve placeholder gray boxes as finished design and do not let the template make the result generic.
 
 Show on the board:
 - palette swatches and semantic color roles
@@ -31,6 +32,7 @@ Constraints:
 - prioritize design clarity, polish, and creativity
 
 Reference rules:
+- if the Maquette brand-kit template is visible, treat it as the edit target for board organization only
 - if an approved board is visible, preserve its palette, typography personality, spacing rhythm, radius style, and control language unless the user explicitly asked to change them
 - if inspiration images are visible, borrow mood and hierarchy only; do not copy trademarks or logos
 - if a local reference image is relevant, it should first be loaded into the conversation with view_image, then edit the visible image rather than starting from scratch

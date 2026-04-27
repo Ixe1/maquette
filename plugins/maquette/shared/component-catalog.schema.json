@@ -156,6 +156,12 @@
           },
           "minItems": 1
         },
+        "template_image_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "nav_open_screenshot_paths": {
           "type": "array",
           "items": {
@@ -395,6 +401,9 @@
           "type": "string"
         },
         "closeup_path": {
+          "type": "string"
+        },
+        "template_image_path": {
           "type": "string"
         },
         "contract_path": {

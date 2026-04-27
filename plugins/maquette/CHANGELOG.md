@@ -16,6 +16,7 @@ Entries before this changelog was introduced were backfilled from git history an
 - Added experimental concept-first component extraction planning with `.maquette/pages/<page-name>/component-extraction-plan.md`, schema references, and artifact validation support.
 - Added generated visual fit metadata support to page asset manifests and optional artifact references for coverage plans and experience contracts in schemas.
 - Added segmented page screenshot capture support and page QA guidance requiring capped top/middle/bottom viewport segments for detailed review.
+- Added neutral generated template image scaffolds for brand boards and component close-ups under `shared/template-images/`.
 
 ### Changed
 
@@ -23,7 +24,7 @@ Entries before this changelog was introduced were backfilled from git history an
 - Updated component workflow guidance so existing components are reused or extended before new reusable components are created, focused 1:1 visual component close-ups edited from approved page concepts are the default component image artifact, and CSS text-on-image posters are legacy explicit-only experiments.
 - Updated broad page workflows to generate an approved tall portrait page concept before component expansion, then derive reusable component coverage from concept regions before page implementation.
 - Tightened component prompt guidance to reject hybrid CSS-text/visual component close-ups, keep close-ups focused on one visible component family, and require Codex screenshot matching before moving to the next component.
-- Updated screenshot helpers and workflow docs so visual review screenshots are capped at 1024x1024 and long pages are reviewed through scrolled segments.
+- Updated screenshot helpers and workflow docs so visual review screenshots are capped at 1254x1254 and long pages are reviewed through scrolled segments.
 - Updated page concept, implementation, and final review guidance to treat image generation as creative inspiration that must be translated into purposeful motion, reduced-motion support, interaction states, accessibility, performance-aware UX, content hierarchy, brand craft, and context-fit page decisions.
 
 ## 0.3.5 - 2026-04-26

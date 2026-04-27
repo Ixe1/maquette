@@ -6,7 +6,7 @@ import { pathToFileURL } from "node:url";
 
 const DEFAULT_WIDTHS = [390, 768, 1024, 1280, 1440];
 const DEFAULT_HEIGHT = 1400;
-const MAX_SCREENSHOT_DIMENSION = 1024;
+const MAX_SCREENSHOT_DIMENSION = 1254;
 
 const args = process.argv.slice(2);
 

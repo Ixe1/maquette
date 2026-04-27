@@ -11,26 +11,26 @@ function usage() {
     "Usage: node capture-browser.mjs <page.html or URL> <output.png> [options]",
     "",
     "Options:",
-    "  --width <px>                 Viewport width, default 1024",
-    "  --height <px>                Viewport height, default 1024",
+    "  --width <px>                 Viewport width, default 1254",
+    "  --height <px>                Viewport height, default 1254",
     "  --mode <full-page|viewport|segments>",
     "                              Capture mode, default viewport",
     "  --segments <csv>            Segment names for segments mode, default top,middle,bottom",
     "  --json <path>                Write capture metadata JSON",
     "  --fallback-max-height <px>   Max clipped fallback height, default 16000",
-    "  --max-dimension <px>         Refuse screenshots larger than this, default 1024",
+    "  --max-dimension <px>         Refuse screenshots larger than this, default 1254",
     "  --allow-large                Allow screenshots larger than max dimension",
   ].join("\n"));
 }
 
 let targetArg;
 let outputArg;
-let width = 1024;
-let height = 1024;
+let width = 1254;
+let height = 1254;
 let mode = "viewport";
 let jsonPath;
 let fallbackMaxHeight = 16000;
-let maxDimension = 1024;
+let maxDimension = 1254;
 let allowLarge = false;
 let segments = ["top", "middle", "bottom"];
 

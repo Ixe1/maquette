@@ -708,6 +708,9 @@
             "type": "string"
           }
         },
+        "template_image_path": {
+          "type": "string"
+        },
         "notes": {
           "type": "string"
         }

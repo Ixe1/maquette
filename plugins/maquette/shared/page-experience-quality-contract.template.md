@@ -128,7 +128,7 @@ Record pass/fail and the evidence or blocker for each item.
 | Component coverage plan completed | pass / fail |  |
 | Component extraction plan completed, when concept-first | pass / fail / n/a |  |
 | Component close-up focus/fidelity and source-region fit | pass / fail |  |
-| Component close-up screenshot match, max 1024x1024 | pass / fail |  |
+| Component close-up screenshot match, max 1254x1254 | pass / fail |  |
 | Legacy CSS-contract poster focus/readability/selector allowlist, only when explicitly used | pass / fail / n/a |  |
 | Generated visual fit | pass / fail |  |
 | Motion/effects appropriateness | pass / fail |  |
@@ -138,7 +138,7 @@ Record pass/fail and the evidence or blocker for each item.
 | Performance risk/budget | pass / fail |  |
 | Content hierarchy | pass / fail |  |
 | Mobile usability | pass / fail |  |
-| Screenshot evidence capped at 1024x1024 | pass / fail |  |
+| Screenshot evidence capped at 1254x1254 | pass / fail |  |
 | Segmented viewport screenshots captured for long pages | pass / fail |  |
 | Existing-site shell consistency, when applicable | pass / fail / n/a |  |
 | Context fit against actual product | pass / fail |  |

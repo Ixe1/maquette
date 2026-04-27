@@ -150,7 +150,7 @@
     "component_coverage_plan": "components/component-coverage-plan.md records reuse, extension, create, and page-specific decisions for this page.",
     "component_extraction_plan": "pages/homepage/component-extraction-plan.md records concept-derived components, extraction artifacts, and reuse/extend/create decisions before component expansion.",
     "component_closeup_focus": "Any new component close-up is focused, faithful to the approved concept region, visually inspectable, and justified by the coverage plan.",
-    "component_closeup_screenshot_match": "Each implemented component close-up has rendered screenshot evidence capped at 1024x1024 or segmented.",
+    "component_closeup_screenshot_match": "Each implemented component close-up has rendered screenshot evidence capped at 1254x1254 or segmented.",
     "css_contract_poster_focus": "Any legacy CSS-contract poster is explicitly requested, focused, readable, selector-limited, and justified by the coverage plan.",
     "generated_visual_fit": "Generated rasters are checked for purpose, product-function support, false-feature risk, distraction risk, code-native alternatives, and alt/decorative handling.",
     "motion_effects": "Motion is purposeful, trigger-based, performance-safe, and documented rather than inferred from the image alone.",
@@ -174,12 +174,12 @@
     "css_path": "pages/homepage/page.css",
     "js_path": "pages/homepage/page.js",
     "screenshot_paths": [
-      "pages/homepage/screenshots/page-1024-top.png"
+      "pages/homepage/screenshots/page-1254-top.png"
     ],
     "segmented_screenshot_paths": [
-      "pages/homepage/screenshots/page-1024-top.png",
-      "pages/homepage/screenshots/page-1024-middle.png",
-      "pages/homepage/screenshots/page-1024-bottom.png",
+      "pages/homepage/screenshots/page-1254-top.png",
+      "pages/homepage/screenshots/page-1254-middle.png",
+      "pages/homepage/screenshots/page-1254-bottom.png",
       "pages/homepage/screenshots/page-390-top.png",
       "pages/homepage/screenshots/page-390-middle.png",
       "pages/homepage/screenshots/page-390-bottom.png"
@@ -196,10 +196,10 @@
     "site_contract_path": "site/site-contract.md",
     "shell_consistency_report_path": "pages/homepage/site-shell-consistency.json",
     "reference_shell_screenshot_paths": [
-      "pages/homepage/screenshots/site-shell/reference-footer-1024.png"
+      "pages/homepage/screenshots/site-shell/reference-footer-1254.png"
     ],
     "candidate_shell_screenshot_paths": [
-      "pages/homepage/screenshots/site-shell/candidate-footer-1024.png"
+      "pages/homepage/screenshots/site-shell/candidate-footer-1254.png"
     ],
     "review_notes_path": "pages/homepage/review.md"
   }

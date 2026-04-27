@@ -10,13 +10,13 @@ This plugin is designed around a strict separation of roles:
 When `image_gen` is available, each phase must use it:
 
 1. Brand kit
-   - generate or edit a focused 1:1 brand board
+   - generate or edit a focused 1:1 brand board, preferably by filling the neutral template image when available
 2. Page concept for discovery
    - generate or edit a full-page concept before component-library expansion in broad page/site runs
    - prefer tall portrait scroll composition for full pages; reserve 1:1 images for focused component or region extraction, and do not use 16:9 for full-page concepts unless explicitly requested
 3. Component extraction and components
    - create `.maquette/pages/<page-name>/component-extraction-plan.md` from the approved concept, then create or update `.maquette/components/component-coverage-plan.md`
-   - generate one focused 1:1 visual component close-up at a time by default by editing the approved page concept for reusable gaps or extensions justified by the concept-derived plan
+   - generate one focused 1:1 visual component close-up at a time by default by editing the approved page concept, and preferably the neutral component close-up template when available, for reusable gaps or extensions justified by the concept-derived plan
    - use legacy CSS text-on-image component posters only when the user explicitly requests that route or a documented fallback is approved for the current run
 4. Pages
    - translate the approved concept into layout, experience-quality, asset, and review contracts before implementation
@@ -30,6 +30,17 @@ For brand kits, token creation is not script-led extraction. The inspected brand
 Maquette-owned artifacts must be written under `.maquette/` in the current project. This includes brand boards, design-system JSON, CSS tokens, component close-ups, legacy CSS-contract posters when explicitly used, sheet inventories, componentized references, component CSS/JS, component catalogs, page concepts, page HTML/CSS/JS, generated raster assets, manifests, review notes, Playwright screenshots, and responsive audit JSON.
 
 Do not create, overwrite, or rely on `index.html` in the project root for Maquette output. If the user later wants to integrate a Maquette page into the real app or root site entrypoint, treat that as a separate explicit integration task.
+
+## Template Image Scaffolds
+
+Maquette includes optional generated template images under `shared/template-images/`:
+
+- `brand-kit-template-v1.png` for structured brand boards
+- `component-closeup-template-v1.png` for focused component close-ups
+
+Use these templates as neutral edit-mode scaffolds when they are available and helpful. Before editing a local template image with `image_gen`, make it visible with `view_image`. The template controls artifact framing, whitespace, and inspectability only. The user brief, approved references, approved brand board, approved page concept, and coverage plan remain the design source.
+
+Reject or bypass a template for the current artifact when it makes the result generic, crowded, less faithful to the approved concept, or likely to overbuild unnecessary zones. Record template use or bypass rationale in the relevant approval, coverage, extraction, or review artifact.
 
 ## Mandatory image inspection
 
@@ -96,7 +107,7 @@ Generated boards, component close-ups, and legacy CSS-contract posters are usabl
 - Brand boards must specify font direction and fallback strategy, but must not show detailed component inventories or button/input/card variant specs.
 - Brand boards must not contain logo-like marks, brand-name mastheads, large product-name treatments, monograms, seals, badges, app icons, emblems, or trademark-like elements.
 - Before any component close-up or legacy CSS-contract poster is generated, `.maquette/components/component-coverage-plan.md` must document the project-specific need, existing component reuse check, extension decisions, reusable gaps, page-specific composites, intended API targets, source concept region, and why each new component image is needed.
-- Visual component close-ups are the default component design artifacts in this experiment. They are focused 1:1 images edited from the approved page concept so Codex can inspect one component family at a time, implement reusable HTML/CSS/JS, capture a rendered component screenshot no larger than 1024x1024, compare it to the close-up, and refine before moving on.
+- Visual component close-ups are the default component design artifacts in this experiment. They are focused 1:1 images edited from the approved page concept, with the neutral component close-up template as an optional scaffold, so Codex can inspect one component family at a time, implement reusable HTML/CSS/JS, capture a rendered component screenshot no larger than 1254x1254, compare it to the close-up, and refine before moving on.
 - CSS-contract posters are legacy explicit-only artifacts. When explicitly used, they must be separate focused text-on-image component sheets for selectors, states, slots, dimensions, token intent, motion notes, responsive notes, accessibility notes, and performance-safe property guidance. They must use 1:1 square composition, readable CSS-like text, and a strict selector allowlist from the coverage plan. They should usually cover one major component family, or at most two tightly related small families, with roughly 8 to 16 meaningful selectors. They must not include `body`, `html`, reset, page layout, gallery, panel, note, or documentation CSS.
 - Component sheet batches should be inferred from the current project coverage plan, not a fixed universal taxonomy. Common examples include brand/shell, core actions, forms/filters, data display, cards/composites, feedback/overlays, or motion/live states, but only generate the batches this project actually needs.
 - Multi-close-up or legacy multi-poster component work must be sequential: inspect, inventory, build the current componentized reference, review, and document reusable component APIs from the current artifact before generating the next artifact. The current artifact must produce concrete category-prefixed batch artifacts under `.maquette/components/`, with CSS under `.maquette/components/css/`, JS under `.maquette/components/js/`, and transcribed contracts under `.maquette/components/contracts/` only when a legacy poster is used; retrospective logs after all artifacts are generated are not sufficient.
@@ -155,7 +166,7 @@ When browser tooling is available, page and component QA must include responsive
 - Repeated product-card and comparable card grids must be checked for shared anatomy, equal-height cards, stable badge/eyebrow placement, and aligned CTA, quantity, price, or action rows across varied copy lengths.
 - Rich footers must be compared against the concept for logo placement, link columns, social icons, app/download modules, device imagery, legal links, locale/shipping rows, cookie/bottom strips, and brand blurbs. Generic footer simplification fails unless documented.
 - Page compactness and vertical rhythm must be compared against the concept for the top, middle, and bottom of the page. A matching hero does not compensate for terminal sections that become materially taller, looser, or more generic than the concept.
-- Page visual review should use segmented viewport screenshots no larger than 1024x1024. Long pages should be reviewed by scrolling through top, middle, bottom/terminal, and named functional segments instead of relying on a single tall screenshot. Add named segments for data-heavy regions, filters, important interaction states, and terminal/footer areas when relevant.
+- Page visual review should use segmented viewport screenshots no larger than 1254x1254. Long pages should be reviewed by scrolling through top, middle, bottom/terminal, and named functional segments instead of relying on a single tall screenshot. Add named segments for data-heavy regions, filters, important interaction states, and terminal/footer areas when relevant.
 - Major media containers must be checked for intended image fit and crop behavior. Unintended blank bands, letterboxing, or exposed parent backgrounds around fitted images should be fixed before page approval.
 - Footer social links shown as icons in the concept must render as recognizable social icons with accessible names, not unrelated generic icons or text abbreviations unless the concept explicitly uses text badges.
 - Typography QA must compare coded font family, weight, width, scale, and line-height against the approved visual references. Record font fallback rationale, and avoid `Impact` unless explicitly approved by the brand system.
@@ -163,7 +174,7 @@ When browser tooling is available, page and component QA must include responsive
 
 ## Final review requirements
 
-Final component and page review files must summarize component reuse before new component creation, concept-derived component extraction plan status when used, component coverage plan status, component close-up focus/fidelity and screenshot-match status, legacy CSS-contract poster focus/readability/selector allowlist status only when explicitly used, generated asset manifest and missing assets, generated visual fit, concept-region inventory, page layout contract status, experience quality contract status, motion/effects appropriateness, reduced-motion behavior, interaction state coverage, accessibility baseline, performance risk/budget, content hierarchy, brand craft, mobile usability, context fit against the actual product, site contract status and shell consistency results when existing-site mode is active, component artifact vs replica fidelity, reusable component readiness, card anatomy alignment, terminal-section compactness, media-container fit/crop results, footer fidelity, mobile drawer scrollability, responsive overflow measurements, 1024x1024 screenshot cap compliance, segmented viewport screenshots, open nav screenshots, visual deviations, and fixes. If a category fails, fix it or document a concrete blocker. "Screenshots captured" alone is not a sufficient review.
+Final component and page review files must summarize component reuse before new component creation, concept-derived component extraction plan status when used, component coverage plan status, component close-up focus/fidelity and screenshot-match status, legacy CSS-contract poster focus/readability/selector allowlist status only when explicitly used, generated asset manifest and missing assets, generated visual fit, concept-region inventory, page layout contract status, experience quality contract status, motion/effects appropriateness, reduced-motion behavior, interaction state coverage, accessibility baseline, performance risk/budget, content hierarchy, brand craft, mobile usability, context fit against the actual product, site contract status and shell consistency results when existing-site mode is active, component artifact vs replica fidelity, reusable component readiness, card anatomy alignment, terminal-section compactness, media-container fit/crop results, footer fidelity, mobile drawer scrollability, responsive overflow measurements, 1254x1254 screenshot cap compliance, segmented viewport screenshots, open nav screenshots, visual deviations, and fixes. If a category fails, fix it or document a concrete blocker. "Screenshots captured" alone is not a sufficient review.
 
 ## Transparent image requests
 

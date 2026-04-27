@@ -495,6 +495,7 @@
       "Radius and shadow notes",
       "State notes"
     ],
+    "template_image_path": "shared/template-images/brand-kit-template-v1.png",
     "notes": "Keep the board readable at a reduced image size. Do not use the brand board for component inventories or detailed button, input, card, product-card, navigation, or form variants."
   }
 }

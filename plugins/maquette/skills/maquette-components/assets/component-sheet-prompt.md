@@ -1,4 +1,4 @@
-Edit the visible approved page concept into a focused 1:1 visual close-up of the requested website component or component family.
+Edit the visible approved page concept, and the Maquette component close-up template when provided, into a focused 1:1 visual close-up of the requested website component or component family.
 
 Use this as Maquette's default experimental component image prompt. The output is a visual close-up for Codex to inspect, implement as reusable HTML/CSS/JS, screenshot, compare, and refine. Do not render CSS text, selector lists, implementation notes, markdown, or code on the image unless the user explicitly requested the legacy CSS-contract poster workflow.
 
@@ -6,6 +6,7 @@ Use a 1:1 square composition. Exact generated pixel dimensions are not controlla
 
 Source inputs:
 - approved page concept image
+- optional neutral Maquette component close-up template image, used only as a framing scaffold
 - approved brand board and design-system tokens
 - component extraction plan entry for the visible concept region
 - component coverage plan decision for this close-up
@@ -16,6 +17,11 @@ Preserve from the approved concept:
 - visible component anatomy, slot structure, hierarchy, and density
 - relevant states or variants that are visible or clearly implied by the concept
 - page-specific context only when it is needed to understand the component's shape or edge behavior
+
+If a neutral component close-up template is visible:
+- use it only to organize the output into a readable close-up with room for variants, states, slots, mobile behavior, and motion cues when relevant
+- fill or transform the scaffold from the approved concept region; do not preserve blank gray placeholders as finished UI
+- do not let the scaffold force unrelated zones, generic SaaS styling, or extra variants the coverage plan did not request
 
 Show only the requested focus:
 - one component family by default, such as navigation, search/filter controls, a card family, a status row, table/data display, modal/drawer, footer module, or live-state pattern
@@ -51,4 +57,4 @@ Reject and regenerate or split the close-up before implementation if:
 - decorative content obscures the component anatomy
 - the component cannot be implemented without guessing its structure, slots, states, or density
 
-This image is a visual implementation target, not final UX truth. Codex will translate it into accessible, performant, reusable HTML/CSS/JS, document any deviations, capture a rendered component screenshot no larger than 1024x1024, compare it against the close-up, and refine before moving to the next component.
+This image is a visual implementation target, not final UX truth. Codex will translate it into accessible, performant, reusable HTML/CSS/JS, document any deviations, capture a rendered component screenshot no larger than 1254x1254, compare it against the close-up, and refine before moving to the next component.

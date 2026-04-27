@@ -85,7 +85,8 @@ In concept-first runs, derive these batches from `.maquette/pages/<page-name>/co
 - Source concept path:
 - Optional legacy poster path, only if explicitly requested:
 - Required transcribed contract path, only if a legacy poster is used:
-- Rendered component screenshot path, max 1024x1024:
+- Template image used, if any:
+- Rendered component screenshot path, max 1254x1254:
 - Visual match notes:
 - Artifact status: planned / generated / rejected / split / implemented
 - Rejection or split reason, if any:
@@ -107,5 +108,5 @@ When a later page reveals missing coverage, update this plan before generating a
 - Page-specific composites are separated from reusable component gaps.
 - New reusable gaps have expected consumers and required states.
 - Component close-ups remain focused, visually inspectable, faithful to the approved concept, and implementation-ready.
-- Codex will inspect one close-up at a time, implement reusable HTML/CSS/JS, capture a rendered screenshot no larger than 1024x1024, compare, and fix before moving on.
+- Codex will inspect one close-up at a time, implement reusable HTML/CSS/JS, capture a rendered screenshot no larger than 1254x1254, compare, and fix before moving on.
 - Legacy CSS-contract posters, when explicitly requested, remain separate focused text-on-image artifacts with strict selector allowlists.

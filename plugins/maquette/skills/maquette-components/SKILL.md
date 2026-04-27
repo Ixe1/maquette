@@ -25,7 +25,9 @@ Require user approval of the generated and inspected brand board before expandin
 If the `image_gen` tool is available, you **must use it** in this phase.
 Follow `shared/image-gen-workflow.md` for required visual inspection, same-turn continuation, and conditional transparent PNG verification.
 Do not go straight from tokens to coded components with no image pass.
-Focused 1:1 visual component close-ups edited from the approved page concept are the default design and implementation artifacts in this experimental workflow. `image_gen` should not render CSS text, selector lists, or implementation notes on component images by default. Codex inspects each close-up, writes any needed implementation contract in text artifacts, implements reusable HTML/CSS/JS, captures a rendered component screenshot no larger than 1024x1024, compares it to the close-up, and refines before moving to the next component.
+Focused 1:1 visual component close-ups edited from the approved page concept are the default design and implementation artifacts in this experimental workflow. `image_gen` should not render CSS text, selector lists, or implementation notes on component images by default. Codex inspects each close-up, writes any needed implementation contract in text artifacts, implements reusable HTML/CSS/JS, captures a rendered component screenshot no larger than 1254x1254, compares it to the close-up, and refines before moving to the next component.
+
+When `shared/template-images/component-closeup-template-v1.png` is available, prefer using it as a neutral edit-mode scaffold for focused component close-ups. Load the template and approved concept with `view_image`, then ask `image_gen` to fill the template from the approved concept region and coverage-plan rationale. The template controls framing and inspectability only; the approved concept and brand system control component anatomy and visual language. If the template causes a generic result, crowds the component, or drifts from the concept, regenerate without it and record why.
 
 Before any component close-up or legacy CSS-contract poster is generated, create or update `.maquette/components/component-coverage-plan.md`, using `shared/component-coverage-plan.template.md` when present. The plan must inspect the user brief, requested pages, approved page concept and `.maquette/pages/<page-name>/component-extraction-plan.md` when present, existing website/app shell when present, existing `.maquette/components/component-catalog.json`, existing `.maquette/components/contracts/*.contract.css` when present, existing component CSS/JS, and replica/gallery examples. Document every reuse, extension, new component, and page-specific composite decision there before image generation.
 
@@ -40,11 +42,12 @@ Use image generation to:
 Default visual close-up workflow:
 - generate or revise one focused 1:1 component close-up from the approved page concept, component extraction plan, coverage-plan rationale, product brief, and existing component API notes
 - use `assets/component-sheet-prompt.md` by default
+- prefer `shared/template-images/component-closeup-template-v1.png` as a framing scaffold when available
 - inspect the generated close-up with `view_image` before writing code
 - write implementation notes, selector/API decisions, state coverage, motion/reduced-motion notes, and accessibility/performance notes into the batch review or catalog after inspecting the close-up
 - translate visible colors, sizes, and typography back to approved token variables before writing final CSS
 - record in the batch review that the source artifact is a visual component close-up
-- capture the rendered component or batch replica in screenshots no larger than 1024x1024, compare against the close-up, and treat that comparison as the validation artifact for visual fidelity, reusable API quality, states, accessibility, and responsive behavior
+- capture the rendered component or batch replica in screenshots no larger than 1254x1254, compare against the close-up, and treat that comparison as the validation artifact for visual fidelity, reusable API quality, states, accessibility, and responsive behavior
 
 When a page or site has global navigation, responsive navigation primitives are required component coverage, not a page-only afterthought.
 
@@ -148,7 +151,7 @@ The catalog JSON must validate against `shared/component-catalog.schema.json`.
    - Keep Playwright/Chromium screenshot capture headless.
    - Ensure every browser/session opened for screenshot capture is closed before finishing.
    - If cleanup fails, record the failed cleanup command or operation in the final response.
-   - Capture component reference screenshots as viewport segments no larger than 1024x1024. Use widths such as 390, 768, and 1024 for visual evidence, and use wider browser widths for responsive metrics only when needed.
+   - Capture component reference screenshots as viewport segments no larger than 1254x1254. Use widths such as 390, 768, 1024, and 1254 for visual evidence, and use wider browser widths for responsive metrics only when needed.
    - For every close-up or explicit legacy poster batch, capture or manually review the batch replica before generating the next component artifact. Record the screenshot paths, manual artifacts, or blocked screenshot reason in `<batch-slug>.review.md`.
    - Do not mark `completed_before_next_sheet: true` unless the batch HTML, CSS, JS, catalog snapshot, review file, and screenshot/manual review evidence exist before the next component artifact is generated.
 7. Compare the current coded replica against the current approved visual component close-up and any explicit legacy CSS-contract poster, then make focused corrections.
@@ -202,7 +205,7 @@ The catalog JSON must validate against `shared/component-catalog.schema.json`.
    - Keep Playwright/Chromium screenshot capture headless.
    - Ensure every browser/session opened for screenshot capture is closed before finishing.
    - If cleanup fails, record the failed cleanup command or operation in the final response.
-   - Capture desktop, tablet, and mobile reference screenshots as segments no larger than 1024x1024 when possible; at minimum use representative visual widths 390, 768, and 1024 when browser tooling is available.
+   - Capture desktop, tablet, and mobile reference screenshots as segments no larger than 1254x1254 when possible; at minimum use representative visual widths 390, 768, and 1254 when browser tooling is available.
 14. Run the required component QA pass:
    - Verify `.maquette/components/component-coverage-plan.md` exists and records reuse/extend/create/page-specific decisions for the current request before any new component close-up or legacy poster was generated.
    - Fail and fix if a new component was created where existing component APIs, variants, slots, states, density, or behavior could have covered the need cleanly.
@@ -224,7 +227,7 @@ The catalog JSON must validate against `shared/component-catalog.schema.json`.
    - Run measurable responsive overflow QA when browser tooling is available. Prefer `shared/scripts/audit-responsive-layout.mjs` if present.
    - Run `shared/scripts/validate-linked-assets.mjs` against each batch replica and the final `replica-gallery.html` to verify local stylesheet, script, CSS import, and asset references resolve before moving on.
    - Test at least viewport widths 390, 768, 1024, 1280, and 1440 for responsive metrics.
-   - Keep visual screenshots no larger than 1024x1024. For 1280 and 1440 checks, record measured overflow and capture capped segments only when needed.
+   - Keep visual screenshots no larger than 1254x1254. For 1280 and 1440 checks, record measured overflow and capture capped segments only when needed.
    - If screenshot capture falls back to a clipped full-document image, record the capture metadata and clipped fallback status in `.maquette/components/approved.md`.
    - For each tested viewport, record `window.innerWidth`, `document.documentElement.scrollWidth`, `document.body.scrollWidth`, and clientWidth/scrollWidth for wide components such as tables, grids, timelines, charts, calendars, code blocks, and comparison matrices.
    - Record top overflow offenders when any are present.
@@ -250,7 +253,7 @@ The catalog JSON must validate against `shared/component-catalog.schema.json`.
    - Component entries should align with the coverage plan decision: reused components should document the API consumed, extended components should document the added variant/state/slot/density/behavior, and newly created components should document why the existing API could not cover the need.
    - Responsive navigation components should record variants such as `desktop-inline`, `tablet-collapsed`, `mobile-collapsed`, `mobile-expanded`, `active`, and `focus-visible` in `implemented_variants` or `implemented_states`.
    - Product-card or repeated-card components should record equal-height behavior, body layout strategy, bottom-pinned action rows, and screenshot evidence for action-row alignment.
-16. Summarize gaps, mismatches, approval status, component coverage plan status, reuse/extend/create/page-specific decisions, component close-up focus/fidelity status, legacy CSS-contract poster focus/readability/selector allowlist status only when used, component artifact vs replica fidelity using the rubric, per-batch artifact status, reusable component readiness, brand-board/component-artifact inconsistencies and which artifact won, measured responsive overflow results, screenshot paths or manual review artifacts with 1024x1024 cap status, interaction state coverage, reduced-motion behavior, repeated-card anatomy and action-row alignment results, open nav screenshot paths when present, accepted scroll exceptions, responsive navigation notes, accessibility notes, performance risks, and icon-rendering notes in `.maquette/components/approved.md`.
+16. Summarize gaps, mismatches, approval status, component coverage plan status, reuse/extend/create/page-specific decisions, component close-up focus/fidelity status, legacy CSS-contract poster focus/readability/selector allowlist status only when used, component artifact vs replica fidelity using the rubric, per-batch artifact status, reusable component readiness, brand-board/component-artifact inconsistencies and which artifact won, measured responsive overflow results, screenshot paths or manual review artifacts with 1254x1254 cap status, interaction state coverage, reduced-motion behavior, repeated-card anatomy and action-row alignment results, open nav screenshot paths when present, accepted scroll exceptions, responsive navigation notes, accessibility notes, performance risks, and icon-rendering notes in `.maquette/components/approved.md`.
 
 ## Visual consistency rules
 
@@ -286,7 +289,7 @@ If a reference board, component close-up, or explicit legacy CSS-contract poster
 
 Before finishing:
 - Verify `.maquette/components/component-coverage-plan.md` documents the current request, existing coverage review, reuse/extend/create/page-specific decisions, and each close-up's family scope, source concept region, intended API targets, and rationale.
-- Verify that the componentized reference matches the approved component close-up's component families, variants, states, density, anatomy, and polish, then use screenshots no larger than 1024x1024 to correct visual quality. If a legacy CSS-contract poster is used, also verify the implementation matches the transcribed selector and state contract. A basic selector page is not sufficient.
+- Verify that the componentized reference matches the approved component close-up's component families, variants, states, density, anatomy, and polish, then use screenshots no larger than 1254x1254 to correct visual quality. If a legacy CSS-contract poster is used, also verify the implementation matches the transcribed selector and state contract. A basic selector page is not sufficient.
 - Verify the same componentized reference exposes reusable component APIs, slots, states, JS behavior, accessibility hooks, and usage examples for page implementation.
 - Record the component fidelity rubric result for coverage, visual match, anatomy match, responsive match, and implementation quality.
 - Verify no icon disappears into its background.
@@ -296,7 +299,7 @@ Before finishing:
 - Verify tables and other wide components receive enough horizontal space in the reference.
 - If a screenshot shows horizontal scrolling, explain whether it is expected for the viewport or fix the reference layout.
 - Verify responsive navigation examples at desktop, tablet, and mobile widths when navigation exists, including closed and open tablet/mobile menu states.
-- Verify segmented reference screenshots at mobile, tablet, and desktop widths when browser tooling is available, with each screenshot no larger than 1024x1024.
+- Verify segmented reference screenshots at mobile, tablet, and desktop widths when browser tooling is available, with each screenshot no larger than 1254x1254.
 - Verify the reusable component API through a page-consumption smoke check when browser tooling is available.
 - Verify each multi-close-up or legacy poster batch has concrete category-prefixed files under `.maquette/components/`, with CSS under `.maquette/components/css/`, JS under `.maquette/components/js/`, and CSS-contract transcriptions under `.maquette/components/contracts/` only when legacy posters were used, before accepting the final merged library.
-- `.maquette/components/approved.md` must summarize component coverage plan status, reuse/extend/create/page-specific decisions, component close-up focus/fidelity and screenshot-match status, legacy CSS-contract poster focus/readability/selector allowlist status when used, component artifact vs replica fidelity, per-artifact implementation log status, per-batch artifact paths, reusable component readiness, measured responsive overflow results, screenshot paths or manual review artifacts, screenshot 1024x1024 cap status, clipped screenshot fallbacks, generated fallback scripts and reasons when any exist, interaction state coverage, reduced-motion behavior, repeated-card anatomy and action-row alignment results, open nav screenshot paths when present, accepted scroll exceptions, responsive navigation notes, accessibility notes, performance risks, brand/component inconsistency notes, and icon-rendering notes. "Screenshots captured" alone is not a sufficient review.
+- `.maquette/components/approved.md` must summarize component coverage plan status, reuse/extend/create/page-specific decisions, component close-up focus/fidelity and screenshot-match status, legacy CSS-contract poster focus/readability/selector allowlist status when used, component artifact vs replica fidelity, per-artifact implementation log status, per-batch artifact paths, reusable component readiness, measured responsive overflow results, screenshot paths or manual review artifacts, screenshot 1254x1254 cap status, clipped screenshot fallbacks, generated fallback scripts and reasons when any exist, interaction state coverage, reduced-motion behavior, repeated-card anatomy and action-row alignment results, open nav screenshot paths when present, accepted scroll exceptions, responsive navigation notes, accessibility notes, performance risks, brand/component inconsistency notes, and icon-rendering notes. "Screenshots captured" alone is not a sufficient review.

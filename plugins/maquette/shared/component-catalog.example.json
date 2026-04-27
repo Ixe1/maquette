@@ -22,6 +22,7 @@
         "sheet_path": "components/component-closeup-core-primitives-v1.png",
         "closeup_path": "components/component-closeup-core-primitives-v1.png",
         "source_concept_path": "pages/homepage/concept.png",
+        "template_image_path": "shared/template-images/component-closeup-template-v1.png",
         "replica_artifact_paths": [
           "components/core-primitives.replica.html"
         ],
@@ -35,10 +36,10 @@
         "review_artifact_paths": [
           "components/core-primitives.review.md",
           "components/core-primitives.replica.html",
-          "components/screenshots/core-primitives-1024.png"
+          "components/screenshots/core-primitives-1254.png"
         ],
         "screenshot_paths": [
-          "components/screenshots/core-primitives-1024.png"
+          "components/screenshots/core-primitives-1254.png"
         ],
         "review_mode": "screenshot",
         "reusable_components_added": [
@@ -67,6 +68,7 @@
         "sheet_path": "components/component-closeup-data-display-v1.png",
         "closeup_path": "components/component-closeup-data-display-v1.png",
         "source_concept_path": "pages/homepage/concept.png",
+        "template_image_path": "shared/template-images/component-closeup-template-v1.png",
         "replica_artifact_paths": [
           "components/data-display.replica.html"
         ],
@@ -80,10 +82,10 @@
         "review_artifact_paths": [
           "components/data-display.review.md",
           "components/data-display.replica.html",
-          "components/screenshots/data-display-1024.png"
+          "components/screenshots/data-display-1254.png"
         ],
         "screenshot_paths": [
-          "components/screenshots/data-display-1024.png"
+          "components/screenshots/data-display-1254.png"
         ],
         "review_mode": "screenshot",
         "reusable_components_added": [
@@ -121,6 +123,9 @@
       "components/component-closeup-core-primitives-v1.png",
       "components/component-closeup-data-display-v1.png"
     ],
+    "template_image_paths": [
+      "shared/template-images/component-closeup-template-v1.png"
+    ],
     "nav_open_screenshot_paths": [
       "components/screenshots/responsive-nav-open-390.png",
       "components/screenshots/responsive-nav-open-768.png"
@@ -140,7 +145,7 @@
       "gallery_screenshot_paths": [
         "components/replica-gallery.png",
         "components/screenshots/responsive-390.png",
-        "components/screenshots/responsive-1024.png"
+        "components/screenshots/responsive-1254.png"
       ],
       "gallery_review_artifact_paths": [
         "components/replica-gallery.html",

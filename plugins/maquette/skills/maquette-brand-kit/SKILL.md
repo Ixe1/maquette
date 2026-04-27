@@ -23,6 +23,8 @@ Use image generation in one of these modes:
 - **Generate** a new brand board from the brief
 - **Edit** an existing or previously approved brand board to evolve the direction
 
+When `shared/template-images/brand-kit-template-v1.png` is available, prefer using it as a neutral edit-mode scaffold for a new brand board. Load the template with `view_image`, then ask `image_gen` to fill or transform the visible template according to the brief and references. The template controls board organization only; it must not force a generic visual language, placeholder content, or a fixed taxonomy. If the template makes the board less distinctive, too rigid, or less faithful to the brief, generate without it and record why.
+
 If you need to edit a local image file, ensure it is first made visible in the conversation with `view_image`, then instruct `image_gen` to edit the visible image.
 
 After every `image_gen` create or edit step, inspect the generated image with `view_image` before treating it as the design source. Do not derive tokens or design-system details from the prompt alone. If the generated file cannot be inspected, state that limitation and treat the image as unverified.
@@ -75,6 +77,7 @@ The JSON file must validate against `shared/design-system.schema.json`.
    - constraints
    - accessibility requirements
 3. If `image_gen` is available, create or edit a **focused structured brand board** using `assets/brand-board-prompt.md`.
+   - Prefer `shared/template-images/brand-kit-template-v1.png` as the edit-mode scaffold when available. The generated result should fill the scaffold with a project-specific brand direction, not preserve the blank template as the design.
    - Use the board as the creative exploration and approval artifact.
    - Inspect the generated board with `view_image` before writing the design-system JSON or CSS tokens.
    - If revising an existing board, preserve continuity unless the user asked for a new direction.

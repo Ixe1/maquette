@@ -4,6 +4,8 @@ Before any component close-up image or legacy CSS-contract poster, create or upd
 
 The coded componentized reference should be reviewed as a faithful implementation of the generated focused 1:1 visual component close-up by default, including component APIs, component families, variants, states, repeated-card anatomy, responsive navigation, newsletter modules, footer/social modules, reduced-motion behavior, accessibility, and performance-safe effects. Codex writes implementation contracts and reusable APIs after inspecting the close-up; `image_gen` should not render CSS text on component images in the default experiment.
 
+When available, `shared/template-images/component-closeup-template-v1.png` may be used as a neutral edit-mode scaffold for close-up framing. It is not a component taxonomy or design authority.
+
 Prompt assets:
 
 - `component-sheet-prompt.md`: default visual component close-up prompt for concept-derived component implementation.
