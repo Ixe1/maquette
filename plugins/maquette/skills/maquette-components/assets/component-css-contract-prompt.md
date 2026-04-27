@@ -1,8 +1,8 @@
-Generate a focused website component CSS-contract poster as an optional implementation supplement.
+Generate a focused website component CSS-contract poster as Maquette's default component-sheet artifact.
 
 Use a 1:1 square composition. Exact generated pixel dimensions are not controllable; prioritize a clearly square poster with no cropping, letterboxing, or extra content outside the poster.
 
-This is an optional direct-contract mode for Maquette components. Use it only when the user asks for a CSS-contract poster or a focused visual component sheet needs text clarification. Do not replace the visual component sheet. The output should be a readable CSS-like text poster that the implementation model can inspect with `view_image` and translate into tokenized HTML/CSS/JS.
+This is the default direct-contract mode for Maquette components. The output should be a readable CSS-like text poster that the implementation model can inspect with `view_image`, transcribe into `.maquette/components/contracts/<batch-slug>.contract.css`, and translate into tokenized HTML/CSS/JS. Optional visual component sheets may supplement this poster when visual anatomy or polish needs clarification, but they should not replace the default readable contract.
 
 Visual format:
 - black or near-black background
@@ -75,4 +75,4 @@ Reject and regenerate or split the poster before implementation if:
 - unrelated component families are crowded together
 - the poster is too generic to guide component CSS beyond common defaults
 
-This CSS-contract poster is a machine-readable component contract, not a final stylesheet and not the final visual source of truth for complex visual design. The coded replica/reference must still be reviewed in a browser, corrected after screenshots, and documented in the component catalog.
+This CSS-contract poster is a machine-readable component contract, not a final stylesheet. The coded replica/reference must still be reviewed in a browser for visual quality, corrected after screenshots, and documented in the component catalog.

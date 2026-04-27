@@ -16,14 +16,14 @@ Preferred inputs:
 - `.maquette/components/component-coverage-plan.md`
 - `.maquette/components/component-catalog.json`
 - approved brand-board image
-- approved visual component-sheet image or images, plus approved CSS-contract poster images when that optional supplement path was used
+- approved CSS-contract component-sheet poster image or images, plus optional visual component-sheet images when that supplement path was used
 
 Hard gate:
 - If `.maquette/brand/design-system.json`, `.maquette/brand/tokens.css`, or a generated and inspected brand board image is missing, do not create a page concept. Run the brand-kit phase first using `maquette-brand-kit`.
 - If `.maquette/components/component-coverage-plan.md`, `.maquette/components/component-catalog.json`, `.maquette/components/css/components.css`, `.maquette/components/replica-gallery.html`, or a generated and inspected component sheet/CSS-contract poster image is missing, do not create a page concept. Run the component-library phase first using `maquette-components`.
 - If the component catalog lacks reusable component API coverage or marks `assets.reusable_component_review.ready_for_pages` as false, do not copy the componentized reference layout into the page. Run or request `maquette-components` to complete reusable component coverage first.
 - If the component catalog records multiple `assets.sheet_implementation_batches`, each implemented batch should have concrete batch artifact paths for the batch replica/reference, component CSS/JS, catalog snapshot, screenshot/manual review evidence, and review. If these are missing, run or request `maquette-components` to complete the component phase before page work.
-- If the requested page needs components, dense data patterns, or reusable composites, update `.maquette/components/component-coverage-plan.md` first by mapping page needs to existing component APIs, variants, slots, states, CSS/JS, and gallery examples. Reuse or extend existing components when possible. Run or request the component-library phase only when the plan identifies a true reusable gap and explains why a new focused visual component sheet is needed. Do not silently invent significant new component language inside the page phase.
+- If the requested page needs components, dense data patterns, or reusable composites, update `.maquette/components/component-coverage-plan.md` first by mapping page needs to existing component APIs, variants, slots, states, CSS/JS, and gallery examples. Reuse or extend existing components when possible. Run or request the component-library phase only when the plan identifies a true reusable gap and explains why a new focused CSS-contract poster is needed. Do not silently invent significant new component language inside the page phase.
 - Before page concept or page implementation work, check for existing website/app entrypoints and shared shell assets. If found, create or update `.maquette/site/site-contract.md` before generating the page concept or writing code.
 - Do not treat an existing website, screenshot, copied CSS, or style notes as a substitute for the brand kit and component library.
 - In a one-shot unattended `maquette` workflow where the user explicitly asked not to pause, earlier phases may be marked provisional, but they still must exist before this phase starts. Otherwise, generated brand-board and page-concept approval gates still require explicit user decisions.
@@ -60,7 +60,7 @@ Do not skip directly to code-only page design unless the user explicitly asks yo
 The page concept image is the creative design artifact for the page and should guide layout, hierarchy, density, and style.
 
 Use image generation to:
-- create a new page concept from the approved brand board, visual component sheets, and any optional CSS-contract-backed component references, or
+- create a new page concept from the approved brand board, CSS-contract-backed component references, and any optional visual component sheets, or
 - edit an existing concept image to refine the page while preserving the approved visual language
 
 If editing a local reference image, first make it visible in the conversation with `view_image`, then ask `image_gen` to edit the visible image.
@@ -113,13 +113,13 @@ The asset manifest JSON must validate against `shared/page-asset-manifest.schema
    - Create or update `.maquette/site/site-contract.md` from `shared/site-contract.template.md` before generating the page concept or writing implementation code.
    - Document shell locks, CSS/JS ownership, the page-specific CSS/JS boundary, and any ambiguity or waiver.
 3. Check component coverage before page concept work.
-   - Update `.maquette/components/component-coverage-plan.md` for this page before requesting any new component sheet or optional poster.
+   - Update `.maquette/components/component-coverage-plan.md` for this page before requesting any new CSS-contract poster or optional visual sheet.
    - Reuse existing components first.
    - Inspect `.maquette/components/component-catalog.json`, `.maquette/components/contracts/*.contract.css`, existing component CSS/JS, and replica/gallery examples.
    - Use component catalog APIs, slots, variants, states, and usage examples from the componentized reference. Do not copy the `replica-gallery.html` page layout into the page.
    - Identify which page needs are covered by existing components, which need a variant/state/slot/density/behavior extension, which are true reusable component gaps, and which are page-specific composites.
    - If the page has a header or primary navigation, verify that the component catalog covers responsive navigation variants before concept or implementation work.
-   - If missing coverage is significant, run or request `maquette-components` to create only the focused visual component sheet justified by the coverage plan before continuing. Use a CSS-contract poster only as an optional supplement when text clarification is needed.
+   - If missing coverage is significant, run or request `maquette-components` to create only the focused CSS-contract poster justified by the coverage plan before continuing. Use a visual component sheet only as an optional supplement when anatomy or fidelity clarification is needed.
    - Do not create a new component sheet or poster merely because this is a new page.
 4. If `image_gen` is available, create or edit a page concept using the approved references and `assets/page-concept-prompt.md`.
    - Inspect the generated page concept with `view_image` before writing the page blueprint or implementation.
@@ -200,7 +200,7 @@ The asset manifest JSON must validate against `shared/page-asset-manifest.schema
    - Full-page screenshots provide overview. Segmented viewport screenshots are the primary evidence for detailed visual review because they preserve normal viewport scale.
    - If screenshot capture falls back to a clipped full-document image, record the capture metadata and clipped fallback status in `review.md`.
 15. Run the required page QA pass:
-   - Explicitly pass or fail component reuse before new component creation, component coverage plan completion, visual component sheet focus/readability/inspectability for any new component work, optional CSS-contract poster focus/readability when used, generated visual fit, motion/effects appropriateness, reduced-motion behavior, interaction state coverage, accessibility baseline, performance risk/budget, content hierarchy, mobile usability, existing-site shell consistency when applicable, and context fit against the actual product.
+   - Explicitly pass or fail component reuse before new component creation, component coverage plan completion, CSS-contract poster focus/readability/selector allowlist status for any new component work, optional visual component sheet focus/inspectability when used, generated visual fit, motion/effects appropriateness, reduced-motion behavior, interaction state coverage, accessibility baseline, performance risk/budget, content hierarchy, mobile usability, existing-site shell consistency when applicable, and context fit against the actual product.
    - Fix any failed category before approval or document a concrete blocker and follow-up in `review.md`.
    - Verify the page concept region inventory against the rendered page. Missing concept regions fail QA unless the inventory records an intentional omission with a concrete reason.
    - Verify the page layout contract against the rendered page. Fail and fix when the implementation violates recorded section order, section density, image crop behavior, footer structure, or terminal-section compactness without a documented reason.
@@ -254,7 +254,7 @@ The asset manifest JSON must validate against `shared/page-asset-manifest.schema
    - Prefer bundled Maquette scripts over generated run-local `.mjs` scripts for capture and responsive auditing. If a fallback script is generated, list it in `review.md` with the reason.
    - For each major section, write concept-to-code comparison notes in `review.md`: `matches`, `deviates`, `missing`, `simplified`, or `fixed`.
    - If a footer, header, terminal section, image asset, or any other visible concept region is simplified from the concept, either fix it or record the intentional reason and recommended follow-up in `review.md`.
-16. Record generated asset manifest status and missing assets, page concept approval decision, page concept region inventory, page layout contract status, experience quality contract status, generated visual fit decisions, motion/effects QA, reduced-motion behavior, interaction state coverage, accessibility baseline, performance risk/budget review, content hierarchy, brand craft, mobile usability, site contract status when existing-site mode is active, component coverage plan status, component reuse before new component creation, visual component sheet focus/readability/inspectability for any new component work, optional CSS-contract poster focus/readability when used, component sheet/optional CSS-contract poster vs replica fidelity notes, reusable component usage notes, card anatomy alignment, footer fidelity, terminal-section compactness, media container fit/crop results, mobile drawer scrollability, shared-shell consistency status, measured responsive overflow results, full-page screenshot paths, segmented viewport screenshot paths, open nav screenshot paths, visual deviations and fixes, accepted scroll exceptions, navigation accessibility notes, icon-rendering notes, context fit against the actual product, and chosen font family/fallback rationale in `review.md`.
+16. Record generated asset manifest status and missing assets, page concept approval decision, page concept region inventory, page layout contract status, experience quality contract status, generated visual fit decisions, motion/effects QA, reduced-motion behavior, interaction state coverage, accessibility baseline, performance risk/budget review, content hierarchy, brand craft, mobile usability, site contract status when existing-site mode is active, component coverage plan status, component reuse before new component creation, CSS-contract poster focus/readability/selector allowlist status for any new component work, optional visual component sheet focus/inspectability when used, component artifact vs replica fidelity notes, reusable component usage notes, card anatomy alignment, footer fidelity, terminal-section compactness, media container fit/crop results, mobile drawer scrollability, shared-shell consistency status, measured responsive overflow results, full-page screenshot paths, segmented viewport screenshot paths, open nav screenshot paths, visual deviations and fixes, accepted scroll exceptions, navigation accessibility notes, icon-rendering notes, context fit against the actual product, and chosen font family/fallback rationale in `review.md`.
 
 ## Low-resolution reference rule
 

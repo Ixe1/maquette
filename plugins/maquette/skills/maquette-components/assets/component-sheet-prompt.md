@@ -1,8 +1,8 @@
-Edit the visible approved brand board into a focused visual website component-sheet image.
+Edit the visible approved brand board into a focused visual website component-sheet supplement.
 
 Use a 1:1 square composition for every component sheet. Exact generated pixel dimensions are not controllable; prioritize a clearly square board with no cropping, letterboxing, or extra content outside the board.
 
-Generate only the current requested family from the component coverage plan. Do not include teaser panels for later sheet categories. In multi-sheet workflows, the implementation model will inspect, implement a componentized replica/reference, review, and document reusable components from this sheet before requesting the next focused sheet.
+Generate only the current requested family from the component coverage plan. Do not include teaser panels for later sheet categories. This visual sheet is optional support for a focused CSS-contract poster, used when visual anatomy, density, spacing, hierarchy, or polish needs clarification. In multi-artifact workflows, the implementation model will inspect, implement a componentized replica/reference, review, and document reusable components from the current poster and any visual supplement before requesting the next focused artifact.
 
 Preserve:
 - approved palette
@@ -36,8 +36,8 @@ Adaptive sheet rules:
 - do not hardcode an exact number of components; each sheet must remain readable and useful at normal preview size
 
 Quality requirements:
-- component sheets define component styling; they should not contradict the approved brand board, and any unavoidable contradiction must be noted for `approved.md`
-- component sheets are componentized reference targets, not mood references; the later coded reference should reproduce the visible component families, anatomy, variants, states, density, spacing, radius, shadows, and polish using reusable CSS/JS from the start
+- visual component sheets clarify component styling; they should not contradict the approved brand board or the CSS-contract poster, and any unavoidable contradiction must be noted for `approved.md`
+- visual component sheets are componentized reference supplements, not mood references; the later coded reference should reproduce the visible component families, anatomy, variants, states, density, spacing, radius, shadows, and polish using reusable CSS/JS from the start while preserving the poster's selector and state contract
 - foreground/background contrast must remain readable in active, selected, focus, disabled, inverse, and dark navigation states
 - the later coded componentized reference and reusable component API must be able to match this sheet's sophistication; do not show component details, density, states, or composites that are too ambiguous to implement
 - icon-only controls must have readable icon/background contrast in default, hover, active, selected, disabled, and inverse states
@@ -49,5 +49,5 @@ Quality requirements:
 - table cells, badges, labels, icons, and buttons must remain readable without overlap
 - reject the layout direction if labels are too small, unrelated families are crammed into tiny cells, components overlap, full tables or dashboards crowd out primitives, implementation notes dominate, or the image cannot guide implementation without heavy zooming
 
-This component sheet is a creative design artifact that the later coded componentized reference should match while exposing reusable component APIs.
+This component sheet is a creative visual supplement that the later coded componentized reference should match while preserving reusable component APIs from the default CSS-contract poster.
 Do not create a new visual direction.

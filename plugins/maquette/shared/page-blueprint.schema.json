@@ -259,6 +259,9 @@
         "visual_component_sheet_focus": {
           "type": "string"
         },
+        "optional_visual_component_sheet_focus": {
+          "type": "string"
+        },
         "css_contract_poster_focus": {
           "type": "string"
         },

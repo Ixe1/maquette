@@ -19,7 +19,7 @@ Entries before this changelog was introduced were backfilled from git history an
 ### Changed
 
 - Updated page concept and implementation guidance to preserve existing website shells, reuse shared CSS/JS entrypoints, and keep page-specific CSS/JS scoped to new page body content when an existing site is detected.
-- Updated component workflow guidance so existing components are reused or extended before new reusable components are created, focused visual component sheets are the default component image artifact again, and optional CSS-contract posters are used only for explicit requests or text clarification.
+- Updated component workflow guidance so existing components are reused or extended before new reusable components are created, focused CSS-contract text-on-image posters are the default component image artifact again, and visual component sheets are optional anatomy/fidelity supplements for explicit requests or poster clarification.
 - Updated page concept, implementation, and final review guidance to treat image generation as creative inspiration that must be translated into purposeful motion, reduced-motion support, interaction states, accessibility, performance-aware UX, content hierarchy, brand craft, and context-fit page decisions.
 
 ## 0.3.5 - 2026-04-26

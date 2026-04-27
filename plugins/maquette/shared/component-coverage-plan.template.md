@@ -1,6 +1,6 @@
 # Component Coverage Plan
 
-Status: draft before any visual component sheet or CSS-contract poster is generated.
+Status: draft before any CSS-contract poster or optional visual component sheet is generated.
 
 ## Source Review
 
@@ -67,25 +67,28 @@ List page-only arrangements that should not become global components unless late
 
 ## Component Image Batches
 
-Define focused batches before image generation. Visual component sheets are the default. Each batch should cover one major family by default, or at most two tightly related small families. Record intended component API/selector targets so implementation remains reusable without putting CSS text on the image. Use CSS-contract posters only as optional supplements when text clarification is needed.
+Define focused batches before image generation. CSS-contract posters are the default component sheet images. Each batch should cover one major family by default, or at most two tightly related small families. Record intended component API targets and a strict selector allowlist so implementation remains reusable and the text-on-image poster stays readable. Use visual component sheets only as optional supplements when visual anatomy, density, spacing, hierarchy, or polish needs clarification.
 
 ### Batch: `<batch-slug>`
 
 - Purpose:
-- Artifact type: visual component sheet / optional CSS-contract poster / both
-- Why this sheet or optional poster is needed before implementation:
+- Artifact type: CSS-contract poster / optional visual component sheet / both
+- Why this poster or optional visual sheet is needed before implementation:
 - Reuse/extend/create decisions covered:
-- Intended component API / selector targets:
+- Intended component API targets:
+  - `.c-example`
+- Selector allowlist for CSS-contract poster:
   - `.c-example`
 - Variants, states, slots, density, motion, responsive, and accessibility notes:
-- Expected sheet path:
-- Optional contract path, if CSS supplement is used:
+- Expected poster path:
+- Required transcribed contract path:
+- Optional visual supplement path:
 - Artifact status: planned / generated / rejected / split / implemented
 - Rejection or split reason, if any:
 
 ## Later Page Updates
 
-When a later page reveals missing coverage, update this plan before generating any new component sheet or optional poster.
+When a later page reveals missing coverage, update this plan before generating any new poster or optional visual sheet.
 
 - Date / page:
 - Newly discovered need:
@@ -95,9 +98,9 @@ When a later page reveals missing coverage, update this plan before generating a
 ## Readiness Checklist
 
 - Existing components were checked before new posters were planned.
-- Every new sheet has a focused family, intended API targets, and a reason.
+- Every new poster has a focused family, intended API targets, selector allowlist, and a reason.
 - No sheet or poster exists only because a new page is being built.
 - Page-specific composites are separated from reusable component gaps.
 - New reusable gaps have expected consumers and required states.
-- Visual component sheets remain focused, inspectable, and implementation-ready.
-- Optional CSS-contract posters remain readable, scoped, and used only when they add clarity.
+- CSS-contract posters remain readable, scoped, selector-limited, and implementation-ready.
+- Optional visual component sheets remain focused, inspectable, and used only when they add clarity.
