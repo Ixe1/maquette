@@ -11,7 +11,7 @@ Write all Maquette-owned page artifacts under `.maquette/pages/<page-name>/` in 
 
 Use this skill in two modes:
 
-- **Concept-first discovery mode**: after the brand kit exists, create and approve the page concept, then write `.maquette/pages/<page-name>/component-extraction-plan.md` so Maquette can derive the component library from the approved concept before implementation.
+- **Concept-first discovery mode**: after the brand kit exists, create and approve desktop page concept segments, then write `.maquette/pages/<page-name>/component-extraction-plan.md` so Maquette can derive the component library from the approved segment concepts before implementation.
 - **Implementation mode**: after the reusable component library exists, create the page contracts and code from the approved concept and cataloged components.
 
 Preferred inputs:
@@ -23,7 +23,7 @@ Preferred inputs:
 
 Hard gate:
 - If `.maquette/brand/design-system.json`, `.maquette/brand/tokens.css`, or a generated and inspected brand board image is missing, do not create a page concept. Run the brand-kit phase first using `maquette-brand-kit`.
-- In concept-first discovery mode, component-library artifacts may be missing. Create only the page concept approval artifact and `.maquette/pages/<page-name>/component-extraction-plan.md`, then run or request `maquette-components` before page blueprint/code.
+- In concept-first discovery mode, component-library artifacts may be missing. Create only the page concept segment approval artifacts and `.maquette/pages/<page-name>/component-extraction-plan.md`, then run or request `maquette-components` before page blueprint/code.
 - In implementation mode, if `.maquette/components/component-coverage-plan.md`, `.maquette/components/component-catalog.json`, `.maquette/components/css/components.css`, `.maquette/components/replica-gallery.html`, or a generated and inspected component close-up image is missing, do not write the page blueprint or code. Run the component-library phase first using `maquette-components`.
 - If the component catalog lacks reusable component API coverage or marks `assets.reusable_component_review.ready_for_pages` as false, do not copy the componentized reference layout into the page. Run or request `maquette-components` to complete reusable component coverage first.
 - If the component catalog records multiple `assets.sheet_implementation_batches`, each implemented batch should have concrete batch artifact paths for the batch replica/reference, component CSS/JS, catalog snapshot, screenshot/manual review evidence, and review. If these are missing, run or request `maquette-components` to complete the component phase before page work.
@@ -61,24 +61,24 @@ Greenfield behavior remains unchanged when no existing website/app shell is dete
 If the `image_gen` tool is available, you **must use it** before implementation.
 Follow `shared/image-gen-workflow.md` for required visual inspection, same-turn continuation, and conditional transparent PNG verification.
 Do not skip directly to code-only page design unless the user explicitly asks you to.
-The page concept image is the creative design artifact for the page and should guide layout, hierarchy, density, and style.
-For full-page concepts, prefer a tall portrait scroll composition that shows top-to-bottom page flow. Do not use a 16:9 widescreen concept for a full webpage unless the user explicitly asks for a single viewport hero/screen. Use 1:1 images for focused component or region extraction, not for the whole-page concept by default.
+The page concept images are the creative design artifacts for the page and should guide layout, hierarchy, density, typography, text fit, and style.
+For implementation fidelity, use separate 16:9 desktop viewport concepts for the top, middle, and bottom page segments by default. Do not generate one compressed full-page concept for implementation. Each segment concept must look like a real browser screenshot at realistic desktop UI scale, with no mobile previews, annotations, poster labels, zoomed-out page view, or extra inset frames. Use 1:1 images only for focused component or region extraction, not for whole-page concepts by default.
 
 Use image generation to:
-- create a new page concept from the approved brand board, plus component references when they already exist, or
-- edit an existing concept image to refine the page while preserving the approved visual language
+- create top, middle, and bottom 16:9 desktop page concept segments from the approved brand board, plus component references when they already exist, or
+- edit an existing segment concept image to refine that segment while preserving the approved visual language
 
 If editing a local reference image, first make it visible in the conversation with `view_image`, then ask `image_gen` to edit the visible image.
 
 After every `image_gen` create or edit step, inspect the generated image with `view_image` before treating it as the design source. Do not derive page blueprints, layout decisions, or implementation details from the prompt alone. If the generated file cannot be inspected, state that limitation and treat the image as unverified.
 
-When image-worker subagents are explicitly authorized for the current run, run page-concept image generation or editing in a dedicated image worker subagent. If the image-worker decision is unresolved, follow the preflight authorization question in `shared/image-gen-workflow.md`; do not silently skip the image-worker path. The worker should return the exact saved image path and the project-local `.maquette/pages/<page-name>/concept.png` path. The main workflow must then inspect the returned image with `view_image`, ask the approval question, and only then derive page artifacts or code.
+When image-worker subagents are explicitly authorized for the current run, run page-concept image generation or editing in a dedicated image worker subagent. If the image-worker decision is unresolved, follow the preflight authorization question in `shared/image-gen-workflow.md`; do not silently skip the image-worker path. The worker should return the exact saved image path and the project-local segment path such as `.maquette/pages/<page-name>/concept-top.png`, `.maquette/pages/<page-name>/concept-middle.png`, or `.maquette/pages/<page-name>/concept-bottom.png`. The main workflow must then inspect the returned image with `view_image`, ask the approval question for that segment, and only then derive segment contracts or code.
 
-After inspecting a generated or edited page concept that passes rejection checks, ask the user whether to use it before writing the page blueprint, concept-region inventory, page layout contract, experience quality contract, asset manifest, or page code. Use the Codex user-input/question tool when available with choices equivalent to:
+After inspecting each generated or edited page segment concept that passes rejection checks, ask the user whether to use it before writing the page blueprint, concept-region inventory, segment layout contract, page layout contract, experience quality contract, asset manifest, or page code. Use the Codex user-input/question tool when available with choices equivalent to:
 - `Yes, use this` as the recommended choice
 - `No, make a new one`
 
-If the user approves, continue. If the user asks for a new one, regenerate before deriving page artifacts. If the user gives free-form revision notes, edit the concept using those notes, inspect the revision, and ask again with the same two approval choices. Do not treat a page concept as approved merely because the run is one-shot or provisional unless the user explicitly requested an unattended run. `One pass`, `full workflow`, `final homepage`, `fresh disposable test`, and similar phrasing are not unattended requests by themselves.
+If the user approves, continue to the next segment or contract step. If the user asks for a new one, regenerate that segment before deriving page artifacts from it. If the user gives free-form revision notes, edit the segment using those notes, inspect the revision, and ask again with the same two approval choices. Do not treat a page concept segment as approved merely because the run is one-shot or provisional unless the user explicitly requested an unattended run. `One pass`, `full workflow`, `final homepage`, `fresh disposable test`, and similar phrasing are not unattended requests by themselves.
 
 Only skip image generation if:
 - the user explicitly tells you not to use it, or
@@ -89,6 +89,7 @@ Only skip image generation if:
 For each page, create or update a folder like:
 
 - `.maquette/pages/<page-name>/page-blueprint.json`
+- `.maquette/pages/<page-name>/segments/<segment-name>-layout-contract.md`
 - `.maquette/pages/<page-name>/component-extraction-plan.md`
 - `.maquette/pages/<page-name>/concept-region-inventory.md`
 - `.maquette/pages/<page-name>/page-layout-contract.md`
@@ -102,6 +103,9 @@ For each page, create or update a folder like:
 When applicable, also create:
 
 - `.maquette/pages/<page-name>/concept.png`
+- `.maquette/pages/<page-name>/concept-top.png`
+- `.maquette/pages/<page-name>/concept-middle.png`
+- `.maquette/pages/<page-name>/concept-bottom.png`
 - `.maquette/pages/<page-name>/page.png`
 - `.maquette/site/site-contract.md` when existing-site integration mode is active
 - `.maquette/pages/<page-name>/site-shell-consistency.json` when existing-site integration QA runs
@@ -127,19 +131,22 @@ The asset manifest JSON must validate against `shared/page-asset-manifest.schema
    - If the page has a header or primary navigation, verify that the component catalog covers responsive navigation variants before concept or implementation work.
    - If missing coverage is significant in implementation mode, run or request `maquette-components` to create only the focused visual component close-up justified by the coverage plan before continuing. Use a legacy CSS-contract poster only when explicitly requested.
    - Do not create a new component close-up or poster merely because this is a new page.
-4. If `image_gen` is available, create or edit a page concept using the approved references and `assets/page-concept-prompt.md`.
-   - Inspect the generated page concept with `view_image` before writing the page blueprint or implementation.
-   - A concept with header or primary navigation is incomplete if it only shows desktop navigation. It must define desktop, tablet, and mobile nav behavior, including the collapsed and expanded tablet/mobile state.
+4. If `image_gen` is available, create or edit the top, middle, and bottom desktop page concept segments using the approved references and `assets/page-concept-prompt.md`.
+   - Generate each segment as a separate 16:9 desktop browser viewport screenshot concept, usually named `.maquette/pages/<page-name>/concept-top.png`, `.maquette/pages/<page-name>/concept-middle.png`, and `.maquette/pages/<page-name>/concept-bottom.png`.
+   - Inspect each generated page segment concept with `view_image` before writing the page blueprint or implementation.
+   - Reject or regenerate any segment that looks like a poster, annotated board, mobile/tablet preview sheet, zoomed-out full page, compressed full-page concept, or unrealistic browser scale.
+   - Reject or regenerate any segment whose text is too small to read, whose nav/button/chip labels wrap unintentionally, or whose layout implies text clipping to make content fit.
+   - A concept with header or primary navigation is incomplete if it does not define responsive behavior somewhere in the approved concept set or component coverage. Desktop segment concepts may focus on desktop visual fidelity, but responsive nav behavior must still be covered before implementation.
    - In existing-site mode, include `.maquette/site/site-contract.md` and the selected reference page as hard constraints. The concept must preserve the existing shell and explore only unique page body/content unless the user requested a redesign.
    - Reject or regenerate concepts that introduce a new brand name, new logo, new nav model, unrelated footer, inconsistent newsletter/subscription pattern, or shell styling that conflicts with the site contract.
-5. Ask the user whether to use the inspected page concept.
+5. Ask the user whether to use each inspected page segment concept.
    - Use the approval choices from the non-negotiable image policy.
    - Record the user's decision in `review.md` once the review file exists.
-   - Do not create the page blueprint, concept-region inventory, page layout contract, experience quality contract, asset manifest, or page code until the user approves the concept, unless the user explicitly requested an unattended run.
-6. After concept approval and before component expansion, create `.maquette/pages/<page-name>/component-extraction-plan.md`.
+   - Do not create the page blueprint, concept-region inventory, segment layout contracts, page layout contract, experience quality contract, asset manifest, or page code until the user approves the required top, middle, and bottom concept segments, unless the user explicitly requested an unattended run.
+6. After segment concept approval and before component expansion, create `.maquette/pages/<page-name>/component-extraction-plan.md`.
    - Use `shared/page-component-extraction-plan.template.md` if present.
-   - Inventory visible component families and page-specific composites from the approved concept.
-   - Use `image_gen` edit mode on the approved concept by default to create focused 1:1 close-ups of components that need implementation or extension.
+   - Inventory visible component families and page-specific composites from all approved segment concepts.
+   - Use `image_gen` edit mode on the approved segment concepts by default to create focused 1:1 close-ups of components that need implementation or extension.
    - Use deterministic 1:1 crops only when the crop already provides a clean close-up or image editing is unavailable. Document the reason. The edit or crop must preserve the approved concept's visual direction and must not invent a new component style.
    - Map each concept-derived need to reuse, extend, create, or page-specific. Existing component APIs still win when they cover the need.
    - Update `.maquette/components/component-coverage-plan.md` from this extraction plan before requesting any new component close-up or explicit legacy CSS-contract poster.
@@ -151,15 +158,21 @@ The asset manifest JSON must validate against `shared/page-asset-manifest.schema
    - Visible concept regions default to implementation. Missing, simplified, or merged regions must have a concrete reason before coding proceeds.
    - If any visible region requires component expansion, run or request `maquette-components` before implementing that region.
    - In existing-site mode, mark locked shell regions as `preserved from site contract` or document a waiver before implementation.
-8. Before coding, create `.maquette/pages/<page-name>/page-layout-contract.md`.
+8. Before coding, create a segment layout contract for each approved desktop concept segment.
+   - Use `shared/page-segment-layout-contract.template.md` if present.
+   - Store segment contracts under `.maquette/pages/<page-name>/segments/`, such as `top-layout-contract.md`, `middle-layout-contract.md`, and `bottom-layout-contract.md`.
+   - For each segment, record viewport size, section bounds, column widths, font-size estimates, line-height, font weight, text casing, one-line text requirements, expected wrapping, and overflow constraints.
+   - Record text-fit rules for nav, buttons, search placeholders, cards, chips, tables, metric labels, and footer links.
+   - Record whether clipping or `overflow: hidden` is allowed for any element. It is disallowed by default; visible concept text must remain fully readable.
+9. Before coding, create `.maquette/pages/<page-name>/page-layout-contract.md`.
    - Use `shared/page-layout-contract.template.md` if present.
-   - Translate the inspected page concept into implementable layout rules for each major region: section order, relative section heights, section density/compactness, background bands, grid behavior, image container aspect ratios, image crop behavior, footer structure, legal/bottom row structure, and mobile stacking.
+   - Translate the inspected segment concepts and segment layout contracts into implementable layout rules for each major region: section order, relative section heights, section density/compactness, background bands, grid behavior, image container aspect ratios, image crop behavior, footer structure, legal/bottom row structure, and mobile stacking.
    - Record top, middle, and terminal-region expectations. Terminal regions include final CTA/impact strips, newsletter blocks, footers, legal rows, bottom bars, app/download modules, and social areas.
    - For every major raster media region, record whether the image must fill its container, which `object-fit` behavior is expected, and whether blank bands or letterboxing are acceptable. Blank parent backgrounds around fitted media are deviations unless the contract explicitly accepts them.
    - Record which component catalog APIs are expected in each region and where page-specific layout CSS is allowed.
    - Any visible concept region that will be taller, looser, more compact, cropped differently, or structurally simplified must be recorded here before implementation with a concrete reason.
    - In existing-site mode, reference `.maquette/site/site-contract.md`, record the canonical shell owner for header/nav, newsletter/terminal regions, footer/legal rows, and define the page-body-only implementation boundary.
-9. Create `.maquette/pages/<page-name>/asset-manifest.json` before coding.
+10. Create `.maquette/pages/<page-name>/asset-manifest.json` before coding.
    - Use `shared/page-asset-manifest.example.json` and `shared/page-asset-manifest.schema.json` if present.
    - List every required raster image: logo if supplied or explicitly requested, hero images, product-card images, promo images, lifestyle/story images, footer/app/device images, background textures, decorative rasters, and generated concept/page screenshots.
    - If the user asked for generated image assets, generate all required project-local assets or document why each missing asset was not generated.
@@ -180,16 +193,23 @@ The asset manifest JSON must validate against `shared/page-asset-manifest.schema
    - Record performance budgets or static risk checks for heavy decorative images, LCP/hero impact, CSS/JS weight, animation cost, layout shift, interaction delay, font loading, and mobile rendering. Baseline targets are LCP 2.5s or better, INP 200ms or better, and CLS 0.1 or better. If tooling is unavailable, document that this is a static risk review and do not claim measured performance.
    - Verify scan-first information architecture: clear H1, concise intro, obvious primary action, useful summaries before detail, clear filter/search/sort behavior for data-heavy pages, no ornamental sections pushing core tasks down without benefit, visuals support hierarchy, and footer/terminal regions fit the site and concept.
    - Verify brand craft: recognizable brand language, product-specific typography/spacing/icons/surfaces/interactions, no generic SaaS/card-dashboard sameness, and visual richness from purposeful system details rather than random generated decoration.
-11. Reuse existing components first.
-12. Translate the page concept, page layout contract, and experience quality contract into code using the component library before adding any new composite patterns.
+11. Ensure font loading is explicit before coding.
+   - If the approved brand system declares custom, imported, hosted, or non-system fonts, create `.maquette/brand/fonts.css`.
+   - Put `@font-face` rules or approved font imports in `fonts.css`, and record licensing/source/fallback notes in the design system or review.
+   - Every Maquette HTML artifact must import `.maquette/brand/fonts.css` before brand tokens, component CSS, or page CSS when custom fonts are declared. If no custom fonts are used, record that `fonts.css` was not required.
+   - Fail QA if custom fonts are declared in the brand system, tokens, components, or page CSS but no shared font-loading asset is imported before dependent CSS.
+12. Reuse existing components first.
+13. Translate the approved page concept segments, segment layout contracts, page layout contract, and experience quality contract into code using the component library before adding any new composite patterns.
    - Use the font families, weights, widths, sizes, and line-heights recorded in the design system and component catalog. If the concept implies condensed or editorial display type, choose a closer available CSS stack or project-approved open-source import instead of defaulting to crude substitutes such as `Impact`.
    - Do not silently simplify visible concept regions, generated component details, or requested image assets. Any simplification must be documented with a concrete reason and recommended follow-up when appropriate.
    - Preserve section density from the layout contract. Do not let terminal sections such as impact strips, newsletter areas, or footers become materially taller, looser, or more generic than the concept unless the contract records why.
+   - Preserve segment typography and text fit from the segment layout contracts. Do not allow nav labels, button labels, chips, table labels, metric labels, search placeholders, or footer links to wrap differently from the concept without a documented reason.
+   - Do not use clipping, fixed heights, `overflow: hidden`, or off-canvas positioning to hide layout failures unless the relevant segment layout contract explicitly allows clipped content for that element. Visible concept text must remain fully readable.
    - Implement major media containers so their images fill or crop according to the layout contract. Fix visible blank bands, unintended letterboxing, or exposed parent backgrounds before accepting screenshots.
    - In existing-site mode, new root/framework runtime pages must reuse existing CSS/JS entrypoints. Do not copy global reset, token, button, nav, newsletter, footer, or shared utility CSS into page-local files.
    - In existing-site mode, page-local CSS and JS must be limited to genuinely new page body sections and interactions. Shared navigation/newsletter/header/footer behavior must be reused from the existing site files.
    - In existing-site mode, Maquette mirror files under `.maquette/pages/<page-name>/` may import/reference the real site CSS/JS for review and specification, but they must not become the canonical runtime source for global shell code.
-13. Only create a new composite when the page clearly needs a pattern that the library does not already cover and the concept-derived component coverage exists.
+14. Only create a new composite when the page clearly needs a pattern that the library does not already cover and the concept-derived component coverage exists.
    - When a page has primary navigation, implement accessible responsive navigation: desktop inline nav, tablet/mobile menu toggle, stacked panel or drawer, and no document-level horizontal scrolling.
    - The menu toggle must have `aria-controls`, `aria-expanded`, and an accessible label.
    - The collapsed menu must be keyboard reachable when opened, and hidden menu content must not trap or block focus when closed.
@@ -197,9 +217,9 @@ The asset manifest JSON must validate against `shared/page-asset-manifest.schema
    - Primary mobile navigation must not require horizontal page scrolling. Horizontal scrolling may only be accepted for explicit dense data components, not primary nav.
    - Opened mobile/tablet drawers must remain scrollable when content exceeds viewport height; prefer `overflow-y: auto` and `overscroll-behavior: contain` on the drawer or drawer body while any body scroll lock is active.
    - Close controls and links must remain reachable in the opened drawer at mobile and tablet heights.
-14. Update the page blueprint to document composition, component extraction plan path, concept-region inventory path, page layout contract path, experience quality contract path, asset manifest path, and any new composites.
+15. Update the page blueprint to document composition, segment concept paths, segment layout contract paths, component extraction plan path, concept-region inventory path, page layout contract path, experience quality contract path, asset manifest path, and any new composites.
    - In existing-site mode, include `existing_site_mode: true`, the selected reference page, `site_contract_path`, and shell consistency report paths.
-15. Capture screenshots when possible and compare them to the concept and approved references.
+16. Capture screenshots when possible and compare them to the approved segment concepts and approved references.
    - Use Maquette's bundled scripts where possible, especially `shared/scripts/ensure-qa-tooling.mjs`, `shared/scripts/capture-browser.mjs`, or `skills/maquette-pages/scripts/capture-page.mjs`.
    - Check optional project-local QA dependencies before reporting automated screenshot QA as unavailable. Do not assume global npm installs are available.
    - Treat partial QA availability as missing QA tooling. For example, if browser QA can run but `ajv-formats` is missing, schema validation for page blueprints or asset manifests is still blocked.
@@ -208,16 +228,19 @@ The asset manifest JSON must validate against `shared/page-asset-manifest.schema
    - Keep Playwright/Chromium screenshot capture headless.
    - Ensure every browser/session opened for screenshot capture is closed before finishing.
    - If cleanup fails, record the failed cleanup command or operation in the final response.
-   - Capture visual review screenshots no larger than 1254x1254. Use representative visual widths such as 390, 768, and 1254 when browser tooling is available, and use wider browser widths for responsive metrics rather than oversized screenshots.
-   - Capture segmented viewport screenshots for visual review. At minimum capture top, middle, and bottom/terminal segments for desktop and mobile when browser tooling is available. For long, data-heavy, or stateful pages, add named segments for the data-heavy region, filter/search region, important interactive state, and footer/terminal region.
+   - Capture screenshots at the approved concept image ratio for desktop segment comparison. For 16:9 concepts, use browser viewport sizes such as 1365x768, 1440x810, 1536x864, 1600x900, and 1920x1080 when the screenshot cap or tooling allows; otherwise capture capped 16:9 segments and record the constraint.
+   - Include common desktop widths, including Windows-like browser widths such as 1365, 1366, 1440, 1536, and 1600px, in addition to the existing responsive audit widths.
+   - Capture visual review screenshots no larger than 1254x1254 unless the run explicitly allows larger concept-ratio screenshots for desktop fidelity evidence. Use wider browser widths for responsive metrics rather than oversized screenshots when the cap applies.
+   - Capture segmented viewport screenshots for visual review. At minimum capture top, middle, and bottom/terminal desktop segments corresponding to the approved concept segments, plus mobile/tablet responsive evidence when browser tooling is available. For long, data-heavy, or stateful pages, add named segments for the data-heavy region, filter/search region, important interactive state, and footer/terminal region.
    - Prefer `shared/scripts/capture-browser.mjs <page> <output.png> --mode segments --segments top,middle,bottom` for segmented captures. The helper writes files such as `<output>-top.png`, `<output>-middle.png`, and `<output>-bottom.png`.
    - Segmented viewport screenshots are the primary evidence for detailed visual review because they preserve normal viewport scale and keep each screenshot within the 1254x1254 cap.
    - If screenshot capture falls back to a clipped full-document image, record the capture metadata and clipped fallback status in `review.md`.
-16. Run the required page QA pass:
+17. Run the required page QA pass:
    - Explicitly pass or fail component reuse before new component creation, component extraction plan completion when concept-first is used, component coverage plan completion, component close-up focus/fidelity and screenshot-match status for any new component work, legacy CSS-contract poster focus/readability/selector allowlist status only when explicitly used, generated visual fit, motion/effects appropriateness, reduced-motion behavior, interaction state coverage, accessibility baseline, performance risk/budget, content hierarchy, mobile usability, existing-site shell consistency when applicable, context fit against the actual product, and screenshot evidence capped at 1254x1254 or segmented.
    - Fix any failed category before approval or document a concrete blocker and follow-up in `review.md`.
    - Verify the page concept region inventory against the rendered page. Missing concept regions fail QA unless the inventory records an intentional omission with a concrete reason.
    - Verify the page layout contract against the rendered page. Fail and fix when the implementation violates recorded section order, section density, image crop behavior, footer structure, or terminal-section compactness without a documented reason.
+   - Verify each segment layout contract against the matching rendered screenshot. Fail and fix when viewport size, section bounds, column widths, font-size estimates, line-height, font weight, text casing, one-line requirements, expected wrapping, or overflow constraints drift without a documented reason.
    - Verify the experience quality contract against the rendered page. Fail and fix when generated visual assets, motion/effects, reduced-motion behavior, state coverage, accessibility, performance risk, information architecture, brand craft, or mobile UX drift from the contract without a documented reason.
    - In existing-site mode, verify `.maquette/site/site-contract.md` against the rendered page and selected reference page before accepting the implementation.
    - In existing-site mode, run `shared/scripts/check-site-shell-consistency.mjs <reference-page> <new-page> --json .maquette/pages/<page-name>/site-shell-consistency.json --screenshots-dir .maquette/pages/<page-name>/screenshots/site-shell` when browser tooling is available.
@@ -248,8 +271,10 @@ The asset manifest JSON must validate against `shared/page-asset-manifest.schema
    - If the concept shows social links, use recognizable social icons rather than arbitrary generic icons. Do not substitute unrelated icons such as location, camera, music, or generic circles unless the concept explicitly asks for those symbols.
    - Prefer an existing icon library when available. If no brand-icon library is available, use simple inline SVGs or a locally defined icon set with accessible names.
    - Check that icon-only buttons and compact controls visibly render supported icons and are not blank.
-   - Compare coded typography weight, width, scale, and line-height against the concept, brand board, and component references. Avoid `Impact` as the fallback for condensed headings unless the board explicitly approves it.
+   - Compare coded typography weight, width, scale, line-height, heading width, button label wrapping, nav label fit, and input placeholder alignment against the approved segment concepts, brand board, and component references. Avoid `Impact` as the fallback for condensed headings unless the board explicitly approves it.
    - Record the chosen font family, fallback stack, and rationale in the design system or `review.md`, especially when importing or substituting an open-source font.
+   - Run `shared/scripts/check-text-fit.mjs` when browser tooling is available. Fail and fix text-fit issues for nav, buttons, search placeholders, cards, chips, tables, metric labels, and footer links.
+   - Fail and fix QA if nav items overlap, text wraps differently from the segment concept without a documented reason, a horizontal scrollbar appears, one-line labels such as buttons or chips wrap, input placeholders are misaligned, or custom fonts are declared but not loaded.
    - Capture and inspect navigation at desktop, tablet, and mobile widths. For tablet and mobile, inspect both closed and open menu states.
    - If browser tooling is available, click the menu toggle and verify `aria-expanded` changes.
    - For opened mobile/tablet drawers, verify drawer content can scroll independently when taller than the viewport, body scroll lock does not block drawer scrolling, close controls remain reachable, and links can be reached by pointer and keyboard.
@@ -265,15 +290,19 @@ The asset manifest JSON must validate against `shared/page-asset-manifest.schema
    - Fail and fix the page if document scroll width exceeds viewport width by more than 1px, unless there is an explicit documented exception.
    - Internal horizontal scrolling for wide components is allowed only when intentional and documented. It should generally not appear on normal desktop or tablet layouts unless the component is truly a data grid that requires it.
    - Horizontal scrolling is never an accepted exception for primary navigation.
+   - Clipping and `overflow: hidden` are never accepted as a fix for layout failure unless the relevant segment layout contract explicitly calls for clipped content on that element.
    - Prefer bundled Maquette scripts over generated run-local `.mjs` scripts for capture and responsive auditing. If a fallback script is generated, list it in `review.md` with the reason.
    - For each major section, write concept-to-code comparison notes in `review.md`: `matches`, `deviates`, `missing`, `simplified`, or `fixed`.
    - If a footer, header, terminal section, image asset, or any other visible concept region is simplified from the concept, either fix it or record the intentional reason and recommended follow-up in `review.md`.
-17. Record generated asset manifest status and missing assets, page concept approval decision, component extraction plan status, page concept region inventory, page layout contract status, experience quality contract status, generated visual fit decisions, motion/effects QA, reduced-motion behavior, interaction state coverage, accessibility baseline, performance risk/budget review, content hierarchy, brand craft, mobile usability, site contract status when existing-site mode is active, component coverage plan status, component reuse before new component creation, component close-up focus/fidelity and screenshot-match status for any new component work, legacy CSS-contract poster focus/readability/selector allowlist status only when explicitly used, component artifact vs replica fidelity notes, reusable component usage notes, card anatomy alignment, footer fidelity, terminal-section compactness, media container fit/crop results, mobile drawer scrollability, shared-shell consistency status, measured responsive overflow results, screenshot 1254x1254 cap status, segmented viewport screenshot paths, open nav screenshot paths, visual deviations and fixes, accepted scroll exceptions, navigation accessibility notes, icon-rendering notes, context fit against the actual product, and chosen font family/fallback rationale in `review.md`.
+18. Only after top, middle, and bottom segments pass visual QA should Maquette assemble or approve the final page as a whole.
+   - If a segment fails visual, text-fit, typography, overflow, font-loading, or layout-contract QA, fix that segment before final page assembly.
+   - The final assembly pass should verify continuity between approved segments but must not loosen or override segment contracts without a recorded reason.
+19. Record generated asset manifest status and missing assets, page concept segment approval decisions, segment layout contract status, component extraction plan status, page concept region inventory, page layout contract status, experience quality contract status, generated visual fit decisions, motion/effects QA, reduced-motion behavior, interaction state coverage, accessibility baseline, performance risk/budget review, content hierarchy, brand craft, mobile usability, site contract status when existing-site mode is active, component coverage plan status, component reuse before new component creation, component close-up focus/fidelity and screenshot-match status for any new component work, legacy CSS-contract poster focus/readability/selector allowlist status only when explicitly used, component artifact vs replica fidelity notes, reusable component usage notes, card anatomy alignment, footer fidelity, terminal-section compactness, media container fit/crop results, mobile drawer scrollability, shared-shell consistency status, text-fit QA status, measured responsive overflow results, screenshot 1254x1254 cap status, segmented viewport screenshot paths, desktop concept-ratio screenshot paths, open nav screenshot paths, visual deviations and fixes, accepted scroll exceptions, navigation accessibility notes, icon-rendering notes, context fit against the actual product, font-loading asset status, and chosen font family/fallback rationale in `review.md`.
 
 ## Low-resolution reference rule
 
 Concept images are **composition and hierarchy guides**, not pixel rulers.
-When the concept image is small or compressed:
+When a concept segment image is small or compressed:
 - infer spacing from the approved token rhythm
 - infer typography from the approved type scale
 - infer responsive behavior from the existing layout system

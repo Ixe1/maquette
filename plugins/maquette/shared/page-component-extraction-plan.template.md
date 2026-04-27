@@ -1,24 +1,27 @@
 # Page Component Extraction Plan
 
-Status: draft after page concept approval and before component close-up extraction or implementation.
+Status: draft after page concept segment approval and before component close-up extraction or implementation.
 
 Use this plan in experimental concept-first runs. The approved page concept is the visual source for component discovery. Extract only what the page actually needs, then update `.maquette/components/component-coverage-plan.md` before creating or extending reusable component artifacts.
 
 ## Source Concept
 
 - Page:
-- Approved concept path:
-- Concept aspect / framing:
+- Approved concept segment paths:
+  - Top:
+  - Middle:
+  - Bottom:
+- Concept aspect / framing: 16:9 desktop segments
 - Existing-site mode:
 - Reference page or site contract:
 - Notes:
 
 ## Extraction Strategy
 
-- Use `image_gen` edit mode on the approved concept by default to create clean 1:1 close-up images for the components that need implementation or extension.
+- Use `image_gen` edit mode on the approved concept segments by default to create clean 1:1 close-up images for the components that need implementation or extension.
 - When `shared/template-images/component-closeup-template-v1.png` is available, use it as a neutral framing scaffold for close-up edits unless it makes the output generic, crowded, or less faithful to the approved concept.
 - Use deterministic crops only when they already provide a clean 1:1 close-up or when image editing is unavailable; document the reason.
-- Keep extracted component visuals faithful to the approved page concept. Do not invent a new component direction.
+- Keep extracted component visuals faithful to the approved page concept segments. Do not invent a new component direction.
 - Prefer one component family per 1:1 close-up. Combine only tightly related small pieces that are visually inseparable in the concept.
 - Do not ask `image_gen` to render CSS text on component images in this experimental workflow unless the user explicitly requests the legacy CSS-contract poster route.
 - Do not create a global component for one-off page composition unless likely reuse is documented.
@@ -39,7 +42,7 @@ Use this plan in experimental concept-first runs. The approved page concept is t
 - Purpose:
 - Artifact type: 1:1 component close-up edit / deterministic crop / legacy CSS-contract poster if explicitly requested
 - Expected close-up path:
-- Source concept path:
+- Source concept segment path:
 - Template image path, if used:
 - Optional legacy CSS-contract poster path, only if explicitly requested:
 - Required transcribed contract path, only if a legacy poster is used:

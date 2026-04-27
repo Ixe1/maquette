@@ -20,9 +20,9 @@ For broad page or site requests in this experimental dev build, run the workflow
 3. Component extraction and component library
 4. Page or screen implementation
 
-Only proceed to a later implementation phase after the required artifacts for earlier phases exist. The early page concept is a discovery artifact, not permission to implement the page before reusable components, page contracts, and QA plans exist.
+Only proceed to a later implementation phase after the required artifacts for earlier phases exist. The early page concept set is a discovery artifact, not permission to implement the page before reusable components, page contracts, and QA plans exist.
 
-In concept-first extraction mode, generate and approve the page concept after the brand kit and before building the component library. Then create `.maquette/pages/<page-name>/component-extraction-plan.md` from `shared/page-component-extraction-plan.template.md`, inventory the components visible in the concept, update `.maquette/components/component-coverage-plan.md`, and build only the reusable component coverage needed to clone that approved concept. Use `image_gen` edit mode on the approved page concept by default to create focused 1:1 visual close-ups of each component family that needs implementation or extension, optionally using `shared/template-images/component-closeup-template-v1.png` as a neutral framing scaffold. Page HTML/CSS/JS still waits until component extraction, reusable component QA, page layout contract, experience quality contract, and asset manifest are complete.
+In concept-first extraction mode, generate and approve separate 16:9 desktop page concept segments for top, middle, and bottom after the brand kit and before building the component library. Do not use one compressed full-page concept for implementation. Then create `.maquette/pages/<page-name>/component-extraction-plan.md` from `shared/page-component-extraction-plan.template.md`, inventory the components visible in the approved segments, update `.maquette/components/component-coverage-plan.md`, and build only the reusable component coverage needed to clone those approved segments. Use `image_gen` edit mode on the approved page concept segments by default to create focused 1:1 visual close-ups of each component family that needs implementation or extension, optionally using `shared/template-images/component-closeup-template-v1.png` as a neutral framing scaffold. Page HTML/CSS/JS still waits until component extraction, reusable component QA, segment layout contracts, page layout contract, experience quality contract, and asset manifest are complete.
 
 The component-library phase uses focused 1:1 visual component close-ups by default. Before generating any component close-up or explicit legacy CSS-contract poster, create or update `.maquette/components/component-coverage-plan.md` from a project-specific coverage review. Do not ask `image_gen` to render CSS text on component images in the default experiment. Use `shared/template-images/component-closeup-template-v1.png` only as a scaffold for inspectable framing when it helps. Legacy CSS-contract posters are used only when the user explicitly requests that route, and each accepted legacy poster must be transcribed into a reviewable contract CSS bridge file before implementation CSS is written.
 
@@ -61,6 +61,7 @@ Before creating a page concept or page implementation, verify that these brand a
 - `.maquette/brand/tokens.css`
 - `.maquette/brand/approved.md`
 - a generated and inspected brand board image such as `.maquette/brand/brand-board-vN.png`
+- `.maquette/brand/fonts.css` when custom, imported, hosted, or non-system fonts are approved by the brand system
 
 If any are missing, run the brand-kit phase first using `maquette-brand-kit`.
 
@@ -84,10 +85,10 @@ If a multi-artifact component catalog records `assets.sheet_implementation_batch
 If the requested page has a header or primary navigation, verify responsive navigation component coverage before running the page phase: desktop inline nav, tablet/mobile collapsed state, menu toggle, expanded panel or drawer, active/focus states, and icon rendering.
 If the requested page has product, pricing, service, offer, or promo card grids, verify repeated-card component coverage before running the page phase: shared media/header/body/footer/action anatomy, stable badge or eyebrow placement, equal-height cards, flex or grid card bodies, and bottom-pinned CTA, quantity, price, or action rows.
 If the requested page has a rich footer, footer social links, app/download modules, legal/locale rows, or device imagery, verify footer/social module coverage before running the page phase: recognizable social icons, accessible names, link column anatomy, app/device module coverage, bottom strip coverage, and no unrelated generic icon substitutions.
-Verify that the page phase will create a component extraction plan after concept approval, then a concept-region inventory, page layout contract, experience quality contract, and asset manifest before coding. This applies even when the page has few raster assets, because the extraction plan is the guardrail for concept-derived component coverage, the layout contract is the guardrail for section compactness, terminal-region fidelity, and media fit/crop behavior, while the experience quality contract is the guardrail for generated visual fit, motion/effects, states, accessibility, performance, information clarity, brand craft, and mobile UX.
+Verify that the page phase will create a component extraction plan after segment concept approval, then a concept-region inventory, segment layout contracts for top/middle/bottom, page layout contract, experience quality contract, and asset manifest before coding. This applies even when the page has few raster assets, because the extraction plan is the guardrail for concept-derived component coverage, segment contracts are the guardrail for viewport-scale fidelity, typography, text fit, and overflow, the layout contract is the guardrail for section compactness, terminal-region fidelity, and media fit/crop behavior, while the experience quality contract is the guardrail for generated visual fit, motion/effects, states, accessibility, performance, information clarity, brand craft, and mobile UX.
 If existing-site integration mode is active, verify that `.maquette/site/site-contract.md` exists before page concept generation or implementation, and that the page phase will record the selected reference page plus shell-preservation rules in the page blueprint and review.
 
-Only after the brand gate, concept approval, extraction/component gate, and existing-site gate pass should you run the page implementation phase using `maquette-pages`.
+Only after the brand gate, segment concept approval, extraction/component gate, and existing-site gate pass should you run the page implementation phase using `maquette-pages`.
 
 ## Existing Website References
 
@@ -111,7 +112,7 @@ If the user asks for a page and the project has no Maquette artifacts yet, compl
 2. Create and approve the page concept for component discovery.
 3. Create `.maquette/pages/<page-name>/component-extraction-plan.md`.
 4. Create or update the component library from the concept-derived extraction plan.
-5. Create the requested page implementation from the approved concept and reusable components.
+5. Create the requested page implementation from the approved concept segments and reusable components.
 
 Mark the outputs as proposed or provisional only for phases that do not require an image approval gate, or when the user explicitly requested an unattended run.
 Infer focused extra component/composite coverage when the page brief needs it, but document reuse, extension, new reusable gaps, page-specific composites, intended API targets, source concept regions, and the reason for each new close-up or explicit legacy poster in `.maquette/components/component-coverage-plan.md` before image generation. The user should not have to ask for fewer components, split close-ups, reuse checks, or wide-data coverage.
@@ -125,7 +126,7 @@ Do not ask the user to manually rerun separate commands unless you are blocked.
 
 ## Final review expectations
 
-Page reviews must explicitly pass or fail component reuse before new component creation, component extraction plan completion when concept-first is used, component coverage plan completion, component close-up focus/fidelity and screenshot-match status for any new component work, legacy CSS-contract poster focus/readability/selector allowlist status only when explicitly used, generated visual fit, motion/effects appropriateness, reduced-motion behavior, interaction state coverage, accessibility baseline, performance risk/budget, content hierarchy, mobile usability, existing-site shell consistency when applicable, context fit against the actual product, and screenshot evidence capped at 1254x1254 or segmented. If a category fails, fix it before approval or document the concrete blocker and follow-up in the relevant `.maquette/pages/<page-name>/review.md`.
+Page reviews must explicitly pass or fail component reuse before new component creation, desktop segment concept approval, segment layout contract completion, component extraction plan completion when concept-first is used, component coverage plan completion, component close-up focus/fidelity and screenshot-match status for any new component work, legacy CSS-contract poster focus/readability/selector allowlist status only when explicitly used, generated visual fit, motion/effects appropriateness, reduced-motion behavior, interaction state coverage, accessibility baseline, performance risk/budget, content hierarchy, typography and text-fit QA, mobile usability, existing-site shell consistency when applicable, context fit against the actual product, font-loading status, and screenshot evidence capped at 1254x1254 or segmented. If a category fails, fix it before approval or document the concrete blocker and follow-up in the relevant `.maquette/pages/<page-name>/review.md`.
 
 ## Image workflow
 

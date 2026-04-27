@@ -60,6 +60,7 @@ Always create or update these files when you finish a pass:
 - `.maquette/brand/design-system.json`
 - `.maquette/brand/tokens.css`
 - `.maquette/brand/approved.md`
+- `.maquette/brand/fonts.css` when the approved brand system uses custom, imported, hosted, or non-system fonts
 
 When `image_gen` is available, also create or update:
 
@@ -92,7 +93,11 @@ The JSON file must validate against `shared/design-system.schema.json`.
    - Do not use a script, existing CSS file, Figma/design export, or predetermined token file to infer or override brand tokens unless the user explicitly provides it as an approved constraint.
 6. Export `.maquette/brand/tokens.css` from the board-derived design system JSON. Use `scripts/export-tokens.mjs` if present.
    - The export script is only a deterministic JSON-to-CSS serializer. It must not be treated as token extraction, visual analysis, or design decision-making.
-7. Summarize what changed and record the approved board, token status, and any user revision notes in `.maquette/brand/approved.md`.
+7. If the approved board or design-system JSON uses custom, imported, hosted, or non-system fonts, create `.maquette/brand/fonts.css`.
+   - Put `@font-face` rules or approved font imports there.
+   - Keep `fonts.css` separate from `tokens.css` so every HTML artifact can import fonts before tokens, component CSS, and page CSS.
+   - If the brand uses only system fonts, record that `fonts.css` is not required.
+8. Summarize what changed and record the approved board, token status, font-loading status, and any user revision notes in `.maquette/brand/approved.md`.
 
 ## Board rules
 

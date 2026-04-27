@@ -77,6 +77,8 @@
               "existing-reference-page",
               "page-layout-contract",
               "experience-quality-contract",
+              "page-concept-segment",
+              "segment-layout-contract",
               "page-concept",
               "other"
             ]
@@ -267,6 +269,18 @@
         "component_closeup_screenshot_match": {
           "type": "string"
         },
+        "desktop_segment_concepts": {
+          "type": "string"
+        },
+        "segment_layout_contracts": {
+          "type": "string"
+        },
+        "typography_text_fit": {
+          "type": "string"
+        },
+        "font_loading": {
+          "type": "string"
+        },
         "visual_component_sheet_focus": {
           "type": "string"
         },
@@ -327,7 +341,6 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "concept_path",
         "html_path",
         "concept_region_inventory_path",
         "page_layout_contract_path",
@@ -336,6 +349,23 @@
       ],
       "properties": {
         "concept_path": {
+          "type": "string"
+        },
+        "concept_segment_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "segment_layout_contract_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "fonts_css_path": {
           "type": "string"
         },
         "html_path": {
@@ -355,6 +385,18 @@
           "minItems": 1
         },
         "segmented_screenshot_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "desktop_concept_ratio_screenshot_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "text_fit_report_paths": {
           "type": "array",
           "items": {
             "type": "string"

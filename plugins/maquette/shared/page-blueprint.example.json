@@ -43,8 +43,20 @@
       "path": "pages/homepage/experience-quality-contract.md"
     },
     {
-      "kind": "page-concept",
-      "path": "pages/homepage/concept.png"
+      "kind": "page-concept-segment",
+      "path": "pages/homepage/concept-top.png"
+    },
+    {
+      "kind": "page-concept-segment",
+      "path": "pages/homepage/concept-middle.png"
+    },
+    {
+      "kind": "page-concept-segment",
+      "path": "pages/homepage/concept-bottom.png"
+    },
+    {
+      "kind": "segment-layout-contract",
+      "path": "pages/homepage/segments/top-layout-contract.md"
     }
   ],
   "viewports": [
@@ -151,6 +163,10 @@
     "component_extraction_plan": "pages/homepage/component-extraction-plan.md records concept-derived components, extraction artifacts, and reuse/extend/create decisions before component expansion.",
     "component_closeup_focus": "Any new component close-up is focused, faithful to the approved concept region, visually inspectable, and justified by the coverage plan.",
     "component_closeup_screenshot_match": "Each implemented component close-up has rendered screenshot evidence capped at 1254x1254 or segmented.",
+    "desktop_segment_concepts": "Top, middle, and bottom 16:9 desktop browser screenshot concepts are approved before implementation.",
+    "segment_layout_contracts": "Each approved desktop segment has a segment layout contract covering viewport, bounds, columns, typography, wrapping, and overflow.",
+    "typography_text_fit": "Rendered screenshots and text-fit reports check font family, weight, size, line-height, heading width, nav/button/chip wrapping, placeholders, cards, tables, metrics, and footer links.",
+    "font_loading": "Custom fonts load through brand/fonts.css before tokens, component CSS, and page CSS.",
     "css_contract_poster_focus": "Any legacy CSS-contract poster is explicitly requested, focused, readable, selector-limited, and justified by the coverage plan.",
     "generated_visual_fit": "Generated rasters are checked for purpose, product-function support, false-feature risk, distraction risk, code-native alternatives, and alt/decorative handling.",
     "motion_effects": "Motion is purposeful, trigger-based, performance-safe, and documented rather than inferred from the image alone.",
@@ -169,7 +185,17 @@
     "notes": "Record screenshot evidence and any intentional exceptions in review.md."
   },
   "assets": {
-    "concept_path": "pages/homepage/concept.png",
+    "concept_segment_paths": [
+      "pages/homepage/concept-top.png",
+      "pages/homepage/concept-middle.png",
+      "pages/homepage/concept-bottom.png"
+    ],
+    "segment_layout_contract_paths": [
+      "pages/homepage/segments/top-layout-contract.md",
+      "pages/homepage/segments/middle-layout-contract.md",
+      "pages/homepage/segments/bottom-layout-contract.md"
+    ],
+    "fonts_css_path": "brand/fonts.css",
     "html_path": "pages/homepage/page.html",
     "css_path": "pages/homepage/page.css",
     "js_path": "pages/homepage/page.js",
@@ -183,6 +209,15 @@
       "pages/homepage/screenshots/page-390-top.png",
       "pages/homepage/screenshots/page-390-middle.png",
       "pages/homepage/screenshots/page-390-bottom.png"
+    ],
+    "desktop_concept_ratio_screenshot_paths": [
+      "pages/homepage/screenshots/page-1365x768-top.png",
+      "pages/homepage/screenshots/page-1365x768-middle.png",
+      "pages/homepage/screenshots/page-1365x768-bottom.png"
+    ],
+    "text_fit_report_paths": [
+      "pages/homepage/text-fit-1365.json",
+      "pages/homepage/text-fit-1440.json"
     ],
     "nav_open_screenshot_paths": [
       "pages/homepage/screenshots/responsive-nav-open-390.png",

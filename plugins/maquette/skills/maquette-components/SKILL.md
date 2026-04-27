@@ -1,6 +1,6 @@
 ---
 name: maquette-components
-description: "Build a reusable website component library from an approved brand token set and page concept. This skill is image_gen-guided: create focused 1:1 visual component close-ups from the approved concept by default, then implement componentized replicas that are reusable HTML/CSS/JS from the start."
+description: "Build a reusable website component library from an approved brand token set and page concept segments. This skill is image_gen-guided: create focused 1:1 visual component close-ups from approved concept segments by default, then implement componentized replicas that are reusable HTML/CSS/JS from the start."
 ---
 
 You are responsible for the **website component-library phase**.
@@ -27,7 +27,7 @@ Follow `shared/image-gen-workflow.md` for required visual inspection, same-turn 
 Do not go straight from tokens to coded components with no image pass.
 Focused 1:1 visual component close-ups edited from the approved page concept are the default design and implementation artifacts in this experimental workflow. `image_gen` should not render CSS text, selector lists, or implementation notes on component images by default. Codex inspects each close-up, writes any needed implementation contract in text artifacts, implements reusable HTML/CSS/JS, captures a rendered component screenshot no larger than 1254x1254, compares it to the close-up, and refines before moving to the next component.
 
-When `shared/template-images/component-closeup-template-v1.png` is available, prefer using it as a neutral edit-mode scaffold for focused component close-ups. Load the template and approved concept with `view_image`, then ask `image_gen` to fill the template from the approved concept region and coverage-plan rationale. The template controls framing and inspectability only; the approved concept and brand system control component anatomy and visual language. If the template causes a generic result, crowds the component, or drifts from the concept, regenerate without it and record why.
+When `shared/template-images/component-closeup-template-v1.png` is available, prefer using it as a neutral edit-mode scaffold for focused component close-ups. Load the template and approved concept segment with `view_image`, then ask `image_gen` to fill the template from the approved concept region and coverage-plan rationale. The template controls framing and inspectability only; the approved concept segment and brand system control component anatomy and visual language. If the template causes a generic result, crowds the component, or drifts from the concept, regenerate without it and record why.
 
 Before any component close-up or legacy CSS-contract poster is generated, create or update `.maquette/components/component-coverage-plan.md`, using `shared/component-coverage-plan.template.md` when present. The plan must inspect the user brief, requested pages, approved page concept and `.maquette/pages/<page-name>/component-extraction-plan.md` when present, existing website/app shell when present, existing `.maquette/components/component-catalog.json`, existing `.maquette/components/contracts/*.contract.css` when present, existing component CSS/JS, and replica/gallery examples. Document every reuse, extension, new component, and page-specific composite decision there before image generation.
 
@@ -146,7 +146,7 @@ The catalog JSON must validate against `shared/component-catalog.schema.json`.
    - The replica should implement the close-up's visible anatomy, variants, states, slots, dimensions, token intent, visual cues, motion/effect guidance, and polish, then use the rendered browser screenshot as the visual correction target. Do not copy raw image colors or font stacks when matching approved tokens exist.
    - If the batch uses an explicit legacy CSS-contract poster, the replica should also match the transcribed poster contract's selector contract, states, slots, and implementation notes.
    - Page implementations should consume the component catalog, CSS, JS, and usage examples extracted from this componentized reference. They should not copy the reference page layout.
-   - Batch replica HTML should link brand tokens directly from `../brand/tokens.css`, batch CSS from `css/<batch-slug>.components.css`, and batch JS from `js/<batch-slug>.components.js`. Prefer HTML stylesheet links over CSS `@import` so local file paths stay shallow and inspectable.
+   - Batch replica HTML should link `.maquette/brand/fonts.css` first when it exists, then brand tokens directly from `../brand/tokens.css`, batch CSS from `css/<batch-slug>.components.css`, and batch JS from `js/<batch-slug>.components.js`. Prefer HTML stylesheet links over CSS `@import` so local file paths stay shallow and inspectable.
 6. If screenshot tooling is available, capture the current componentized replica/reference evidence. Use Maquette's bundled scripts when possible, especially `shared/scripts/ensure-qa-tooling.mjs`, `shared/scripts/capture-browser.mjs`, `skills/maquette-components/scripts/capture-gallery.mjs`, and `shared/scripts/audit-responsive-layout.mjs`; document manual review mode when unavailable.
    - Keep Playwright/Chromium screenshot capture headless.
    - Ensure every browser/session opened for screenshot capture is closed before finishing.
@@ -200,7 +200,7 @@ The catalog JSON must validate against `shared/component-catalog.schema.json`.
    - The reference should demonstrate component APIs, slots, states, and realistic usage while preserving enough source-artifact grouping to compare close-up/poster batch by batch.
    - Include the same component families, variants, states, card anatomy, responsive navigation examples, product cards, newsletter modules, footer/social modules, density, spacing, and polish proven in the batch replicas.
    - For repeated cards, use shared media/header/body/footer/action slots, consistent badge or eyebrow placement, equal heights, and bottom-pinned action rows.
-   - Link final CSS as `css/components.css` and final JS as `js/components.js`; keep the brand token stylesheet link as `../brand/tokens.css`.
+   - Link final CSS as `css/components.css` and final JS as `js/components.js`; keep the brand font stylesheet first when present, then the brand token stylesheet link as `../brand/tokens.css`.
 13. If screenshot tooling is available, capture the final componentized reference. Use Maquette's bundled capture scripts instead of generating run-local capture code.
    - Keep Playwright/Chromium screenshot capture headless.
    - Ensure every browser/session opened for screenshot capture is closed before finishing.
@@ -216,6 +216,7 @@ The catalog JSON must validate against `shared/component-catalog.schema.json`.
    - Check interaction states where relevant: loading, skeleton, empty, error, offline, stale, disabled, selected/current, hover, focus-visible, active/pressed, success, permission/unavailable, mobile drawer open/closed, and filter applied/cleared.
    - Check component accessibility baseline: semantic HTML, form labels, helper/error text, table semantics for tabular data, visible focus, tap target size, contrast, non-color-only status indicators, `aria-expanded`/`aria-controls` for drawers/nav, and no hidden focus traps.
    - Check performance-safe motion: non-essential animation has `prefers-reduced-motion`, ambient loops are disabled or simplified under reduced motion, JS animation is minimal, and animations prefer `transform` and `opacity` without causing overflow or interaction delay.
+   - Check font loading: if `.maquette/brand/fonts.css` exists or custom fonts are declared, every component HTML artifact imports fonts before tokens and component CSS.
    - Check icon and icon-button contrast in every visible state, especially active, selected, disabled, inverse, and dark-background states.
    - Check that icon-only buttons and compact controls visibly render supported icons and are not blank.
    - Check responsive navigation primitives when present: desktop inline nav, tablet/mobile collapsed nav, menu toggle icon, expanded menu or drawer, active link, focus state, and tap-target sizing.

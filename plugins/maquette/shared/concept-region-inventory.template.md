@@ -1,7 +1,10 @@
 # Concept Region Inventory
 
 Page: `<page-name>`
-Concept image: `pages/<page-name>/concept.png`
+Concept images:
+- `pages/<page-name>/concept-top.png`
+- `pages/<page-name>/concept-middle.png`
+- `pages/<page-name>/concept-bottom.png`
 
 Use this before coding. Every visible concept region defaults to implementation.
 

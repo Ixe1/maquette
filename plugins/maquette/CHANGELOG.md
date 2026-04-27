@@ -17,15 +17,19 @@ Entries before this changelog was introduced were backfilled from git history an
 - Added generated visual fit metadata support to page asset manifests and optional artifact references for coverage plans and experience contracts in schemas.
 - Added segmented page screenshot capture support and page QA guidance requiring capped top/middle/bottom viewport segments for detailed review.
 - Added neutral generated template image scaffolds for brand boards and component close-ups under `shared/template-images/`.
+- Added desktop segment layout contract guidance for top/middle/bottom 16:9 page concepts.
+- Added `check-text-fit.mjs` for browser-based text-fit, font-loading, clipping, and horizontal-overflow QA.
 
 ### Changed
 
 - Updated page concept and implementation guidance to preserve existing website shells, reuse shared CSS/JS entrypoints, and keep page-specific CSS/JS scoped to new page body content when an existing site is detected.
 - Updated component workflow guidance so existing components are reused or extended before new reusable components are created, focused 1:1 visual component close-ups edited from approved page concepts are the default component image artifact, and CSS text-on-image posters are legacy explicit-only experiments.
-- Updated broad page workflows to generate an approved tall portrait page concept before component expansion, then derive reusable component coverage from concept regions before page implementation.
+- Updated broad page workflows to generate approved desktop page concept segments before component expansion, then derive reusable component coverage from concept regions before page implementation.
 - Tightened component prompt guidance to reject hybrid CSS-text/visual component close-ups, keep close-ups focused on one visible component family, and require Codex screenshot matching before moving to the next component.
 - Updated screenshot helpers and workflow docs so visual review screenshots are capped at 1254x1254 and long pages are reviewed through scrolled segments.
 - Updated page concept, implementation, and final review guidance to treat image generation as creative inspiration that must be translated into purposeful motion, reduced-motion support, interaction states, accessibility, performance-aware UX, content hierarchy, brand craft, and context-fit page decisions.
+- Updated page concept guidance to prefer separate 16:9 desktop browser screenshot concepts for top, middle, and bottom implementation segments instead of one compressed full-page concept.
+- Updated brand/page/component guidance so approved custom fonts use `.maquette/brand/fonts.css`, imported before tokens and downstream CSS.
 
 ## 0.3.5 - 2026-04-26
 

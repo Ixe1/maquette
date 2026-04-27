@@ -5,7 +5,7 @@ Use this as Maquette's default experimental component image prompt. The output i
 Use a 1:1 square composition. Exact generated pixel dimensions are not controllable; prioritize a clearly square image with the component large enough to inspect at normal preview size and no letterboxing, unrelated page context, or extra panels.
 
 Source inputs:
-- approved page concept image
+- approved page concept segment image
 - optional neutral Maquette component close-up template image, used only as a framing scaffold
 - approved brand board and design-system tokens
 - component extraction plan entry for the visible concept region

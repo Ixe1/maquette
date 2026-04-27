@@ -70,7 +70,7 @@ List page-only arrangements that should not become global components unless late
 ## Component Image Batches
 
 Define focused batches before image generation. The default component artifact in this experimental workflow is a focused 1:1 visual component close-up edited from the approved page concept, not a CSS text-on-image poster. Each batch should cover one major family by default, or at most two tightly related small families that are visually inseparable. Record intended component API targets so implementation remains reusable even though the image is visual.
-In concept-first runs, derive these batches from `.maquette/pages/<page-name>/component-extraction-plan.md` and the approved concept regions rather than a generic component taxonomy. Use legacy CSS-contract posters only when the user explicitly asks for that route or when a documented fallback is required.
+In concept-first runs, derive these batches from `.maquette/pages/<page-name>/component-extraction-plan.md` and the approved concept segment regions rather than a generic component taxonomy. Use legacy CSS-contract posters only when the user explicitly asks for that route or when a documented fallback is required.
 
 ### Batch: `<batch-slug>`
 
@@ -107,6 +107,6 @@ When a later page reveals missing coverage, update this plan before generating a
 - No component image exists only because a new page is being built.
 - Page-specific composites are separated from reusable component gaps.
 - New reusable gaps have expected consumers and required states.
-- Component close-ups remain focused, visually inspectable, faithful to the approved concept, and implementation-ready.
+- Component close-ups remain focused, visually inspectable, faithful to the approved concept segments, and implementation-ready.
 - Codex will inspect one close-up at a time, implement reusable HTML/CSS/JS, capture a rendered screenshot no larger than 1254x1254, compare, and fix before moving on.
 - Legacy CSS-contract posters, when explicitly requested, remain separate focused text-on-image artifacts with strict selector allowlists.

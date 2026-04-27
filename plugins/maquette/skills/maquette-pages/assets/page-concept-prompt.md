@@ -1,8 +1,11 @@
-Edit the visible approved brand board, and any existing component references when provided, into a website page concept.
+Edit the visible approved brand board, and any existing component references when provided, into a website page concept segment.
 
 Default framing:
-- for a full webpage, use a tall portrait scroll composition that shows the top, middle, and terminal/bottom regions
-- do not use a 16:9 widescreen composition for a full webpage unless the request is explicitly for one viewport or hero screen
+- for implementation fidelity, generate separate 16:9 desktop browser viewport concepts for top, middle, and bottom page segments
+- do not generate one compressed full-page concept for implementation
+- each segment must look like a real browser screenshot at realistic desktop UI scale, not a poster, wireframe, collage, zoomed-out page, or annotated board
+- no mobile previews, no tablet previews, no callouts, no annotations, no extra inset frames, no rulers, and no explanatory text outside the webpage UI
+- text in the webpage UI must be readable and at plausible browser scale
 - do not use 1:1 for the whole page by default; reserve 1:1 for later focused component close-up extraction
 - make component boundaries visible enough that the implementation model can use image_gen edit mode after approval to produce faithful 1:1 close-ups of page-derived components
 
@@ -23,6 +26,9 @@ Requirements:
 - if a visual could be mistaken for a real product feature, make that risk clear enough for the implementation model to reject, revise, replace, or hide it before coding
 - make major media crop intent identifiable; image regions that should fill their containers should not visually imply blank letterbox bands unless that is intentional
 - use typography consistent with the approved font personality, weight, width, scale, and line-height; if the concept needs condensed editorial headings, make the font direction clear enough for implementation to choose a close CSS stack or open-source substitute
+- preserve realistic text fit: nav labels, buttons, chips, search placeholders, card titles, table headers, metric labels, and footer links should show whether text is one line or wrapped
+- if a label appears on one line in the concept, leave enough room that implementation can keep it on one line without clipping or horizontal overflow
+- do not rely on hidden clipping to make text appear to fit
 - if the page has header or primary navigation, define desktop, tablet, and mobile navigation behavior; a desktop-only nav concept is incomplete
 - show or specify desktop inline nav plus tablet/mobile collapsed nav with menu toggle and expanded stacked panel or drawer
 - show or specify mobile/tablet behavior for important content, filters, dense data, cards, drawers, overlays, empty/loading/error/offline states, and terminal sections when relevant
@@ -44,5 +50,4 @@ Existing-site integration mode:
 - keep header/nav, newsletter/terminal bands, footer/legal rows, and global shell elements visually consistent with the existing website
 - make any proposed new page body sections fit the existing shell rather than changing the shell to fit the new page
 
-This page concept is the creative design artifact for the page.
-The later coded page should match its overall hierarchy, composition, and styling while reusing approved components first. In concept-first mode, derive `.maquette/pages/<page-name>/component-extraction-plan.md` from the approved concept, then create focused 1:1 visual component close-ups from the concept before building missing reusable components. Component close-ups should be visual images, not CSS text-on-image posters, unless the user explicitly requests the legacy CSS-contract route. The page must document exact motion/effects, generated visual fit, accessibility, performance, states, and mobile UX in `.maquette/pages/<page-name>/experience-quality-contract.md`; do not rely on the image alone as final UX truth.
+This segment concept is one creative design artifact for the page. Generate and approve top, middle, and bottom desktop segments before implementation. The later coded page should match each segment's hierarchy, composition, typography, text fit, and styling while reusing approved components first. In concept-first mode, derive `.maquette/pages/<page-name>/component-extraction-plan.md` from the approved segments, then create focused 1:1 visual component close-ups from the concepts before building missing reusable components. Component close-ups should be visual images, not CSS text-on-image posters, unless the user explicitly requests the legacy CSS-contract route. The page must document exact motion/effects, generated visual fit, accessibility, performance, states, and mobile UX in `.maquette/pages/<page-name>/experience-quality-contract.md`; do not rely on the image alone as final UX truth.

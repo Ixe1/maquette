@@ -3,15 +3,15 @@
   "status": "draft",
   "assets": [
     {
-      "id": "concept",
+      "id": "concept-top",
       "kind": "concept-screenshot",
       "status": "generated",
-      "required_by": "page concept review",
-      "path": "pages/homepage/concept.png",
+      "required_by": "desktop segment concept review",
+      "path": "pages/homepage/concept-top.png",
       "source": "image_gen",
       "generated_visual_fit": {
-        "intended_purpose": "Creative page concept used for planning, not shipped UI.",
-        "consumed_by_region": "planning artifact",
+        "intended_purpose": "Creative desktop top segment concept used for planning, not shipped UI.",
+        "consumed_by_region": "top segment planning artifact",
         "supports_product_function": true,
         "could_be_mistaken_for_real_feature": false,
         "distracts_from_primary_task": false,
@@ -19,7 +19,7 @@
         "decision": "use",
         "alt_text_or_decorative_hidden": "not-applicable for planning artifact"
       },
-      "notes": "Inspected before implementation."
+      "notes": "Inspected and approved before implementation. Middle and bottom segment concepts follow the same contract."
     },
     {
       "id": "hero-product",

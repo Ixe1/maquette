@@ -129,6 +129,8 @@ Record pass/fail and the evidence or blocker for each item.
 | Component extraction plan completed, when concept-first | pass / fail / n/a |  |
 | Component close-up focus/fidelity and source-region fit | pass / fail |  |
 | Component close-up screenshot match, max 1254x1254 | pass / fail |  |
+| Desktop segment concepts approved | pass / fail |  |
+| Segment layout contracts completed | pass / fail |  |
 | Legacy CSS-contract poster focus/readability/selector allowlist, only when explicitly used | pass / fail / n/a |  |
 | Generated visual fit | pass / fail |  |
 | Motion/effects appropriateness | pass / fail |  |
@@ -137,8 +139,12 @@ Record pass/fail and the evidence or blocker for each item.
 | Accessibility baseline | pass / fail |  |
 | Performance risk/budget | pass / fail |  |
 | Content hierarchy | pass / fail |  |
+| Typography and text-fit QA | pass / fail |  |
 | Mobile usability | pass / fail |  |
+| Custom font loading via brand/fonts.css | pass / fail / n/a |  |
 | Screenshot evidence capped at 1254x1254 | pass / fail |  |
+| Concept-ratio desktop screenshots captured | pass / fail |  |
 | Segmented viewport screenshots captured for long pages | pass / fail |  |
+| No unapproved clipping / overflow hidden | pass / fail |  |
 | Existing-site shell consistency, when applicable | pass / fail / n/a |  |
 | Context fit against actual product | pass / fail |  |
