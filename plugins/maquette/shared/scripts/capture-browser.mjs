@@ -11,23 +11,27 @@ function usage() {
     "Usage: node capture-browser.mjs <page.html or URL> <output.png> [options]",
     "",
     "Options:",
-    "  --width <px>                 Viewport width, default 1440",
-    "  --height <px>                Viewport height, default 2200",
+    "  --width <px>                 Viewport width, default 1024",
+    "  --height <px>                Viewport height, default 1024",
     "  --mode <full-page|viewport|segments>",
-    "                              Capture mode, default full-page",
+    "                              Capture mode, default viewport",
     "  --segments <csv>            Segment names for segments mode, default top,middle,bottom",
     "  --json <path>                Write capture metadata JSON",
     "  --fallback-max-height <px>   Max clipped fallback height, default 16000",
+    "  --max-dimension <px>         Refuse screenshots larger than this, default 1024",
+    "  --allow-large                Allow screenshots larger than max dimension",
   ].join("\n"));
 }
 
 let targetArg;
 let outputArg;
-let width = 1440;
-let height = 2200;
-let mode = "full-page";
+let width = 1024;
+let height = 1024;
+let mode = "viewport";
 let jsonPath;
 let fallbackMaxHeight = 16000;
+let maxDimension = 1024;
+let allowLarge = false;
 let segments = ["top", "middle", "bottom"];
 
 for (let index = 0; index < args.length; index += 1) {
@@ -54,6 +58,10 @@ for (let index = 0; index < args.length; index += 1) {
     jsonPath = args[++index];
   } else if (arg === "--fallback-max-height") {
     fallbackMaxHeight = Number.parseInt(args[++index], 10);
+  } else if (arg === "--max-dimension") {
+    maxDimension = Number.parseInt(args[++index], 10);
+  } else if (arg === "--allow-large") {
+    allowLarge = true;
   } else {
     console.error(`Unknown option: ${arg}`);
     usage();
@@ -61,8 +69,13 @@ for (let index = 0; index < args.length; index += 1) {
   }
 }
 
-if (!targetArg || !outputArg || !Number.isFinite(width) || !Number.isFinite(height) || !["full-page", "viewport", "segments"].includes(mode) || segments.length === 0) {
+if (!targetArg || !outputArg || !Number.isFinite(width) || !Number.isFinite(height) || !Number.isFinite(maxDimension) || !["full-page", "viewport", "segments"].includes(mode) || segments.length === 0) {
   usage();
+  process.exit(1);
+}
+
+if (!allowLarge && (width > maxDimension || height > maxDimension)) {
+  console.error(`Refusing to create a screenshot larger than ${maxDimension}x${maxDimension}. Use --mode segments with capped width/height, or pass --allow-large for non-Maquette debugging.`);
   process.exit(1);
 }
 
@@ -91,6 +104,8 @@ const metadata = {
   viewport: { width, height },
   requestedMode: mode,
   requestedSegments: mode === "segments" ? segments : undefined,
+  maxDimension,
+  allowLarge,
   captureMode: null,
   clippedFallback: false,
   segmentScreenshots: [],
@@ -151,9 +166,21 @@ try {
     metadata.documentSize = dimensions;
   } else {
     try {
+      const dimensions = await page.evaluate(() => ({
+        width: Math.max(document.documentElement.scrollWidth, document.body.scrollWidth, window.innerWidth),
+        height: Math.max(document.documentElement.scrollHeight, document.body.scrollHeight, window.innerHeight),
+      }));
+      metadata.documentSize = dimensions;
+      if (!allowLarge && (dimensions.width > maxDimension || dimensions.height > maxDimension)) {
+        throw new Error(`Full-page capture would be ${dimensions.width}x${dimensions.height}, exceeding the ${maxDimension}x${maxDimension} Maquette screenshot cap. Use --mode segments.`);
+      }
       await page.screenshot({ path: outputArg, fullPage: true });
       metadata.captureMode = "full-page";
     } catch (error) {
+      if (!allowLarge && String(error?.message || error).includes("Full-page capture would")) {
+        metadata.captureMode = "rejected-oversize-full-page";
+        throw error;
+      }
       const dimensions = await page.evaluate(() => ({
         width: Math.max(document.documentElement.scrollWidth, document.body.scrollWidth, window.innerWidth),
         height: Math.max(document.documentElement.scrollHeight, document.body.scrollHeight, window.innerHeight),
@@ -161,8 +188,8 @@ try {
       const clip = {
         x: 0,
         y: 0,
-        width: Math.max(1, Math.min(dimensions.width, width)),
-        height: Math.max(1, Math.min(dimensions.height, fallbackMaxHeight)),
+        width: Math.max(1, Math.min(dimensions.width, width, allowLarge ? Number.POSITIVE_INFINITY : maxDimension)),
+        height: Math.max(1, Math.min(dimensions.height, fallbackMaxHeight, allowLarge ? Number.POSITIVE_INFINITY : maxDimension)),
       };
       await page.screenshot({ path: outputArg, clip });
       metadata.captureMode = "clipped-full-document-fallback";

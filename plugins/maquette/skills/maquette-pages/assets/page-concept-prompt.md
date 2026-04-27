@@ -1,10 +1,17 @@
-Edit the visible approved brand board and component-sheet reference or references into a website page concept.
+Edit the visible approved brand board, and any existing component references when provided, into a website page concept.
+
+Default framing:
+- for a full webpage, use a tall portrait scroll composition that shows the top, middle, and terminal/bottom regions
+- do not use a 16:9 widescreen composition for a full webpage unless the request is explicitly for one viewport or hero screen
+- do not use 1:1 for the whole page by default; reserve 1:1 for later focused component close-up extraction
+- make component boundaries visible enough that the implementation model can use image_gen edit mode after approval to produce faithful 1:1 close-ups of page-derived components
 
 Requirements:
 - use only components and styling consistent with the approved system
 - treat existing components as the first source of truth
-- only introduce a new composite if it is truly necessary for the page goal and a component/composite reference already exists or is created first
-- do not silently invent significant new component language that is absent from the approved or provisional component references
+- in concept-first discovery mode, the concept may reveal new page-specific component needs, but they must be clear enough to extract into reusable components before implementation
+- when component references already exist, do not silently invent significant new component language absent from those approved or provisional references
+- only introduce a new composite if it is truly necessary for the page goal and can later be extracted, contracted, and reviewed before page code
 - prioritize hierarchy, layout, density, and state clarity
 - imply appropriate motion/effects moments only when they support orientation, feedback, live status, loading, filtering, drawer/modal behavior, or subtle brand craft
 - show or annotate interaction states when relevant, including loading, skeleton, empty, error, offline, stale data, disabled, selected/current, success, permission/unavailable, mobile drawer open/closed, and filter applied/cleared
@@ -26,7 +33,7 @@ Requirements:
 - make terminal page sections visually specific enough that the coded page cannot reasonably collapse them into generic link lists
 - keep terminal page sections proportional to the rest of the concept so the implementation can preserve their intended compactness
 - do not invite silent simplification; visible regions and generated asset needs should be clear enough to inventory before coding
-- if the page requires dense data tables, dashboards, server lists, maps, calendars, editors, timelines, filter builders, or other large reusable patterns not present in the component references, pause page invention and request a focused component/composite sheet first
+- if the page requires dense data tables, dashboards, server lists, maps, calendars, editors, timelines, filter builders, or other large reusable patterns not present in existing component references, make the pattern clear enough for concept-first extraction rather than hiding it in tiny decorative detail
 - no logo generation and no new brand marks, seals, badges, app icons, or emblems
 
 Existing-site integration mode:
@@ -38,4 +45,4 @@ Existing-site integration mode:
 - make any proposed new page body sections fit the existing shell rather than changing the shell to fit the new page
 
 This page concept is the creative design artifact for the page.
-The later coded page should match its overall hierarchy, composition, and styling while reusing approved components first. It must document exact motion/effects, generated visual fit, accessibility, performance, states, and mobile UX in `.maquette/pages/<page-name>/experience-quality-contract.md`; do not rely on the image alone as final UX truth.
+The later coded page should match its overall hierarchy, composition, and styling while reusing approved components first. In concept-first mode, derive `.maquette/pages/<page-name>/component-extraction-plan.md` from the approved concept, then create focused 1:1 visual component close-ups from the concept before building missing reusable components. Component close-ups should be visual images, not CSS text-on-image posters, unless the user explicitly requests the legacy CSS-contract route. The page must document exact motion/effects, generated visual fit, accessibility, performance, states, and mobile UX in `.maquette/pages/<page-name>/experience-quality-contract.md`; do not rely on the image alone as final UX truth.

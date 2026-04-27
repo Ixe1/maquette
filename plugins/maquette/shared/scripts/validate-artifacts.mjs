@@ -93,18 +93,33 @@ function collectComponentArtifactPaths(componentCatalog) {
     assets.component_reference_html_path,
     assets.gallery_html_path,
     assets.component_sheet_path,
+    assets.component_closeup_path,
     assets.review_notes_path,
     ...asArray(assets.component_sheet_paths),
+    ...asArray(assets.component_closeup_paths),
+    ...asArray(assets.visual_component_sheet_paths),
     ...asArray(assets.component_contract_paths),
     ...asArray(assets.gallery_screenshot_paths),
     ...asArray(assets.nav_open_screenshot_paths),
     ...asArray(assets.gallery_review_artifact_paths),
   ];
 
+  for (const fidelityReview of [assets.replica_fidelity_review, assets.sheet_fidelity_review].filter(Boolean)) {
+    paths.push(
+      ...asArray(fidelityReview.reference_sheet_paths),
+      ...asArray(fidelityReview.reference_closeup_paths),
+      ...asArray(fidelityReview.gallery_screenshot_paths),
+      ...asArray(fidelityReview.gallery_review_artifact_paths),
+    );
+  }
+
   for (const batch of asArray(assets.sheet_implementation_batches)) {
     paths.push(
       batch.sheet_path,
+      batch.source_concept_path,
+      batch.closeup_path,
       batch.contract_path,
+      batch.visual_supplement_path,
       batch.catalog_snapshot_path,
       batch.review_path,
       ...asArray(batch.replica_artifact_paths),

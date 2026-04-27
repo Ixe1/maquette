@@ -1,19 +1,22 @@
-Generate a focused website component CSS-contract poster as Maquette's default component-sheet artifact.
+Generate a focused website component CSS-contract poster only when the user explicitly requests Maquette's legacy CSS text-on-image component workflow.
 
 Use a 1:1 square composition. Exact generated pixel dimensions are not controllable; prioritize a clearly square poster with no cropping, letterboxing, or extra content outside the poster.
 
-This is the default direct-contract mode for Maquette components. The output should be a readable CSS-like text poster that the implementation model can inspect with `view_image`, transcribe into `.maquette/components/contracts/<batch-slug>.contract.css`, and translate into tokenized HTML/CSS/JS. Optional visual component sheets may supplement this poster when visual anatomy or polish needs clarification, but they should not replace the default readable contract.
+This is not the default experimental component image workflow. The default workflow uses visual 1:1 component close-ups edited from the approved page concept, then Codex writes any needed implementation notes and reusable HTML/CSS/JS after inspecting the image. Use this prompt only for an explicit legacy CSS-contract poster request or a documented fallback approved for the current run.
 
 Visual format:
 - black or near-black background
 - crisp white or near-white monospace CSS text
 - compact readable columns or stacked sections
 - large enough text to read at normal preview size
-- optional tiny visual swatches, anatomy diagrams, or component thumbnails only when they clarify the focused contract
-- no large UI mockups, decorative component cards, gradients, marketing copy, or prose note panels
+- tiny token swatches or anatomy marks only when they clarify the focused contract
+- no component thumbnail gallery, large UI mockups, decorative component cards, gradients, marketing copy, prose note panels, or visual-only sections
+- if visual fidelity evidence is needed, keep it as a separate visual component close-up instead of turning this poster into a hybrid visual board
 
 Source inputs:
 - approved brand board and design-system tokens
+- approved page concept and component-extraction plan when running concept-first
+- concept crop or isolated visual component close-up when provided
 - current product/component brief
 - component coverage plan decision for this batch
 - the requested focused component family
@@ -67,6 +70,8 @@ Quality requirements:
 - transitions should prefer `transform` and `opacity`; avoid layout-heavy animation properties unless the coverage plan justifies them
 
 Reject and regenerate or split the poster before implementation if:
+- it is visual-only or mostly visual
+- it mixes a large visual component close-up with CSS text in a way that makes either part hard to inspect
 - text is too small to read at normal preview size
 - text is crowded, low-contrast, or unreadable without heavy zooming
 - selectors outside the allowlist dominate the image

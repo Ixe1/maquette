@@ -15,12 +15,16 @@
       "path": "brand/brand-board-v1.png"
     },
     {
-      "kind": "component-sheet",
-      "path": "components/component-sheet-v1.png"
+      "kind": "component-closeup",
+      "path": "components/component-closeup-core-primitives-v1.png"
     },
     {
       "kind": "component-coverage-plan",
       "path": "components/component-coverage-plan.md"
+    },
+    {
+      "kind": "component-extraction-plan",
+      "path": "pages/homepage/component-extraction-plan.md"
     },
     {
       "kind": "site-contract",
@@ -122,7 +126,8 @@
   "acceptance_criteria": [
     "Uses approved typography and semantic colors.",
     "Reuses existing components before introducing new composites.",
-    "Component coverage plan documents reuse, extension, new reusable gaps, page-specific composites, and any focused poster rationale.",
+    "Component extraction plan maps approved concept regions to reuse, extension, creation, or page-specific composition before component expansion.",
+    "Component coverage plan documents reuse, extension, new reusable gaps, page-specific composites, and any focused component close-up rationale.",
     "Follows the page layout contract for section compactness, terminal regions, and media fit/crop behavior.",
     "Follows the experience quality contract for generated visual fit, purposeful motion, reduced-motion support, states, accessibility, performance, content hierarchy, brand craft, and mobile UX.",
     "Remains readable and coherent across desktop, tablet, and mobile viewports.",
@@ -140,11 +145,13 @@
     "asset_manifest": "Every required raster asset is listed in asset-manifest.json and every referenced local path is verified before final review.",
     "site_contract": "Existing shared shell regions are locked in site/site-contract.md and reused by the page where existing-site mode is active.",
     "site_shell_consistency": "Header/nav, newsletter/terminal, footer/legal, shared CSS, and shared JS are compared against the reference page before approval.",
-    "component_sheet_gallery_fidelity": "Page uses component implementations that were reviewed against the generated CSS-contract poster and browser replica rather than simplified selector demos.",
+    "component_sheet_gallery_fidelity": "Page uses component implementations that were reviewed against generated visual component close-ups and browser replicas rather than simplified selector demos.",
     "component_reuse": "Existing component APIs, variants, slots, and states are reused before any new composite is introduced.",
     "component_coverage_plan": "components/component-coverage-plan.md records reuse, extension, create, and page-specific decisions for this page.",
-    "css_contract_poster_focus": "Any new component poster is focused, readable, selector-limited, and justified by the coverage plan.",
-    "optional_visual_component_sheet_focus": "Any optional visual sheet is focused, visually inspectable, and used only when anatomy/fidelity clarification is needed.",
+    "component_extraction_plan": "pages/homepage/component-extraction-plan.md records concept-derived components, extraction artifacts, and reuse/extend/create decisions before component expansion.",
+    "component_closeup_focus": "Any new component close-up is focused, faithful to the approved concept region, visually inspectable, and justified by the coverage plan.",
+    "component_closeup_screenshot_match": "Each implemented component close-up has rendered screenshot evidence capped at 1024x1024 or segmented.",
+    "css_contract_poster_focus": "Any legacy CSS-contract poster is explicitly requested, focused, readable, selector-limited, and justified by the coverage plan.",
     "generated_visual_fit": "Generated rasters are checked for purpose, product-function support, false-feature risk, distraction risk, code-native alternatives, and alt/decorative handling.",
     "motion_effects": "Motion is purposeful, trigger-based, performance-safe, and documented rather than inferred from the image alone.",
     "reduced_motion": "Non-essential animation has prefers-reduced-motion fallbacks.",
@@ -167,12 +174,12 @@
     "css_path": "pages/homepage/page.css",
     "js_path": "pages/homepage/page.js",
     "screenshot_paths": [
-      "pages/homepage/page.png"
+      "pages/homepage/screenshots/page-1024-top.png"
     ],
     "segmented_screenshot_paths": [
-      "pages/homepage/screenshots/page-1440-top.png",
-      "pages/homepage/screenshots/page-1440-middle.png",
-      "pages/homepage/screenshots/page-1440-bottom.png",
+      "pages/homepage/screenshots/page-1024-top.png",
+      "pages/homepage/screenshots/page-1024-middle.png",
+      "pages/homepage/screenshots/page-1024-bottom.png",
       "pages/homepage/screenshots/page-390-top.png",
       "pages/homepage/screenshots/page-390-middle.png",
       "pages/homepage/screenshots/page-390-bottom.png"
@@ -182,16 +189,17 @@
       "pages/homepage/screenshots/responsive-nav-open-768.png"
     ],
     "concept_region_inventory_path": "pages/homepage/concept-region-inventory.md",
+    "component_extraction_plan_path": "pages/homepage/component-extraction-plan.md",
     "page_layout_contract_path": "pages/homepage/page-layout-contract.md",
     "experience_quality_contract_path": "pages/homepage/experience-quality-contract.md",
     "asset_manifest_path": "pages/homepage/asset-manifest.json",
     "site_contract_path": "site/site-contract.md",
     "shell_consistency_report_path": "pages/homepage/site-shell-consistency.json",
     "reference_shell_screenshot_paths": [
-      "pages/homepage/screenshots/site-shell/reference-footer-1440.png"
+      "pages/homepage/screenshots/site-shell/reference-footer-1024.png"
     ],
     "candidate_shell_screenshot_paths": [
-      "pages/homepage/screenshots/site-shell/candidate-footer-1440.png"
+      "pages/homepage/screenshots/site-shell/candidate-footer-1024.png"
     ],
     "review_notes_path": "pages/homepage/review.md"
   }

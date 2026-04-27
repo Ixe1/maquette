@@ -13,13 +13,17 @@ Entries before this changelog was introduced were backfilled from git history an
 - Added existing-site integration mode with a site contract template, shared-shell preservation rules, and a shell consistency QA helper.
 - Added component coverage planning with `.maquette/components/component-coverage-plan.md` before component image generation.
 - Added page experience quality contracts with `.maquette/pages/<page-name>/experience-quality-contract.md` for generated visual fit, motion/effects, states, accessibility, performance, information architecture, brand craft, mobile UX, and QA acceptance.
+- Added experimental concept-first component extraction planning with `.maquette/pages/<page-name>/component-extraction-plan.md`, schema references, and artifact validation support.
 - Added generated visual fit metadata support to page asset manifests and optional artifact references for coverage plans and experience contracts in schemas.
-- Added segmented page screenshot capture support and page QA guidance requiring full-page overview screenshots plus top/middle/bottom viewport segments for detailed review.
+- Added segmented page screenshot capture support and page QA guidance requiring capped top/middle/bottom viewport segments for detailed review.
 
 ### Changed
 
 - Updated page concept and implementation guidance to preserve existing website shells, reuse shared CSS/JS entrypoints, and keep page-specific CSS/JS scoped to new page body content when an existing site is detected.
-- Updated component workflow guidance so existing components are reused or extended before new reusable components are created, focused CSS-contract text-on-image posters are the default component image artifact again, and visual component sheets are optional anatomy/fidelity supplements for explicit requests or poster clarification.
+- Updated component workflow guidance so existing components are reused or extended before new reusable components are created, focused 1:1 visual component close-ups edited from approved page concepts are the default component image artifact, and CSS text-on-image posters are legacy explicit-only experiments.
+- Updated broad page workflows to generate an approved tall portrait page concept before component expansion, then derive reusable component coverage from concept regions before page implementation.
+- Tightened component prompt guidance to reject hybrid CSS-text/visual component close-ups, keep close-ups focused on one visible component family, and require Codex screenshot matching before moving to the next component.
+- Updated screenshot helpers and workflow docs so visual review screenshots are capped at 1024x1024 and long pages are reviewed through scrolled segments.
 - Updated page concept, implementation, and final review guidance to treat image generation as creative inspiration that must be translated into purposeful motion, reduced-motion support, interaction states, accessibility, performance-aware UX, content hierarchy, brand craft, and context-fit page decisions.
 
 ## 0.3.5 - 2026-04-26

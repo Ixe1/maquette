@@ -1,53 +1,54 @@
-Edit the visible approved brand board into a focused visual website component-sheet supplement.
+Edit the visible approved page concept into a focused 1:1 visual close-up of the requested website component or component family.
 
-Use a 1:1 square composition for every component sheet. Exact generated pixel dimensions are not controllable; prioritize a clearly square board with no cropping, letterboxing, or extra content outside the board.
+Use this as Maquette's default experimental component image prompt. The output is a visual close-up for Codex to inspect, implement as reusable HTML/CSS/JS, screenshot, compare, and refine. Do not render CSS text, selector lists, implementation notes, markdown, or code on the image unless the user explicitly requested the legacy CSS-contract poster workflow.
 
-Generate only the current requested family from the component coverage plan. Do not include teaser panels for later sheet categories. This visual sheet is optional support for a focused CSS-contract poster, used when visual anatomy, density, spacing, hierarchy, or polish needs clarification. In multi-artifact workflows, the implementation model will inspect, implement a componentized replica/reference, review, and document reusable components from the current poster and any visual supplement before requesting the next focused artifact.
+Use a 1:1 square composition. Exact generated pixel dimensions are not controllable; prioritize a clearly square image with the component large enough to inspect at normal preview size and no letterboxing, unrelated page context, or extra panels.
 
-Preserve:
-- approved palette
-- typography personality
-- spacing rhythm
-- radius and shadow language
-- interaction style
+Source inputs:
+- approved page concept image
+- approved brand board and design-system tokens
+- component extraction plan entry for the visible concept region
+- component coverage plan decision for this close-up
+- existing component catalog/API notes when this is a reuse or extension
 
-Show:
-- the specific reusable family, extension, or visual supplement requested by the coverage plan
-- possible focused examples when requested: actions, forms/filters, navigation, drawers/panels, data display, live states, cards/composites, feedback, overlays, newsletter, footer, and social modules
-- component anatomy where useful
-- variant examples and size examples where relevant
-- visible states, density, spacing, radius, shadows, motion/effect moments, and polish that are clear enough to implement in HTML/CSS
-- loading, skeleton, empty, error, offline, stale, disabled, selected/current, hover, focus-visible, active/pressed, success, permission/unavailable, drawer open/closed, and filter applied/cleared states when relevant
-- reduced-motion expectations where motion is shown or implied
-- separate asset requirements when component families need raster assets, such as product-card imagery, promo-card imagery, newsletter illustrations, app/device imagery, footer modules, background textures, or lifestyle/story imagery
-- compact implementation notes only where they help implementation
-- no logo
+Preserve from the approved concept:
+- palette, typography personality, spacing rhythm, radius, borders, shadows, icons, and surface language
+- visible component anatomy, slot structure, hierarchy, and density
+- relevant states or variants that are visible or clearly implied by the concept
+- page-specific context only when it is needed to understand the component's shape or edge behavior
 
-Adaptive sheet rules:
-- do not create one exhaustive mega-sheet
-- infer whether additional sheets are needed from the component coverage plan, product brief, and references, but keep this image focused on the current requested family
-- every additional focused sheet must also use a 1:1 square composition
-- if the product involves dense data, dashboards, server lists, tables, maps, calendars, editors, timelines, complex workflows, filter builders, or large reusable composites, create additional focused sheets for those families instead of crowding the current sheet
-- if the product has global navigation, include a focused navigation family: desktop inline nav, compact/tablet nav, mobile menu toggle, expanded mobile menu or drawer, active link, focus-visible state, and icon rendering
-- if the product has repeated product, pricing, service, offer, or promo cards, include a focused card family that shows shared media/header/body/footer/action slots, consistent badge or eyebrow placement, equal-height cards, flexible body layout, and bottom-pinned action rows
-- if the product or page has footer social links, include recognizable social icon modules or specify the icon set strategy
-- if the product needs product imagery, footer/app modules, promo cards, background textures, or lifestyle imagery, make those image asset needs identifiable for the later page asset manifest
-- keep reusable primitives and larger product composites conceptually separate
-- do not hardcode an exact number of components; each sheet must remain readable and useful at normal preview size
+Show only the requested focus:
+- one component family by default, such as navigation, search/filter controls, a card family, a status row, table/data display, modal/drawer, footer module, or live-state pattern
+- at most two tightly related small families when they are visually inseparable in the concept
+- meaningful variants, slots, and states when they fit without crowding
+- hover/focus/active/disabled, selected/current, loading/skeleton, empty/error/offline/stale, success, drawer open/closed, or filter applied/cleared states when relevant to that component
+- motion/effect cues only when they serve a product purpose; keep them visually understandable without adding decorative loops
+- required raster asset crops only when the component genuinely owns that media
+
+Do not show:
+- a broad component sheet with unrelated families
+- a whole page mockup
+- CSS text, selector allowlists, pseudo-code, implementation labels, or prose notes
+- brand-board content, logo exploration, new marks, or a new visual direction
+- generic AI decoration that was not grounded in the approved page concept
 
 Quality requirements:
-- visual component sheets clarify component styling; they should not contradict the approved brand board or the CSS-contract poster, and any unavoidable contradiction must be noted for `approved.md`
-- visual component sheets are componentized reference supplements, not mood references; the later coded reference should reproduce the visible component families, anatomy, variants, states, density, spacing, radius, shadows, and polish using reusable CSS/JS from the start while preserving the poster's selector and state contract
-- foreground/background contrast must remain readable in active, selected, focus, disabled, inverse, and dark navigation states
-- the later coded componentized reference and reusable component API must be able to match this sheet's sophistication; do not show component details, density, states, or composites that are too ambiguous to implement
-- icon-only controls must have readable icon/background contrast in default, hover, active, selected, disabled, and inverse states
-- variants of the same component should keep comparable anatomy and action placement unless an intentional exception is shown
-- repeated card grids must show shared anatomy, aligned card heights, stable badge/eyebrow placement, and aligned action rows; quantity selectors, prices, and primary CTAs should align across cards even when title or description copy lengths vary
-- wide data components such as tables, data grids, charts, timelines, calendars, code blocks, and comparison matrices should be shown in full-width rows rather than squeezed into narrow cards
-- primary navigation must not rely on horizontal page scrolling as the default tablet/mobile behavior
-- tablet/mobile navigation needs visible tap targets and a clear closed and expanded state
-- table cells, badges, labels, icons, and buttons must remain readable without overlap
-- reject the layout direction if labels are too small, unrelated families are crammed into tiny cells, components overlap, full tables or dashboards crowd out primitives, implementation notes dominate, or the image cannot guide implementation without heavy zooming
+- the close-up must be faithful enough that the coded component can visually clone the approved concept
+- the component must be large, centered or well framed, and inspectable without heavy zooming
+- variants of the same component should keep comparable anatomy and action placement unless the concept clearly shows an intentional exception
+- repeated cards must show stable media/header/body/footer/action anatomy, equal-height behavior, badge or eyebrow placement, and bottom-pinned action rows when relevant
+- navigation close-ups must show desktop/tablet/mobile behavior only when requested by the extraction plan; otherwise focus on the current nav state being implemented
+- data components should be shown with enough width to understand columns, status indicators, row density, and empty/loading/error/stale states
+- foreground/background contrast must remain readable in active, selected, focus, disabled, inverse, and dark-surface states
+- icon-only controls must have visible glyphs and enough contrast in every shown state
+- table cells, badges, labels, icons, and buttons must not overlap or become unreadable
 
-This component sheet is a creative visual supplement that the later coded componentized reference should match while preserving reusable component APIs from the default CSS-contract poster.
-Do not create a new visual direction.
+Reject and regenerate or split the close-up before implementation if:
+- it contains multiple unrelated component families
+- it is mostly a page screenshot rather than a component close-up
+- it invents a different component style from the approved concept
+- labels or visual details are too small to inspect at normal preview size
+- decorative content obscures the component anatomy
+- the component cannot be implemented without guessing its structure, slots, states, or density
+
+This image is a visual implementation target, not final UX truth. Codex will translate it into accessible, performant, reusable HTML/CSS/JS, document any deviations, capture a rendered component screenshot no larger than 1024x1024, compare it against the close-up, and refine before moving to the next component.

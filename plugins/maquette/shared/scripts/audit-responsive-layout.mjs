@@ -6,6 +6,7 @@ import { pathToFileURL } from "node:url";
 
 const DEFAULT_WIDTHS = [390, 768, 1024, 1280, 1440];
 const DEFAULT_HEIGHT = 1400;
+const MAX_SCREENSHOT_DIMENSION = 1024;
 
 const args = process.argv.slice(2);
 
@@ -15,7 +16,7 @@ function usage() {
     "",
     "Options:",
     "  --json <path>             Write full JSON audit output",
-    "  --screenshots-dir <path>  Capture full-page screenshots for each viewport",
+    "  --screenshots-dir <path>  Capture capped viewport screenshots for each viewport",
     "  --widths <csv>            Viewport widths, default 390,768,1024,1280,1440",
     "  --height <px>             Viewport height, default 1400",
     "  --allow-document-overflow Do not exit nonzero for page-wide overflow",
@@ -301,7 +302,16 @@ async function auditResponsiveNavigation(page, width, screenshotsDir) {
     if (screenshotsDir) {
       fs.mkdirSync(screenshotsDir, { recursive: true });
       openScreenshotPath = path.join(screenshotsDir, `responsive-nav-open-${width}.png`);
-      await page.screenshot({ path: openScreenshotPath, fullPage: true });
+      await page.screenshot({
+        path: openScreenshotPath,
+        fullPage: false,
+        clip: {
+          x: 0,
+          y: 0,
+          width: Math.max(1, Math.min(width, MAX_SCREENSHOT_DIMENSION)),
+          height: Math.max(1, Math.min(await page.evaluate(() => window.innerHeight), MAX_SCREENSHOT_DIMENSION)),
+        },
+      });
     }
   }
 
@@ -491,7 +501,16 @@ try {
     if (screenshotsDir) {
       fs.mkdirSync(screenshotsDir, { recursive: true });
       screenshotPath = path.join(screenshotsDir, `responsive-${width}.png`);
-      await page.screenshot({ path: screenshotPath, fullPage: true });
+      await page.screenshot({
+        path: screenshotPath,
+        fullPage: false,
+        clip: {
+          x: 0,
+          y: 0,
+          width: Math.max(1, Math.min(width, MAX_SCREENSHOT_DIMENSION)),
+          height: Math.max(1, Math.min(height, MAX_SCREENSHOT_DIMENSION)),
+        },
+      });
     }
 
     const responsiveNavigation = await auditResponsiveNavigation(page, width, screenshotsDir);
@@ -516,6 +535,7 @@ const output = {
   targetUrl,
   startedAt,
   finishedAt: new Date().toISOString(),
+  screenshotMaxDimension: MAX_SCREENSHOT_DIMENSION,
   allowDocumentOverflow,
   allowNavFailures,
   results,

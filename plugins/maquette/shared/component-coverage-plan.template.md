@@ -1,11 +1,13 @@
 # Component Coverage Plan
 
-Status: draft before any CSS-contract poster or optional visual component sheet is generated.
+Status: draft before any component close-up image or optional legacy CSS-contract poster is generated.
 
 ## Source Review
 
 - User brief:
 - Requested page or pages:
+- Approved page concept, if concept-first:
+- Page component extraction plan:
 - Existing website/app shell inspected:
 - Existing component catalog:
 - Existing contract CSS files:
@@ -67,28 +69,30 @@ List page-only arrangements that should not become global components unless late
 
 ## Component Image Batches
 
-Define focused batches before image generation. CSS-contract posters are the default component sheet images. Each batch should cover one major family by default, or at most two tightly related small families. Record intended component API targets and a strict selector allowlist so implementation remains reusable and the text-on-image poster stays readable. Use visual component sheets only as optional supplements when visual anatomy, density, spacing, hierarchy, or polish needs clarification.
+Define focused batches before image generation. The default component artifact in this experimental workflow is a focused 1:1 visual component close-up edited from the approved page concept, not a CSS text-on-image poster. Each batch should cover one major family by default, or at most two tightly related small families that are visually inseparable. Record intended component API targets so implementation remains reusable even though the image is visual.
+In concept-first runs, derive these batches from `.maquette/pages/<page-name>/component-extraction-plan.md` and the approved concept regions rather than a generic component taxonomy. Use legacy CSS-contract posters only when the user explicitly asks for that route or when a documented fallback is required.
 
 ### Batch: `<batch-slug>`
 
 - Purpose:
-- Artifact type: CSS-contract poster / optional visual component sheet / both
-- Why this poster or optional visual sheet is needed before implementation:
+- Artifact type: 1:1 visual component close-up / deterministic crop / legacy CSS-contract poster if explicitly requested
+- Why this close-up is needed before implementation:
 - Reuse/extend/create decisions covered:
 - Intended component API targets:
   - `.c-example`
-- Selector allowlist for CSS-contract poster:
-  - `.c-example`
-- Variants, states, slots, density, motion, responsive, and accessibility notes:
-- Expected poster path:
-- Required transcribed contract path:
-- Optional visual supplement path:
+- Visible anatomy, variants, states, slots, density, motion, responsive, and accessibility notes:
+- Expected close-up path:
+- Source concept path:
+- Optional legacy poster path, only if explicitly requested:
+- Required transcribed contract path, only if a legacy poster is used:
+- Rendered component screenshot path, max 1024x1024:
+- Visual match notes:
 - Artifact status: planned / generated / rejected / split / implemented
 - Rejection or split reason, if any:
 
 ## Later Page Updates
 
-When a later page reveals missing coverage, update this plan before generating any new poster or optional visual sheet.
+When a later page reveals missing coverage, update this plan before generating any new close-up or optional legacy poster.
 
 - Date / page:
 - Newly discovered need:
@@ -97,10 +101,11 @@ When a later page reveals missing coverage, update this plan before generating a
 
 ## Readiness Checklist
 
-- Existing components were checked before new posters were planned.
-- Every new poster has a focused family, intended API targets, selector allowlist, and a reason.
-- No sheet or poster exists only because a new page is being built.
+- Existing components were checked before new close-ups were planned.
+- Every new close-up has a focused family, intended API targets, source concept region, and a reason.
+- No component image exists only because a new page is being built.
 - Page-specific composites are separated from reusable component gaps.
 - New reusable gaps have expected consumers and required states.
-- CSS-contract posters remain readable, scoped, selector-limited, and implementation-ready.
-- Optional visual component sheets remain focused, inspectable, and used only when they add clarity.
+- Component close-ups remain focused, visually inspectable, faithful to the approved concept, and implementation-ready.
+- Codex will inspect one close-up at a time, implement reusable HTML/CSS/JS, capture a rendered screenshot no larger than 1024x1024, compare, and fix before moving on.
+- Legacy CSS-contract posters, when explicitly requested, remain separate focused text-on-image artifacts with strict selector allowlists.

@@ -146,6 +146,16 @@
           },
           "minItems": 1
         },
+        "component_closeup_path": {
+          "type": "string"
+        },
+        "component_closeup_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
         "nav_open_screenshot_paths": {
           "type": "array",
           "items": {
@@ -381,6 +391,12 @@
         "sheet_path": {
           "type": "string"
         },
+        "source_concept_path": {
+          "type": "string"
+        },
+        "closeup_path": {
+          "type": "string"
+        },
         "contract_path": {
           "type": "string"
         },
@@ -511,6 +527,12 @@
       "additionalProperties": false,
       "properties": {
             "reference_sheet_paths": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "reference_closeup_paths": {
               "type": "array",
               "items": {
                 "type": "string"

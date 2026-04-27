@@ -70,7 +70,9 @@
             "enum": [
               "brand-board",
               "component-sheet",
+              "component-closeup",
               "component-coverage-plan",
+              "component-extraction-plan",
               "site-contract",
               "existing-reference-page",
               "page-layout-contract",
@@ -256,6 +258,15 @@
         "component_coverage_plan": {
           "type": "string"
         },
+        "component_extraction_plan": {
+          "type": "string"
+        },
+        "component_closeup_focus": {
+          "type": "string"
+        },
+        "component_closeup_screenshot_match": {
+          "type": "string"
+        },
         "visual_component_sheet_focus": {
           "type": "string"
         },
@@ -356,6 +367,9 @@
           }
         },
         "concept_region_inventory_path": {
+          "type": "string"
+        },
+        "component_extraction_plan_path": {
           "type": "string"
         },
         "page_layout_contract_path": {
